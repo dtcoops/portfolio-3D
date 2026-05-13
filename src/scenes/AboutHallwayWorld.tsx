@@ -1,13 +1,16 @@
-import { RigidBody, CuboidCollider } from '@react-three/rapier'
+import { RigidBody, CuboidCollider, RapierRigidBody } from '@react-three/rapier'
 import { useMemo } from 'react'
-import { useTexture } from '@react-three/drei'
+import { useTexture, Text } from '@react-three/drei'
 import * as THREE from 'three'
 
 import Portal from '../components/Portal'
 import { FluorescentLight } from './../utils/models/Models'
+import { TimeLine, TimeLineNode } from '../utils/models/HubAndHallModels'
+import { InfoDeskLarge } from '../utils/models/GalleryModels'
 
-
-export function AboutHallwayWorld() {
+export function AboutHallwayWorld( {playerBody} : 
+    {playerBody: React.RefObject<RapierRigidBody | null> 
+}) {
   const baseTexture = useTexture('/Textures/Kenney/Dark/texture_03.png')
 
   const wallTexture = useMemo(() => {
@@ -69,10 +72,57 @@ export function AboutHallwayWorld() {
         <FluorescentLight position={[0, 3.95, 5.5]} rotation={[0, Math.PI / 2, 0]} />
         <FluorescentLight position={[0, 3.95, 10.5]} rotation={[0, Math.PI / 2, 0]} />
 
+        <InfoDeskLarge 
+            position={[1.25, 0.6, -12.5]} 
+            rotation={[0, (-Math.PI /2) * 0.9, 0]}
+            scale={1.25}
+            type="dynamic"
+        />
+        {/* UVic and SFU */}
+        <TimeLineNode position={[1.75, 2, -10.5]} color="#ffaa00"/>
+        <TimeLine position={[1.75, 2, -8.75]} length={3.5} color="#ffaa00" label="Uvic" playerBody={playerBody}/>
+        <TimeLineNode position={[1.75, 2, -7]} color="#ffaa00"/>
+        <TimeLine position={[1.75, 2, -5.25]} length={3.5} color="#ffaa00" label="SFU" playerBody={playerBody}/>
+        <TimeLineNode position={[1.75, 2, -3.5]} color="#ffaa00"/>
+
+        {/* Line Cook */}
+        <TimeLineNode position={[1.75, 2.5, -3.5]} color="#0629c5"/>
+        <TimeLine position={[1.75, 2.5, 1.75]} length={10.5} color="#0629c5" label="Line Cook" playerBody={playerBody}/>
+        <TimeLineNode position={[1.75, 2.5, 7]} color="#0629c5" />
+
+        {/* Game Writer */}
+        <TimeLineNode position={[1.75, 3, -3.5]} color="#0629c5"/>
+        <TimeLine position={[1.75, 3, -2.5]} length={2} color="#0629c5" label="Game News Writer" playerBody={playerBody}/>
+        <TimeLineNode position={[1.75, 3, -1.5]} color="#0629c5" />
+
+        {/* Douglas*/}
+        <TimeLineNode position={[1.75, 2, 2]} color="#ffaa00"/>
+        <TimeLine position={[1.75, 2, 3.5]} length={3} color="#ffaa00" label="Douglas College" playerBody={playerBody}/>
+        <TimeLineNode position={[1.75, 2, 5]} color="#ffaa00"/>
+        
+        {/* SFU */}
+        <TimeLineNode position={[1.75, 2, 7]} color="#ffaa00"/>
+        <TimeLine position={[1.75, 2, 8.75]} length={3.5} color="#ffaa00" label="SFU" playerBody={playerBody}/>
+        <TimeLineNode position={[1.75, 2, 10.5]} color="#ffaa00" />
+
+        {/* Years and full Timeline */}
+        <TimeLine position={[1.75, 1.5, 0]} length={21} />
+        <TimeLineNode position={[1.75, 1.5, -10.5]} color="#4444ff" year="2009"/>
+        <TimeLineNode position={[1.75, 1.5, -7]} color="#4444ff" year="2011"/>
+        <TimeLineNode position={[1.75, 1.5, -3.5]} color="#4444ff" year="2015"/>
+        <TimeLineNode position={[1.75, 1.5, -1.5]} color="#4444ff" year="2016"/>
+        <TimeLineNode position={[1.75, 1.5, 2]} color="#4444ff" year="2018"/>
+        <TimeLineNode position={[1.75, 1.5, 5]} color="#4444ff" year="2021"/>
+        <TimeLineNode position={[1.75, 1.5, 7]} color="#4444ff" year="2023"/>
+        <TimeLineNode position={[1.75, 1.5, 10.5]} color="#4444ff" year="Present"/>
+        
+        <Text position={[1.6, 2.5, 12.5]} rotation={[0, -Math.PI/2, 0]} fontSize={0.15} color="#aaaaff" anchorX="center" textAlign="center">
+            {`Vancouver, BC\nSFU CS — 2027\nSeeking: Software Developer | Game Developer roles`}
+        </Text>
+
         {/* Entrance and Exit */}
         <Portal position={[0, 2.5, 14.5]} rotation={[0, Math.PI, 0]}  destination="/about"/>
         <Portal position={[0, 2.5, -14.5]} rotation={[0, 0, 0]}  destination="/"/>
-
     </>
   )
 }

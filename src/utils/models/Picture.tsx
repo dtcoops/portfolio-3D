@@ -50,12 +50,13 @@ declare module '@react-three/fiber' {
 }
 
 interface PictureProps {
-  onEnter: () => void
+  position?: [number, number, number]
+  onEnter?: () => void
   imagePath?: string
   portal?: boolean
 }
 
-export function Picture({ onEnter, imagePath = '/images/my-photo.jpg', portal = false }: PictureProps) {
+export function Picture({ position, onEnter, imagePath = '/images/my-photo.jpg', portal = false }: PictureProps) {
   const cloned = useClonedGLTF('/models/Frame.glb')
   const texture = useTexture(imagePath)
   const matRef = useRef<PortalShaderMaterialType>(null)
@@ -72,13 +73,13 @@ export function Picture({ onEnter, imagePath = '/images/my-photo.jpg', portal = 
       {/* Rapier sensor — triggers navigation when character enters */}
       {portal && (
         <RigidBody type="fixed" sensor onIntersectionEnter={onEnter ?? (() => {})}>
-          <CuboidCollider args={[0.8, 1.15, 0.05]} position={[0, 0, 0.01]} />
+          <CuboidCollider args={[0.8, 1.15, 0.05]} position={position ?? [0, 0, 0.01]} />
         </RigidBody>
       )}
 
 
       {/* Image plane — shader handles ripple distortion + edge shimmer */}
-      <mesh position={[0, 0, 0.01]}>
+      <mesh position={position ?? [0, 0, 0.01]}>
         <planeGeometry args={[1.6, 2.3]} />
         <portalShaderMaterial ref={matRef} uTexture={texture} />
       </mesh>

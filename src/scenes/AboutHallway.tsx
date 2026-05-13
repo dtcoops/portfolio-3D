@@ -31,7 +31,7 @@ export default function AboutHallway() {
       <Canvas shadows camera={{ position: [-3.5, 2.5, -13], fov: 60 }}>
         <Suspense fallback={null}>
           <Physics interpolate gravity={[0, -20, 0]} paused={physicsPaused}>
-            <AboutHallwayWorld />
+            <AboutHallwayWorld playerBody={playerBody}/>
             <CharacterController bodyRef={playerBody} visualGroupRef={visualGroupRef} spawnPosition={[0, 2, -13]} movementMode="flat" />
           </Physics>
           <SideViewCamera visualGroupRef={visualGroupRef} />
