@@ -7,12 +7,7 @@ import * as THREE from 'three'
 
 import { PhysicsModel } from './PhysicsModel'
 
-export function Arrow({ 
-  position, 
-  rotation, 
-  scale = 1,
-  type = 'fixed'
-}: { 
+export function Arrow({ position, rotation, scale = 1,type = 'fixed' }: { 
   position: [number, number, number]
   rotation?: [number, number, number]
   scale?: number
@@ -21,28 +16,6 @@ export function Arrow({
   return (
     <PhysicsModel 
       path="/models/arrow.glb" 
-      position={position}
-      rotation={rotation} 
-      scale={scale}
-      type={type}
-    />
-  )
-}
-
-export function InfoDesk({ 
-  position, 
-  rotation, 
-  scale = 1,
-  type = 'fixed'
-}: { 
-  position: [number, number, number]
-  rotation?: [number, number, number]
-  scale?: number
-  type?: 'dynamic' | 'fixed'
-}) {
-  return (
-    <PhysicsModel 
-      path="/models/infodesksmall.glb" 
       position={position}
       rotation={rotation} 
       scale={scale}
@@ -120,16 +93,7 @@ export function Wire({ points, color = '#111111' }: {
   )
 }
 
-
-export function Screen({ 
-  position, 
-  rotation,
-  width = 1.1,
-  height = 0.7,
-  content,
-  imagePath,
-  wallMounted = false
-}: {
+export function Screen({ position, rotation,width = 1.1,height = 0.7,content,imagePath,wallMounted = false }: {
   position: [number, number, number]
   rotation?: [number, number, number]
   width?: number
