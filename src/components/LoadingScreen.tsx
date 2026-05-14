@@ -4,7 +4,7 @@ import { useGLTF, useAnimations } from '@react-three/drei'
 import * as THREE from 'three'
 
 function FallingCharacter() {
-  const { scene, animations } = useGLTF('/models/character.glb')
+  const { scene, animations } = useGLTF(`${import.meta.env.BASE_URL}models/character.glb`)
   const group = useRef<THREE.Group>(null)
   const { actions } = useAnimations(animations, group)
 

@@ -6,6 +6,7 @@ import * as THREE from 'three'
 
 import Portal from '../components/Portal'
 import { Screen, FluorescentLight, ServerRackBank, Wire, CameraModel }  from '../utils/models/Models'
+import InteractIcon from '../components/InteractIcon'
 
 // HubRoom props
 export default function HubRoom({ playerBody }: { 
@@ -17,17 +18,17 @@ export default function HubRoom({ playerBody }: {
   const radius = 14
   const wallHeight = 6
 
-  const wallTexture = useTexture('/Textures/Kenney/Dark/texture_03.png', (t) => {
+  const wallTexture = useTexture(`${import.meta.env.BASE_URL}Textures/Kenney/Dark/texture_03.png`, (t) => {
     t.wrapS = t.wrapT = THREE.RepeatWrapping
     t.repeat.set(16,1.02)
   })
 
-  const floorTexture = useTexture('/Textures/Kenney/Dark/texture_08.png', (t) => {
+  const floorTexture = useTexture(`${import.meta.env.BASE_URL}Textures/Kenney/Dark/texture_08.png`, (t) => {
     t.wrapS = t.wrapT = THREE.RepeatWrapping
     t.repeat.set(8, 8)
   })
 
-  const ceilingTexture = useTexture('/Textures/Kenney/Dark/texture_02.png', (t) => {
+  const ceilingTexture = useTexture(`${import.meta.env.BASE_URL}Textures/Kenney/Dark/texture_02.png`, (t) => {
     t.wrapS = t.wrapT = THREE.RepeatWrapping
     t.repeat.set(8, 8)
   })
@@ -179,6 +180,7 @@ export default function HubRoom({ playerBody }: {
         content={'> Assets:\n> Kenney.nl - Prototype Textures\n> viravoloshyn.itch.io - Museum Models\n> Mixamo - Y-bot and Animations\n> Kevin MacLeod - Perspectives Music'}
       />
 
+      <InteractIcon position={[-4.25, 1.75, 10.5]} label="" playerBody={playerBody}/>
       <Portal position={[-5.25, 1.75, 12.5]} rotation={[0, Math.PI * 0.9, 0]}  destination="https://dtcoops.github.io/portfolio/" external/>
     </>
   )

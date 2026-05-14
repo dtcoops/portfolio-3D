@@ -11,7 +11,7 @@ interface CharacterProps {
 }
 
 export default function Character({ animationName = 'Idle', onAnimationFinish }: CharacterProps) {
-  const { scene, animations } = useGLTF('/models/character.glb')
+  const { scene, animations } = useGLTF(`${import.meta.env.BASE_URL}models/character.glb`)
   const mixerRef = useRef<THREE.AnimationMixer | null>(null)
   const currentAction = useRef<THREE.AnimationAction | null>(null)
   const onFinishRef = useRef(onAnimationFinish)
@@ -70,4 +70,4 @@ export default function Character({ animationName = 'Idle', onAnimationFinish }:
   return <primitive object={scene} castShadow />
 }
 
-useGLTF.preload('/models/character.glb')
+useGLTF.preload(`${import.meta.env.BASE_URL}models/character.glb`)

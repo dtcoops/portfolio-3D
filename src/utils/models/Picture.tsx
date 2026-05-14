@@ -56,8 +56,8 @@ interface PictureProps {
   portal?: boolean
 }
 
-export function Picture({ position, onEnter, imagePath = '/images/my-photo.jpg', portal = false }: PictureProps) {
-  const cloned = useClonedGLTF('/models/Frame.glb')
+export function Picture({ position, onEnter, imagePath = `${import.meta.env.BASE_URL}images/my-photo.jpg`, portal = false }: PictureProps) {
+  const cloned = useClonedGLTF(`${import.meta.env.BASE_URL}models/Frame.glb`)
   const texture = useTexture(imagePath)
   const matRef = useRef<PortalShaderMaterialType>(null)
 

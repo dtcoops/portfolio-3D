@@ -14,7 +14,7 @@ export function InfoDesk({
 }) {
   return (
     <PhysicsModel 
-      path="/models/infodesksmall.glb" 
+      path={`${import.meta.env.BASE_URL}models/infodesksmall.glb`}
       position={position}
       rotation={rotation} 
       scale={scale}
@@ -36,7 +36,7 @@ export function InfoDeskLarge({
 }) {
   return (
     <PhysicsModel 
-      path="/models/infodeskbig.glb" 
+      path={`${import.meta.env.BASE_URL}models/infodeskbig.glb`}
       position={position}
       rotation={rotation} 
       scale={scale}
@@ -58,7 +58,7 @@ export function RopeBarrier({
 }) {
   return (
     <PhysicsModel 
-      path="/models/ropebarrier.glb" 
+      path={`${import.meta.env.BASE_URL}models/ropebarrier.glb`} 
       position={position}
       rotation={rotation} 
       scale={scale}

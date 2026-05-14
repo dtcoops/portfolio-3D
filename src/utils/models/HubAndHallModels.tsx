@@ -16,7 +16,7 @@ export function Arrow({ position, rotation, scale = 1,type = 'fixed' }: {
 }) {
   return (
     <PhysicsModel 
-      path="/models/arrow.glb" 
+      path={`${import.meta.env.BASE_URL}models/arrow.glb`}
       position={position}
       rotation={rotation} 
       scale={scale}
@@ -103,7 +103,7 @@ export function Screen({ position, rotation,width = 1.1,height = 0.7,content,ima
   imagePath?: string
   wallMounted?: boolean
 }) {
-  const texture = useTexture(imagePath ?? '/Textures/Kenney/Dark/texture_01.png')
+  const texture = useTexture(imagePath ?? `${import.meta.env.BASE_URL}Textures/Kenney/Dark/texture_01.png`)
   const activeTexture = imagePath ? texture : null
 
   return (

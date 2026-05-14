@@ -11,7 +11,7 @@ import { InfoDeskLarge } from '../utils/models/GalleryModels'
 export function AboutHallwayWorld( {playerBody} : 
     {playerBody: React.RefObject<RapierRigidBody | null> 
 }) {
-  const baseTexture = useTexture('/Textures/Kenney/Dark/texture_03.png')
+  const baseTexture = useTexture(`${import.meta.env.BASE_URL}Textures/Kenney/Dark/texture_03.png`)
 
   const wallTexture = useMemo(() => {
     const t = baseTexture.clone()
@@ -29,7 +29,7 @@ export function AboutHallwayWorld( {playerBody} :
     return t
 }, [baseTexture])
   
-  const floorTexture = useTexture('/Textures/Kenney/Dark/texture_08.png', (t) => {
+  const floorTexture = useTexture(`${import.meta.env.BASE_URL}Textures/Kenney/Dark/texture_08.png`, (t) => {
     t.wrapS = t.wrapT = THREE.RepeatWrapping
     t.repeat.set(3, 10)
   })
