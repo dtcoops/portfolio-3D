@@ -1,12 +1,12 @@
-import { useRef, useEffect, useState } from 'react'
+import { useRef, useEffect } from 'react'
 import { RigidBody, RapierRigidBody } from '@react-three/rapier'
 import { CatmullRomCurve3, Vector3 } from 'three'
 import { useTexture, Text } from '@react-three/drei'
-import { useFrame } from '@react-three/fiber'
 
 import * as THREE from 'three'
 
 import { PhysicsModel } from './PhysicsModel'
+import InteractIcon from '../../components/InteractIcon'
 
 export function Arrow({ position, rotation, scale = 1,type = 'fixed' }: { 
   position: [number, number, number]
@@ -246,25 +246,15 @@ export function CameraModel({ position, rotation }: {
   )
 }
 
-export function TimeLine({ position, rotation, length, color = "#4444ff", label, playerBody }: { 
+export function TimeLine({ position, rotation, length, color = "#4444ff", label, info, playerBody }: { 
   position: [number, number, number]
   rotation?: [number, number, number]
   length?: number
   color?: string
   label?: string
+  info?: string
   playerBody?: React.RefObject<RapierRigidBody | null>
 }) {
-  const [opacity, setOpacity] = useState(1)
-
-  useFrame(() => {
-    if (!playerBody?.current) return
-    const pos = playerBody.current.translation()
-    const dx = pos.x - position[0]
-    const dz = pos.z - position[2]
-    const distance = Math.sqrt(dx * dx + dz * dz)
-    const target = distance < 3 ? 1 : distance < 3 ? (6 - distance) / 3 : 0
-    setOpacity(prev => THREE.MathUtils.lerp(prev, target, 0.05))
-  })
   return (
     <>
       <mesh position={position} rotation={rotation}>
@@ -272,16 +262,14 @@ export function TimeLine({ position, rotation, length, color = "#4444ff", label,
         <meshStandardMaterial emissive={color} emissiveIntensity={2} color={color} />
       </mesh>
 
-      <Text 
-        position={[position[0], position[1] + 0.25, position[2]]} 
-        rotation={[0, -Math.PI / 2, 0]} 
-        fontSize={0.15} 
-        color={color} 
-        anchorX="center"
-        fillOpacity={opacity}
-      >
-        {label}
-      </Text>
+      {playerBody && (
+        <InteractIcon
+          position={[position[0] - 0.15, position[1] + 0.25, position[2]]} 
+          playerBody={playerBody}
+          label={label}
+          info={info}
+        />
+      )}
     </>
   )
 }
