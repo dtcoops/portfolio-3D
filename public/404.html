@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <script>
+      // GitHub Pages SPA redirect: store the full path in sessionStorage, then redirect to index
+      var path = window.location.pathname;
+      var base = '/portfolio-3d';
+      var route = path.replace(base, '') || '/';
+      sessionStorage.setItem('redirect', route);
+      window.location.replace(base + '/');
+    </script>
+  </head>
+  <body></body>
+</html>

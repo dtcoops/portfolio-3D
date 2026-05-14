@@ -6,6 +6,7 @@ import { lazy } from 'react'
 import { useEffect, useRef } from 'react'
 
 import LoadingScreen from './components/LoadingScreen'
+import perspectivesAudio from './assets/Perspectives.mp3'
 
 const AboutHallway = lazy(() => import('./scenes/AboutHallway'))
 
@@ -13,10 +14,7 @@ function App() {
   const audioRef = useRef<HTMLAudioElement | null>(null)
 
   useEffect(() => {
-    //const audio = new Audio('src/assets/Getting it Done.mp3')
-    //const audio = new Audio('src/assets/Life of Riley.mp3')
-    const audio = new Audio('src/assets/Perspectives.mp3')
-    //const audio = new Audio('src/assets/Paradise_Found.mp3')
+    const audio = new Audio(perspectivesAudio)
     audio.loop = true
     audio.volume = 0.4
     audio.play().catch(() => {})
