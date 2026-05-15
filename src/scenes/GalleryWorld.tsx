@@ -36,7 +36,7 @@ export function GalleryWorld( {playerBody} :
             <InteractIcon position={[-15, 1, 25.25]} playerBody={playerBody} label="Under Construction" info="Coming Soon..."/>
             <CuboidCollider args={[2.5, 5, .5]} position={[-16, 1, 25.25]} rotation={[0,Math.PI / 2,0]}/>
 
-
+            {/* Portals */}
             <Portal position={[4.5, 7.6, -11.75]} rotation={[0, 0, 0]} destination="/Tiledrop" frameSize={[6, 1.75, 1]} pictureScale={[9.75, 4]}/>
         </>
     )
