@@ -43,7 +43,7 @@ export default function Gallery() {
             <ReadySignal onReady={() => setPhysicsPaused(false)} />
           </Physics>
           <FollowCamera target={visualGroupRef} />
-          <ambientLight intensity={0.9} />
+          <ambientLight intensity={0.7} />
         </Suspense>
       </Canvas>
     </KeyboardControls>

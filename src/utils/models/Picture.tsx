@@ -54,9 +54,19 @@ interface PictureProps {
   onEnter?: () => void
   imagePath?: string
   portal?: boolean
+  frameSize?: [number, number, number]
+  pictureScale?: [number, number]
 }
 
-export function Picture({ position, onEnter, imagePath = `${import.meta.env.BASE_URL}images/my-photo.jpg`, portal = false }: PictureProps) {
+export function Picture({ 
+  position, 
+  onEnter, 
+  imagePath = `${import.meta.env.BASE_URL}images/my-photo.jpg`, 
+  portal = false,
+  frameSize, 
+  pictureScale}: PictureProps
+) 
+  {
   const cloned = useClonedGLTF(`${import.meta.env.BASE_URL}models/Frame.glb`)
   const texture = useTexture(imagePath)
   const matRef = useRef<PortalShaderMaterialType>(null)
@@ -68,19 +78,19 @@ export function Picture({ position, onEnter, imagePath = `${import.meta.env.BASE
   return (
     <group>
       {/* Visual frame */}
-      <primitive object={cloned} />
+      <primitive object={cloned} scale={frameSize}/>
 
       {/* Rapier sensor — triggers navigation when character enters */}
       {portal && (
         <RigidBody type="fixed" sensor onIntersectionEnter={onEnter ?? (() => {})}>
-          <CuboidCollider args={[0.8, 1.15, 0.05]} position={position ?? [0, 0, 0.01]} />
+          <CuboidCollider args={frameSize ? [1,1, 0.05] : [0.8, 1.15, 0.05]} position={position ?? [0, 0, 0.01]} scale={frameSize}/>
         </RigidBody>
       )}
 
 
       {/* Image plane — shader handles ripple distortion + edge shimmer */}
       <mesh position={position ?? [0, 0, 0.01]}>
-        <planeGeometry args={[1.6, 2.3]} />
+        <planeGeometry args={pictureScale ? pictureScale : [1.6, 2.3]} />
         <portalShaderMaterial ref={matRef} uTexture={texture} />
       </mesh>
     </group>

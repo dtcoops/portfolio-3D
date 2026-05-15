@@ -10,6 +10,7 @@ import perspectivesAudio from './assets/Perspectives.mp3'
 
 const AboutHallway = lazy(() => import('./scenes/AboutHallway'))
 const Gallery = lazy(() => import('./scenes/Gallery'))
+const TileDrop = lazy(() => import('./scenes/TileDrop'))
 
 
 function App() {
@@ -32,6 +33,7 @@ function App() {
           <Route path="/" element={<Hub />} />
           <Route path="/about" element={<AboutHallway />} />
           <Route path="/gallery" element={<Gallery />} />
+          <Route path="/tiledrop" element={<TileDrop />} />
         </Routes>
       </Suspense>
     </MobileGate>

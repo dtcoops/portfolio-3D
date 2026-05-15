@@ -11,9 +11,11 @@ interface PortalProps {
   color?: string
   imagePath?: string
   external?: boolean
+  frameSize?: [number, number, number]
+  pictureScale?: [number, number]
 }
 
-export default function Portal({ position, rotation, destination, imagePath, external = false }: PortalProps) {
+export default function Portal({ position, rotation, destination, imagePath, external = false, frameSize, pictureScale}: PortalProps) {
   const navigate = useNavigate()
   const triggered = useRef(false)
   const setTransitioning = useGameStore(s => s.setTransitioning)
@@ -37,7 +39,7 @@ export default function Portal({ position, rotation, destination, imagePath, ext
 
   return (
     <group position={position} rotation={rotation}>
-      <Picture onEnter={handleEnter} portal imagePath={imagePath} />
+      <Picture onEnter={handleEnter} portal imagePath={imagePath} frameSize={frameSize} pictureScale={pictureScale}/>
     </group>
   )
 }
