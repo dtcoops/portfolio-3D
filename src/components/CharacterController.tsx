@@ -1,5 +1,5 @@
 import { useRef, useState, useEffect, Suspense } from 'react'
-import { useFrame } from '@react-three/fiber'
+import { useFrame, useThree } from '@react-three/fiber'
 import { useKeyboardControls } from '@react-three/drei'
 import { RigidBody, CapsuleCollider, useRapier, RapierRigidBody } from '@react-three/rapier'
 import * as THREE from 'three'
@@ -19,11 +19,12 @@ interface CharacterControllerProps {
   bodyRef: React.RefObject<RapierRigidBody | null>
   visualGroupRef?: React.RefObject<THREE.Group | null>
   spawnPosition?: [number, number, number]
-  movementMode?: 'radial' | 'flat'
+  movementMode?: 'radial' | 'flat' | 'follow'
 }
 
 export default function CharacterController({ bodyRef, visualGroupRef, spawnPosition = [0, 1, 10], movementMode = 'radial' }: CharacterControllerProps) {
   const body = bodyRef
+  const { camera } = useThree()
   const [animationName, setAnimationName] = useState('Idle')
   const currentAnimRef = useRef('Idle')
   const [, getKeys] = useKeyboardControls()
@@ -98,6 +99,16 @@ export default function CharacterController({ bodyRef, visualGroupRef, spawnPosi
       if (back)    moveDir.add(new THREE.Vector3(-1, 0, 0))
       if (right)   moveDir.add(new THREE.Vector3(0, 0, 1))
       if (left)    moveDir.add(new THREE.Vector3(0, 0, -1))
+    } else if (movementMode === 'follow') {
+      const camForward = new THREE.Vector3()
+      camera.getWorldDirection(camForward)
+      camForward.y = 0
+      camForward.normalize()
+      const camRight = new THREE.Vector3().crossVectors(camForward, new THREE.Vector3(0, 1, 0)).normalize()
+      if (forward) moveDir.add(camForward)
+      if (back)    moveDir.sub(camForward)
+      if (right)   moveDir.add(camRight)
+      if (left)    moveDir.sub(camRight)
     } else {
       const toWall = new THREE.Vector3(pos.x, 0, pos.z).normalize()
       const tangent = new THREE.Vector3(-toWall.z, 0, toWall.x)
