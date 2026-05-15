@@ -17,14 +17,26 @@ function App() {
   const audioRef = useRef<HTMLAudioElement | null>(null)
 
   useEffect(() => {
-    const audio = new Audio(perspectivesAudio)
-    audio.loop = true
-    audio.volume = 0.4
-    audio.play().catch(() => {})
-    audioRef.current = audio
+  const audio = new Audio(perspectivesAudio)
+  audio.loop = true
+  audio.volume = 0.3
+  audioRef.current = audio
 
-    return () => { audio.pause() }
-  }, [])
+  const startAudio = () => {
+    audio.play().catch(() => {})
+    window.removeEventListener('click', startAudio)
+    window.removeEventListener('keydown', startAudio)
+  }
+
+  window.addEventListener('click', startAudio)
+  window.addEventListener('keydown', startAudio)
+
+  return () => {
+    audio.pause()
+    window.removeEventListener('click', startAudio)
+    window.removeEventListener('keydown', startAudio)
+  }
+}, [])
 
   return (
     <MobileGate>
