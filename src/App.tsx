@@ -9,6 +9,8 @@ import LoadingScreen from './components/LoadingScreen'
 import perspectivesAudio from './assets/Perspectives.mp3'
 
 const AboutHallway = lazy(() => import('./scenes/AboutHallway'))
+const Gallery = lazy(() => import('./scenes/Gallery'))
+
 
 function App() {
   const audioRef = useRef<HTMLAudioElement | null>(null)
@@ -29,6 +31,7 @@ function App() {
         <Routes>
           <Route path="/" element={<Hub />} />
           <Route path="/about" element={<AboutHallway />} />
+          <Route path="/gallery" element={<Gallery />} />
         </Routes>
       </Suspense>
     </MobileGate>

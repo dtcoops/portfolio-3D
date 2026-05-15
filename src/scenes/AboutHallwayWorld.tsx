@@ -140,7 +140,7 @@ export function AboutHallwayWorld( {playerBody} :
 
         {/* Entrance and Exit - in that order*/}
         <Portal position={[0, 2.5, -14.5]} rotation={[0, 0, 0]}  destination="/" imagePath={entrancePortalImg}/>
-        <Portal position={[0, 2.5, 14.5]} rotation={[0, Math.PI, 0]}  destination="/about" />
+        <Portal position={[0, 2.5, 14.5]} rotation={[0, Math.PI, 0]}  destination="/gallery" />
     </>
   )
 }

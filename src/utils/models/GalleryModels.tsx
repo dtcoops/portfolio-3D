@@ -1,6 +1,29 @@
 
 import { PhysicsModel } from './PhysicsModel'
 
+export function GalleryModel({
+  position,
+  rotation,
+  scale = 1,
+  type = 'fixed'
+}: {
+  position: [number, number, number]
+  rotation?: [number, number, number]
+  scale?: number
+  type?: 'dynamic' | 'fixed'
+}) {
+  return (
+    <PhysicsModel
+      path={`${import.meta.env.BASE_URL}models/GalleryWorld.glb`}
+      position={position}
+      rotation={rotation}
+      scale={scale}
+      type={type}
+      colliders="trimesh"
+    />
+  )
+}
+
 export function InfoDesk({ 
   position, 
   rotation, 
