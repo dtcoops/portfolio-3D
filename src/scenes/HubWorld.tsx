@@ -12,6 +12,9 @@ export default function HubRoom({ playerBody }: {
   playerBody: React.RefObject<RapierRigidBody | null> 
 }) {
   const base = import.meta.env.BASE_URL
+  const portfolioPortal = `${base}images/portfolio.png`
+  const loreDumpCam = `${base}images/loreDumpCam.png`
+  const hubRoomCam = `${base}images/hubRoomCam.png`
 
   const [online, setOnline] = useState(false)
   const handleInteract = useCallback(() => setOnline(o => !o), [])
@@ -110,12 +113,14 @@ export default function HubRoom({ playerBody }: {
         position={[0, 3.25, -13]}
         rotation={[0, 0, 0]}
         width={5} height={3} wallMounted
+        imagePath={online ? hubRoomCam : undefined}
         content={online ? '> portfolio-3d v1.0\n> Status: ONLINE\n> Portal: ONLINE' : '> portfolio-3d v1.0\n> Status: OFFLINE\n> Portal: OFFLINE'}
       />
       <Screen 
         position={[4.25, 4.5, -13]} 
         rotation={[0, -.4, 0]}
         width={3} height={1.6} wallMounted
+        imagePath={online ? loreDumpCam : undefined}
         content={online ? '' : '> Languages Used:\n\t> TypeScript\n\t> GLSL'}
       />
       <Screen 
@@ -181,7 +186,7 @@ export default function HubRoom({ playerBody }: {
         content={'> Assets:\n> Kenney.nl - Prototype Textures\n> viravoloshyn.itch.io - Museum Models\n> Mixamo - Y-bot and Animations\n> Kevin MacLeod - Perspectives Music'}
       />
 
-      <Portal position={[-5.25, 1.75, 12.5]} rotation={[0, Math.PI * 0.9, 0]}  destination="https://dtcoops.github.io/portfolio/" external/>
+      <Portal position={[-5.25, 1.75, 12.5]} rotation={[0, Math.PI * 0.9, 0]}  imagePath={portfolioPortal} destination="https://dtcoops.github.io/portfolio/" external/>
     </>
   )
 }
@@ -227,7 +232,9 @@ function ControlsSign({ position, rotation, online }: {
         <Portal 
           position={position} 
           rotation={rotation} 
-          destination="/about" 
+          destination="/about"
+          frameSize={[2, 2, 1]}
+          pictureScale={[3, 4.5]} 
           imagePath={exitPortal}
         />
       )}

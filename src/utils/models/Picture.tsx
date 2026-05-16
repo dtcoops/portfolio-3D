@@ -83,7 +83,7 @@ export function Picture({
       {/* Rapier sensor — triggers navigation when character enters */}
       {portal && (
         <RigidBody type="fixed" sensor onIntersectionEnter={onEnter ?? (() => {})}>
-          <CuboidCollider args={frameSize ? [1,1, 0.05] : [0.8, 1.15, 0.05]} position={position ?? [0, 0, 0.01]} scale={frameSize}/>
+          <CuboidCollider args={frameSize ? [1,1, 0.05] : [0.8, 1.15, 0.05]} position={position ?? [0, 0, 0.01]} />
         </RigidBody>
       )}
 

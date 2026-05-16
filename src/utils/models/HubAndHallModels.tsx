@@ -94,6 +94,19 @@ export function Wire({ points, color = '#111111' }: {
   )
 }
 
+function ScreenDisplay({ imagePath }: { imagePath?: string }) {
+  const texture = useTexture(imagePath!)
+  return (
+    <meshStandardMaterial
+      color="#000011"
+      map={texture}
+      emissive="#ffffff"
+      emissiveMap={texture}
+      emissiveIntensity={1}
+    />
+  )
+}
+
 export function Screen({ position, rotation,width = 1.1,height = 0.7,content,imagePath,wallMounted = false }: {
   position: [number, number, number]
   rotation?: [number, number, number]
@@ -103,9 +116,6 @@ export function Screen({ position, rotation,width = 1.1,height = 0.7,content,ima
   imagePath?: string
   wallMounted?: boolean
 }) {
-  const texture = useTexture(imagePath ?? `${import.meta.env.BASE_URL}Textures/Kenney/Dark/texture_01.png`)
-  const activeTexture = imagePath ? texture : null
-
   return (
     <group position={position} rotation={rotation}>
       <RigidBody type="fixed" colliders="hull">
@@ -116,14 +126,14 @@ export function Screen({ position, rotation,width = 1.1,height = 0.7,content,ima
 
       <mesh position={[0, 0, -0.02]}>
         <boxGeometry args={[width, height, 0.05]} />
-        <meshStandardMaterial
-          color="#000011"
-          map={activeTexture ?? undefined}
-          emissive={activeTexture ? '#ffffff' : '#001133'}
-          emissiveIntensity={activeTexture ? 0.1 : 1}
-        >
-          
-        </meshStandardMaterial>
+        {imagePath
+          ? <ScreenDisplay imagePath={imagePath} />
+          : <meshStandardMaterial 
+            color="#000011" 
+            emissive="#0033aa" 
+            emissiveIntensity={1} 
+          />
+        }
       </mesh>
       </RigidBody>
       <pointLight position={[0, 0, 0.5]} intensity={0.5} distance={3} color="#0044ff" />

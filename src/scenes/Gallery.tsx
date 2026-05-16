@@ -41,8 +41,8 @@ export default function Gallery() {
             <GalleryWorld playerBody={playerBody}/>
             <CharacterController bodyRef={playerBody} visualGroupRef={visualGroupRef} spawnPosition={[0, 1, 0]} movementMode="follow" />
             <ReadySignal onReady={() => setPhysicsPaused(false)} />
+            <FollowCamera target={visualGroupRef} />
           </Physics>
-          <FollowCamera target={visualGroupRef} />
           <ambientLight intensity={0.7} />
         </Suspense>
       </Canvas>
