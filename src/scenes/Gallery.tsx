@@ -41,7 +41,7 @@ export default function Gallery() {
         <Suspense fallback={null}>
           <Physics interpolate gravity={[0, -20, 0]} paused={physicsPaused}>
             <GalleryWorld playerBody={playerBody}/>
-            <CharacterController bodyRef={playerBody} visualGroupRef={visualGroupRef} spawnPosition={[0, 1, 0]} movementMode="follow" />
+            <CharacterController bodyRef={playerBody} visualGroupRef={visualGroupRef} spawnPosition={[5, 1, 30]} spawnRotation={[0, -Math.PI, 0]} movementMode="follow" />
             <ReadySignal onReady={() => setPhysicsPaused(false)} />
             <FollowCamera target={visualGroupRef} />
           </Physics>

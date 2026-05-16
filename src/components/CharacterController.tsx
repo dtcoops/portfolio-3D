@@ -19,10 +19,11 @@ interface CharacterControllerProps {
   bodyRef: React.RefObject<RapierRigidBody | null>
   visualGroupRef?: React.RefObject<THREE.Group | null>
   spawnPosition?: [number, number, number]
+  spawnRotation?: [number, number, number]
   movementMode?: 'radial' | 'flat' | 'follow'
 }
 
-export default function CharacterController({ bodyRef, visualGroupRef, spawnPosition = [0, 1, 10], movementMode = 'radial' }: CharacterControllerProps) {
+export default function CharacterController({ bodyRef, visualGroupRef, spawnPosition = [0, 1, 10], spawnRotation, movementMode = 'radial' }: CharacterControllerProps) {
   const body = bodyRef
   const { camera } = useThree()
   const [animationName, setAnimationName] = useState('Idle')
@@ -143,6 +144,7 @@ export default function CharacterController({ bodyRef, visualGroupRef, spawnPosi
       const target = new THREE.Vector3(pos.x, pos.y + 0.2, pos.z)
       if (firstFrame.current) {
         visualRef.current.position.copy(target)
+        if (spawnRotation) visualRef.current.rotation.set(spawnRotation[0], spawnRotation[1], spawnRotation[2])
         firstFrame.current = false
       } else {
         const posLerp = 1 - Math.pow(0.8, dt * 60)
