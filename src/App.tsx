@@ -19,7 +19,7 @@ function App() {
   useEffect(() => {
   const audio = new Audio(perspectivesAudio)
   audio.loop = true
-  audio.volume = 0.3
+  audio.volume = 0.15
   audioRef.current = audio
 
   const startAudio = () => {

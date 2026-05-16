@@ -7,7 +7,8 @@ import HubRoom from './HubWorld'
 import HubCamera from '../components/HubCamera'
 import { RapierRigidBody } from '@react-three/rapier'
 import LoadingScreen from '../components/LoadingScreen'
-import { EffectComposer, Bloom } from '@react-three/postprocessing'
+import { ToneMapping, EffectComposer, Bloom } from '@react-three/postprocessing'
+import { ToneMappingMode } from 'postprocessing'
 
 function ReadySignal({ onReady }: { onReady: () => void }) {
   const onReadyRef = useRef(onReady)
@@ -43,7 +44,7 @@ export default function Hub() {
         shadows
         dpr={[1, 2]}
         gl={{ powerPreference: 'high-performance' }}
-        camera={{ position: [0, 4, 5], fov: 50 }}
+        camera={{ position: [0, 4, 5], fov: 45 }}
       >
         <Suspense fallback={null}>
           <Physics interpolate gravity={[0, -20, 0]}>
@@ -51,8 +52,9 @@ export default function Hub() {
             <CharacterController bodyRef={playerBody} />
             <ReadySignal onReady={() => setReady(true)} />
           </Physics>
-          <ambientLight intensity={0.2} color="#aaaaff" />
+          <ambientLight intensity={0.5} color="#aaaaff" />
           <EffectComposer>
+            <ToneMapping mode={ToneMappingMode.ACES_FILMIC}/>
             <Bloom 
               intensity={0.5}
               luminanceThreshold={0.8}
@@ -61,8 +63,6 @@ export default function Hub() {
           </EffectComposer>
         </Suspense>
         <HubCamera bodyRef={playerBody} />
-        <Suspense fallback={null}>
-        </Suspense>
       </Canvas>
     </KeyboardControls>
   )

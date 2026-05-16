@@ -2,6 +2,8 @@ import { Canvas, useFrame } from '@react-three/fiber'
 import { KeyboardControls } from '@react-three/drei'
 import { Physics, RapierRigidBody } from '@react-three/rapier'
 import { Suspense, useState, useRef } from 'react'
+import { ToneMapping, EffectComposer, Bloom } from '@react-three/postprocessing'
+import { ToneMappingMode } from 'postprocessing'
 import * as THREE from 'three'
 
 import CharacterController from '../components/CharacterController'
@@ -43,7 +45,16 @@ export default function AboutHallway() {
             <ReadySignal onReady={() => setPhysicsPaused(false)} />
           </Physics>
           <SideViewCamera visualGroupRef={visualGroupRef} />
-          <ambientLight intensity={0.2} />
+          <ambientLight intensity={0.2} color="#aaaaff" />
+
+          <EffectComposer>
+            <ToneMapping mode={ToneMappingMode.ACES_FILMIC} />
+            <Bloom 
+              intensity={0.5}
+              luminanceThreshold={0.8}
+              luminanceSmoothing={0.9}
+            />
+          </EffectComposer>
         </Suspense>
       </Canvas>
     </KeyboardControls>

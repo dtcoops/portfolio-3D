@@ -72,7 +72,7 @@ export function Picture({
   const matRef = useRef<PortalShaderMaterialType>(null)
 
   useFrame(({ clock }) => {
-    if (matRef.current) matRef.current.uTime = clock.getElapsedTime()
+      if (matRef.current && portal) matRef.current.uTime = clock.getElapsedTime()
   })
 
   return (
