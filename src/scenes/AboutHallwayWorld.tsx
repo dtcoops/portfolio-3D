@@ -4,7 +4,7 @@ import { useTexture, Text } from '@react-three/drei'
 import * as THREE from 'three'
 
 import Portal from '../components/Portal'
-import { FluorescentLight } from './../utils/models/Models'
+import { FluorescentLight } from '../utils/models'
 import { TimeLine, TimeLineNode } from '../utils/models/HubAndHallModels'
 import { InfoDeskLarge } from '../utils/models/GalleryModels'
 import InteractIcon from '../components/InteractIcon'

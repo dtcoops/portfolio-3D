@@ -4,15 +4,7 @@ import { Physics, RigidBody, RapierRigidBody } from '@react-three/rapier'
 import React, { Suspense, useState, useEffect, useRef } from 'react'
 import * as THREE from 'three'
 import CharacterController from '../components/CharacterController'
-
-const CONTROLS = [
-  { name: 'forward', keys: ['ArrowUp', 'KeyW'] },
-  { name: 'back',    keys: ['ArrowDown', 'KeyS'] },
-  { name: 'left',    keys: ['ArrowLeft', 'KeyA'] },
-  { name: 'right',   keys: ['ArrowRight', 'KeyD'] },
-  { name: 'jump',    keys: ['Space'] },
-  { name: 'run',     keys: ['ShiftLeft', 'ShiftRight'] },
-]
+import { CONTROLS } from '../constants/controls'
 
 export default function TileDrop() {
   const [physicsPaused, setPhysicsPaused] = useState(true)

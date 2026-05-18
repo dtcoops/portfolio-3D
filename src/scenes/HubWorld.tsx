@@ -5,7 +5,7 @@ import { useTexture, Text } from '@react-three/drei'
 import * as THREE from 'three'
 
 import Portal from '../components/Portal'
-import { Screen, FluorescentLight, ServerRackBank, Wire, CameraModel }  from '../utils/models/Models'
+import { Screen, FluorescentLight, ServerRackBank, Wire, CameraModel }  from '../utils/models'
 
 // HubRoom props
 export default function HubRoom({ playerBody }: { 

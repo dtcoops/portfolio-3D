@@ -202,6 +202,9 @@ export function FluorescentLight({ position, rotation = [0, 0, 0] }: {
         penumbra={0.3}
         color="#aaaaff"
         castShadow
+        shadow-bias={-0.001}
+        shadow-normalBias={0.02}
+        shadow-mapSize={[512, 512]}
       />
     </>
   )

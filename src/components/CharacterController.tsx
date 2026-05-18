@@ -5,6 +5,8 @@ import { RigidBody, CapsuleCollider, useRapier, RapierRigidBody } from '@react-t
 import * as THREE from 'three'
 import Character from './Character'
 import { AnimationController } from './animationController'
+import { useReadySignal } from '../hooks/useReadySignal'
+import { CONTROLS } from '../constants/controls'
 
 const SPEED = 6
 const JUMP_DOWN_MS = (10 / 30) * 1000
@@ -21,9 +23,11 @@ interface CharacterControllerProps {
   spawnPosition?: [number, number, number]
   spawnRotation?: [number, number, number]
   movementMode?: 'radial' | 'flat' | 'follow'
+  onReady?: () => void
 }
 
-export default function CharacterController({ bodyRef, visualGroupRef, spawnPosition = [0, 1, 10], spawnRotation, movementMode = 'radial' }: CharacterControllerProps) {
+export default function CharacterController({ bodyRef, visualGroupRef, spawnPosition = [0, 1, 10], spawnRotation, movementMode = 'radial', onReady }: CharacterControllerProps) {
+  useReadySignal(onReady)
   const body = bodyRef
   const { camera } = useThree()
   const [animationName, setAnimationName] = useState('Idle')
@@ -50,9 +54,8 @@ export default function CharacterController({ bodyRef, visualGroupRef, spawnPosi
   useEffect(() => {
     window.focus()
     const onBlur = () => {
-      const keys = ['KeyW', 'KeyS', 'KeyA', 'KeyD',
-                    'ArrowUp', 'ArrowDown', 'ArrowLeft', 'ArrowRight',
-                    'Space', 'ShiftLeft', 'ShiftRight']
+      const keys = CONTROLS.flatMap(c => c.keys)
+
       keys.forEach(code => {
         window.dispatchEvent(new KeyboardEvent('keyup', { code, bubbles: true }))
       })
@@ -71,9 +74,9 @@ export default function CharacterController({ bodyRef, visualGroupRef, spawnPosi
     const lerpFactor = 1 - Math.pow(0.75, dt * 60)
 
     // Ground check
-    const feetPos = { x: pos.x, y: pos.y - 0.8, z: pos.z }
+    const feetPos = { x: pos.x, y: pos.y - 0.75, z: pos.z }
     const ray = new rapier.Ray(feetPos, { x: 0, y: -1, z: 0 })
-    const hit = world.castRay(ray, 0.15, true)
+    const hit = world.castRay(ray, 0.25, true, undefined, undefined, undefined, body.current)
     const actuallyGrounded = hit !== null
     isGrounded.current = actuallyGrounded && !justJumped.current
 
@@ -163,10 +166,11 @@ export default function CharacterController({ bodyRef, visualGroupRef, spawnPosi
 
     // Movement
     const speed = run ? 10 : SPEED
+    const grounded = isGrounded.current && !justJumped.current
     body.current.setLinvel({
-      x: THREE.MathUtils.lerp(vel.x, isMoving ? moveDir.x * speed : 0, lerpFactor),
-      y: vel.y,
-      z: THREE.MathUtils.lerp(vel.z, isMoving ? moveDir.z * speed : 0, lerpFactor),
+      x: grounded && !isMoving ? 0 : THREE.MathUtils.lerp(vel.x, isMoving ? moveDir.x * speed : 0, lerpFactor),
+      y: grounded ? 0 : vel.y,
+      z: grounded && !isMoving ? 0 : THREE.MathUtils.lerp(vel.z, isMoving ? moveDir.z * speed : 0, lerpFactor),
     }, true)
 
     // Jump

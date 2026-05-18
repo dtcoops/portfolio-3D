@@ -1,4 +1,4 @@
-import { Canvas, useFrame } from '@react-three/fiber'
+import { Canvas } from '@react-three/fiber'
 import { KeyboardControls } from '@react-three/drei'
 import { Physics, RapierRigidBody } from '@react-three/rapier'
 import { Suspense, useState, useRef } from 'react'
@@ -9,26 +9,7 @@ import * as THREE from 'three'
 import CharacterController from '../components/CharacterController'
 import { FollowCamera } from '../components/FollowCamera'
 import { GalleryWorld } from './GalleryWorld'
-
-const CONTROLS = [
-  { name: 'forward', keys: ['ArrowUp', 'KeyW'] },
-  { name: 'back',    keys: ['ArrowDown', 'KeyS'] },
-  { name: 'left',    keys: ['ArrowLeft', 'KeyA'] },
-  { name: 'right',   keys: ['ArrowRight', 'KeyD'] },
-  { name: 'jump',    keys: ['Space'] },
-  { name: 'run',     keys: ['ShiftLeft', 'ShiftRight'] },
-]
-
-function ReadySignal({ onReady }: { onReady: () => void }) {
-  const fired = useRef(false)
-  useFrame(() => {
-    if (!fired.current) {
-      fired.current = true
-      onReady()
-    }
-  })
-  return null
-}
+import { CONTROLS } from '../constants/controls'
 
 export default function Gallery() {
   const [physicsPaused, setPhysicsPaused] = useState(true)
@@ -41,12 +22,27 @@ export default function Gallery() {
         <Suspense fallback={null}>
           <Physics interpolate gravity={[0, -20, 0]} paused={physicsPaused}>
             <GalleryWorld playerBody={playerBody}/>
-            <CharacterController bodyRef={playerBody} visualGroupRef={visualGroupRef} spawnPosition={[5, 1, 30]} spawnRotation={[0, -Math.PI, 0]} movementMode="follow" />
-            <ReadySignal onReady={() => setPhysicsPaused(false)} />
+            <CharacterController bodyRef={playerBody} visualGroupRef={visualGroupRef} spawnPosition={[5, 1, 25]} spawnRotation={[0, -Math.PI, 0]} movementMode="follow" onReady={() => setPhysicsPaused(false)} />
             <FollowCamera target={visualGroupRef} />
           </Physics>
+          <directionalLight
+            position={[0, 30, 0]}
+            intensity={0.3}
+            color="#fff5e0"
+            castShadow
+            shadow-mapSize={[2048, 2048]}
+            shadow-camera-near={1}
+            shadow-camera-far={150}
+            shadow-camera-left={-50}
+            shadow-camera-right={50}
+            shadow-camera-top={50}
+            shadow-camera-bottom={-50}
+            shadow-bias={-0.0005}
+            shadow-normalBias={0.02}
+          />
           <ambientLight intensity={0.7} color="#fffff3" />
-
+          <directionalLight position={[0, -10, 0]} intensity={1.0} color="#fff5e0" />
+    
           <EffectComposer>
             <ToneMapping mode={ToneMappingMode.ACES_FILMIC}/>
             <Bloom 
@@ -60,4 +56,3 @@ export default function Gallery() {
     </KeyboardControls>
   )
 }
-
