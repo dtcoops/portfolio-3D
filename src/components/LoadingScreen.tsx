@@ -1,5 +1,5 @@
 import { Canvas } from '@react-three/fiber'
-import { useEffect, useRef } from 'react'
+import { useEffect, useRef, Suspense } from 'react'
 import { useGLTF, useAnimations } from '@react-three/drei'
 import * as THREE from 'three'
 
@@ -34,7 +34,9 @@ export default function LoadingScreen() {
         <Canvas camera={{ position: [0, .5, 3], fov: 60 }}>
           <ambientLight intensity={0.5} />
           <directionalLight position={[0, 5, 5]} intensity={1} />
-          <FallingCharacter />
+          <Suspense fallback={null}>
+            <FallingCharacter />
+          </Suspense>
         </Canvas>
       </div>
     </div>

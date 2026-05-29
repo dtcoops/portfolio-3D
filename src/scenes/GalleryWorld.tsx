@@ -1,22 +1,8 @@
-import { useEffect } from 'react'
-import { useGLTF } from '@react-three/drei'
-import * as THREE from 'three'
 import { CuboidCollider, RapierRigidBody } from '@react-three/rapier'
 import { GalleryModel, RopeBarrier, Table } from '../utils/models/GalleryModels'
 import Portal from '../components/Portal'
 import InteractIcon from '../components/InteractIcon'
-import { FluorescentLight, Bench, Desk, Stool, PotLight, LightWallSmall, Stairs } from '../utils/models'
-
-function FloorDebug() {
-  const { scene } = useGLTF(`${import.meta.env.BASE_URL}models/GalleryFloor.glb`)
-
-  useEffect(() => {
-    const box = new THREE.Box3().setFromObject(scene)
-    const center = new THREE.Vector3()
-    box.getCenter(center)
-  }, [scene])
-  return null
-}
+import { FluorescentLight, Desk, Stool, PotLight, LightWallSmall, Stairs } from '../utils/models'
 
 export function GalleryWorld( {playerBody} :
     {playerBody: React.RefObject<RapierRigidBody | null>
@@ -36,8 +22,7 @@ export function GalleryWorld( {playerBody} :
 
 
     return (
-        <>  
-            <FloorDebug />
+        <>
             <Stairs position={[-3.5,2.45,6]} scale={1.3}/>
             <Stairs position={[12,2.45,6]} scale={1.3}/>
 
@@ -60,18 +45,40 @@ export function GalleryWorld( {playerBody} :
             ))}
 
             {/* Pictures */}
+            <LightWallSmall position={[5, 4, -11.8]} />
             <Portal 
                 position={[5, 2, -11.85]} 
                 rotation={[0, 0, 0]} 
+                portal 
+                imagePath='https://opengraph.githubassets.com/1/dtcoops'
+                destination="https://github.com/dtcoops" 
+                frameSize={[1, 1, 1]} 
+                pictureScale={[1.5, 2.25]}
+                external
+            />
+            
+            <LightWallSmall position={[13.8, 4, -3]} rotation={[0, -Math.PI / 2, 0]} />
+            <Portal
+                position={[14, 2, -3]} 
+                rotation={[0, -Math.PI / 2, 0]} 
+                portal={false} 
+                destination="" 
+                frameSize={[1, 1, 1]} 
+                pictureScale={[1.5, 2.25]}
+            />
+            
+            <LightWallSmall position={[-5.25, 4, -3]} rotation={[0, Math.PI / 2, 0]} />
+            <Portal 
+                position={[-5.25, 2, -3]} 
+                rotation={[0, Math.PI / 2, 0]} 
                 portal={false} 
                 destination="" 
                 frameSize={[1, 1, 1]} 
                 pictureScale={[1.5, 2.25]}
             />
 
+
             <Table position={[-14, 0.5,20]} rotation={[0, Math.PI / 2, 0]}scale={2.5}/>
-            <LightWallSmall position={[5,4,-11.9]} />
-            <Bench position={[5, 0.75, -10]} type='fixed' scale={2}/>
             <Desk position={[5, 0.6, 35]} rotation={[0, Math.PI, 0]}type='fixed' scale={1.5}/>
             <Stool position={[5.5, 0.5, 36]} rotation={[0, Math.PI * 1.1, 0]} type='dynamic' scale={1.5}/>
             <FluorescentLight position={[5, 3, 35]} />

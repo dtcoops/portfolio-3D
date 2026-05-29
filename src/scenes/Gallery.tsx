@@ -10,24 +10,28 @@ import CharacterController from '../components/CharacterController'
 import { FollowCamera } from '../components/FollowCamera'
 import { GalleryWorld } from './GalleryWorld'
 import { CONTROLS } from '../constants/controls'
+import LoadingScreen from '../components/LoadingScreen'
 
 export default function Gallery() {
   const [physicsPaused, setPhysicsPaused] = useState(true)
+  const [sceneReady, setSceneReady] = useState(false)
   const playerBody = useRef<RapierRigidBody>(null)
   const visualGroupRef = useRef<THREE.Group>(null)
 
   return (
     <KeyboardControls map={CONTROLS}>
+      <>
+      {!sceneReady && <LoadingScreen />}
       <Canvas shadows camera={{ position: [0, 15, 0], fov: 60 }}>
         <Suspense fallback={null}>
           <Physics interpolate gravity={[0, -20, 0]} paused={physicsPaused}>
             <GalleryWorld playerBody={playerBody}/>
-            <CharacterController bodyRef={playerBody} visualGroupRef={visualGroupRef} spawnPosition={[5, 1, 25]} spawnRotation={[0, -Math.PI, 0]} movementMode="follow" onReady={() => setPhysicsPaused(false)} />
+            <CharacterController bodyRef={playerBody} visualGroupRef={visualGroupRef} spawnPosition={[5, 1, 25]} spawnRotation={[0, -Math.PI, 0]} movementMode="follow" onReady={() => { setPhysicsPaused(false); setSceneReady(true) }} />
             <FollowCamera target={visualGroupRef} />
           </Physics>
           <directionalLight
             position={[0, 30, 0]}
-            intensity={0.3}
+            intensity={1}
             color="#fff5e0"
             castShadow
             shadow-mapSize={[2048, 2048]}
@@ -40,7 +44,7 @@ export default function Gallery() {
             shadow-bias={-0.0005}
             shadow-normalBias={0.02}
           />
-          <ambientLight intensity={0.7} color="#fffff3" />
+          <ambientLight intensity={0.9} color="#fffff3" />
           <directionalLight position={[0, -10, 0]} intensity={1.0} color="#fff5e0" />
     
           <EffectComposer>
@@ -53,6 +57,7 @@ export default function Gallery() {
           </EffectComposer>
         </Suspense>
       </Canvas>
+      </>
     </KeyboardControls>
   )
 }

@@ -1,5 +1,3 @@
-import { useRef, useEffect } from 'react'
-import * as THREE from 'three'
 import { PhysicsModel } from './PhysicsModel'
 
 export function GalleryModel({
@@ -281,7 +279,11 @@ export function LightWallSmall({
       />
 
       {/* Bulb */}
-      <mesh position={[position[0], position[1] - 0.15, position[2] + 0.25]} scale={0.5}>
+      <mesh 
+        position={[position[0], position[1] - 0.075, position[2] + 0.05]} 
+        rotation={[Math.PI / 2, Math.PI * 1.5, Math.PI * 0.3]} 
+        scale={0.5}
+        >
         <cylinderGeometry args={[0.08, 0.08, 0.02, 16]} />
         <meshStandardMaterial
           color="#ffffff"
@@ -289,7 +291,11 @@ export function LightWallSmall({
           emissiveIntensity={2}
         />
       </mesh>
-      <mesh position={[position[0]-0.49, position[1] - 0.15, position[2] + 0.25]} scale={0.5}>
+      <mesh 
+        position={[position[0]-0.49, position[1] - 0.08, position[2] + 0.08]} 
+        rotation={[Math.PI / 2, Math.PI * 1.6, Math.PI * 0.3]} 
+        scale={0.5}
+      >
         <cylinderGeometry args={[0.08, 0.08, 0.02, 16]} />
         <meshStandardMaterial
           color="#ffffff"
@@ -297,7 +303,11 @@ export function LightWallSmall({
           emissiveIntensity={2}
         />
       </mesh>
-      <mesh position={[position[0] + 0.49, position[1] - 0.15, position[2] + 0.25]} scale={0.5}>
+      <mesh 
+        position={[position[0] + 0.49, position[1] - 0.08, position[2] + 0.08]} 
+        rotation={[Math.PI / 2, Math.PI * 1.4, Math.PI * 0.3]} 
+        scale={0.5}
+      >
         <cylinderGeometry args={[0.08, 0.08, 0.02, 16]} />
         <meshStandardMaterial
           color="#ffffff"
@@ -422,15 +432,6 @@ export function Table({
 export function PotLight({ position }: {
   position: [number, number, number]
 }) {
-  const lightRef = useRef<THREE.SpotLight>(null)
-  const targetRef = useRef<THREE.Object3D>(null)
-
-  useEffect(() => {
-    if (lightRef.current && targetRef.current) {
-      lightRef.current.target = targetRef.current
-    }
-  }, [])
-
   return (
     <>
       {/* Housing */}
@@ -448,20 +449,6 @@ export function PotLight({ position }: {
           emissiveIntensity={2}
         />
       </mesh>
-
-      {/* Target directly below */}
-      <object3D ref={targetRef} position={[position[0], -10, position[2]]} />
-
-      <spotLight
-        ref={lightRef}
-        position={[position[0], position[1] - 0.1, position[2]]}
-        intensity={25}
-        distance={30}
-        angle={Math.PI / 2}
-        penumbra={0.1}
-        color="#fff5e0"
-        castShadow={false}
-      />
     </>
   )
 }
