@@ -7,7 +7,8 @@ import { FluorescentLight, Desk, Stool, PotLight, LightWallSmall, Stairs } from 
 export function GalleryWorld( {playerBody} :
     {playerBody: React.RefObject<RapierRigidBody | null>
 }) {
-
+    const base = import.meta.env.BASE_URL
+    const tiledropPortalImg = `${base}images/TileDrop.png`
     const potLightPositions: [number, number, number][] = []
 
     const ceilingHeight = 10.04
@@ -85,7 +86,7 @@ export function GalleryWorld( {playerBody} :
             
             <FluorescentLight position={[5, 4.75, -10]} />
             {/* Portals */}
-            <Portal position={[4.5, 7.6, -11.85]} rotation={[0, 0, 0]} destination="/Tiledrop" frameSize={[6, 1.75, 1]} pictureScale={[9.75, 4]}/>
+            <Portal imagePath={tiledropPortalImg} position={[4.5, 7.6, -11.85]} rotation={[0, 0, 0]} destination="/Tiledrop" frameSize={[6, 1.75, 1]} pictureScale={[9.75, 4]} portal={false}/>
             <Portal position={[18.5, 2, 55]} rotation={[0, Math.PI, 0]} destination="/Tiledrop" frameSize={[1, 1, 1]} pictureScale={[1.5, 2.25]}/>
             <Portal position={[-10, 2, 55]} rotation={[0, Math.PI, 0]} destination="/Tiledrop" frameSize={[1, 1, 1]} pictureScale={[1.5, 2.25]}/>
         </>
