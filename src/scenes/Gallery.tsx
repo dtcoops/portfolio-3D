@@ -31,7 +31,7 @@ export default function Gallery() {
           </Physics>
           <directionalLight
             position={[0, 30, 0]}
-            intensity={1}
+            intensity={2}
             color="#fff5e0"
             castShadow
             shadow-mapSize={[2048, 2048]}
@@ -44,8 +44,8 @@ export default function Gallery() {
             shadow-bias={-0.0005}
             shadow-normalBias={0.02}
           />
-          <ambientLight intensity={0.9} color="#fffff3" />
-          <directionalLight position={[0, -10, 0]} intensity={1.0} color="#fff5e0" />
+          <ambientLight intensity={1} color="#fffff3" />
+          <directionalLight position={[0, -10, 0]} intensity={1.5} color="#fff5e0" />
     
           <EffectComposer>
             <ToneMapping mode={ToneMappingMode.ACES_FILMIC}/>

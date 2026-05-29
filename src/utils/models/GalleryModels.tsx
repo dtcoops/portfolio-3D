@@ -376,9 +376,9 @@ export function PedestalBig({
 }) {
   return (
     <PhysicsModel 
-      path={`${import.meta.env.BASE_URL}models/PedestalBig.glb`} 
+      path={`${import.meta.env.BASE_URL}models/PedestalLarge.glb`} 
       position={position}
-      rotation={rotation} 
+      rotation={rotation}
       scale={scale}
       type={type}
     />
@@ -474,4 +474,73 @@ export function Stairs({
     />
   )
 }
+
+export function Dinosaur({ 
+  position, 
+  rotation, 
+  scale = 1,
+  type = 'fixed'
+}: { 
+  position: [number, number, number]
+  rotation?: [number, number, number]
+  scale?: number
+  type?: 'dynamic' | 'fixed'
+}) {
+  return (
+    <PhysicsModel 
+      path={`${import.meta.env.BASE_URL}models/Dinosaur.glb`} 
+      position={position}
+      rotation={rotation} 
+      scale={scale}
+      type={type}
+    />
+  )
+}
+
+export function BlenderLogo({ 
+  position, 
+  rotation, 
+  scale = 1,
+  type = 'fixed'
+}: { 
+  position: [number, number, number]
+  rotation?: [number, number, number]
+  scale?: number
+  type?: 'dynamic' | 'fixed'
+}) {
+  return (
+    <PhysicsModel 
+      path={`${import.meta.env.BASE_URL}models/BlenderLogo.glb`} 
+      position={position}
+      rotation={rotation} 
+      scale={scale}
+      type={type}
+    />
+  )
+}
+
+export function Girl({ 
+  position, 
+  rotation, 
+  scale = 1,
+  type = 'fixed'
+}: { 
+  position: [number, number, number]
+  rotation?: [number, number, number]
+  scale?: number
+  type?: 'dynamic' | 'fixed'
+}) {
+  return (
+    <PhysicsModel 
+      path={`${import.meta.env.BASE_URL}models/Girl.glb`} 
+      position={position}
+      rotation={rotation} 
+      scale={scale}
+      type={type}
+    />
+  )
+}
+
+
+
 

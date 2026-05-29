@@ -1,14 +1,18 @@
 import { CuboidCollider, RapierRigidBody } from '@react-three/rapier'
-import { GalleryModel, RopeBarrier, Table } from '../utils/models/GalleryModels'
+import { Text } from '@react-three/drei'
 import Portal from '../components/Portal'
 import InteractIcon from '../components/InteractIcon'
-import { FluorescentLight, Desk, Stool, PotLight, LightWallSmall, Stairs } from '../utils/models'
+import { FluorescentLight, Desk, Stool, PotLight, LightWallSmall, Stairs, PedestalBig, Dinosaur, Girl,  BlenderLogo, GalleryModel, RopeBarrier, Table } from '../utils/models'
 
 export function GalleryWorld( {playerBody} :
     {playerBody: React.RefObject<RapierRigidBody | null>
 }) {
     const base = import.meta.env.BASE_URL
     const tiledropPortalImg = `${base}images/TileDrop.png`
+    const dinoImg = `${base}images/Dinosaur.png`
+    const dungeonImg = `${base}images/Dungeon.png`
+    const lightHouseImg = `${base}images/Lighthouse.png`
+    const girlImg = `${base}images/girl.png`
     const potLightPositions: [number, number, number][] = []
 
     const ceilingHeight = 10.04
@@ -77,16 +81,29 @@ export function GalleryWorld( {playerBody} :
                 frameSize={[1, 1, 1]} 
                 pictureScale={[1.5, 2.25]}
             />
-
-
+            <BlenderLogo position={[-15.25, 9, -2]} rotation={[0, Math.PI / 2, 0]} scale={0.11}/>
+            <Text position={[-15.25, 8.25, -2]} rotation={[0, Math.PI/2, 0]} fontSize={0.3} color="#ebddc1" anchorX="center" textAlign="center">
+                {`3D Art - Blender`}
+            </Text>
+            <PedestalBig position={[-10, 5.4, 4]} rotation={[0, Math.PI / 2, 0]} scale={1.5}/>
+            <Dinosaur position={[-10.5, 7.2, 4.25]} rotation={[0, Math.PI, 0]} scale={1} />
+            <PedestalBig position={[-10, 5.4, -9]} rotation={[0, Math.PI / 2, 0]} scale={1.5}/>
+            <Girl position={[-10, 6.85, -9]} rotation={[0, Math.PI * 0.35, 0]} scale={0.6}/>
+            <Portal imagePath={dinoImg} position={[-15.25, 8.25, 4]} rotation={[0, Math.PI / 2, 0]} destination="/Tiledrop" frameSize={[1.9, 0.45,1]} pictureScale={[3, 1]} portal={false} />
+            <Portal imagePath={lightHouseImg} position={[-15.25, 6.5, 5]} rotation={[0, Math.PI / 2, 0]} destination="/Tiledrop" frameSize={[1.9, 0.45,1]} pictureScale={[3, 1]} portal={false} />
+            <Portal imagePath={dungeonImg} position={[-15.25, 6.75, -2]} rotation={[0, Math.PI / 2, 0]} destination="/Tiledrop" frameSize={[4.4,1.1, 1]} pictureScale={[7, 2.5]} portal={false} />
+            <Portal imagePath={girlImg} position={[-15.25, 7.5, -9.5]} rotation={[0, Math.PI / 2, 0]} destination="/Tiledrop" frameSize={[1.25, 0.75, 1]} pictureScale={[2, 1.75]} portal={false} />
+            
+            
             <Table position={[-14, 0.5,20]} rotation={[0, Math.PI / 2, 0]}scale={2.5}/>
             <Desk position={[5, 0.6, 35]} rotation={[0, Math.PI, 0]}type='fixed' scale={1.5}/>
-            <Stool position={[5.5, 0.5, 36]} rotation={[0, Math.PI * 1.1, 0]} type='dynamic' scale={1.5}/>
+            <Stool position={[5.5, 0.5, 36]} rotation={[0, Math.PI * 1.1, 0]} type='dynamic' scale={1.5}/>w
             <FluorescentLight position={[5, 3, 35]} />
             
             <FluorescentLight position={[5, 4.75, -10]} />
             {/* Portals */}
             <Portal imagePath={tiledropPortalImg} position={[4.5, 7.6, -11.85]} rotation={[0, 0, 0]} destination="/Tiledrop" frameSize={[6, 1.75, 1]} pictureScale={[9.75, 4]} portal={false}/>
+            <InteractIcon position={[4, 6.6, -11.25]} playerBody={playerBody} label="Under Construction" info="Tile Drop Scene accessible at /Tiledrop Camera and Movement implemented."/>
             <Portal position={[18.5, 2, 55]} rotation={[0, Math.PI, 0]} destination="/Tiledrop" frameSize={[1, 1, 1]} pictureScale={[1.5, 2.25]}/>
             <Portal position={[-10, 2, 55]} rotation={[0, Math.PI, 0]} destination="/Tiledrop" frameSize={[1, 1, 1]} pictureScale={[1.5, 2.25]}/>
         </>

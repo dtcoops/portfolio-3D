@@ -91,7 +91,11 @@ export function Picture({
       {/* Image plane — shader handles ripple distortion + edge shimmer */}
       <mesh position={position ?? [0, 0, 0.01]}>
         <planeGeometry args={pictureScale ? pictureScale : [1.6, 2.3]} />
-        <portalShaderMaterial ref={matRef} uTexture={texture} />
+        {portal ? (
+          <portalShaderMaterial ref={matRef} uTexture={texture} />
+        ) : (
+          <meshStandardMaterial map={texture} />
+        )}
       </mesh>
     </group>
   )
