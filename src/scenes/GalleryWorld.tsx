@@ -2,13 +2,20 @@ import { CuboidCollider, RapierRigidBody } from '@react-three/rapier'
 import { Text } from '@react-three/drei'
 import Portal from '../components/Portal'
 import InteractIcon from '../components/InteractIcon'
-import { FluorescentLight, Desk, Stool, PotLight, LightWallSmall, Stairs, PedestalBig, Dinosaur, Girl,  BlenderLogo, GalleryModel, RopeBarrier, Table } from '../utils/models'
+import { 
+    FluorescentLight, Desk, Stool, PotLight, LightWallSmall, Stairs, PedestalBig, Dinosaur, 
+    Girl,  BlenderLogo, GalleryModel, RopeBarrier, Table, Book, PedestalSmall, GitLogo, 
+    LinkedinLogo,
+    MailLogo
+} from '../utils/models'
 
 export function GalleryWorld( {playerBody} :
     {playerBody: React.RefObject<RapierRigidBody | null>
 }) {
     const base = import.meta.env.BASE_URL
     const gitImg = `${base}images/git.png`
+    const linkedinImg = `${base}images/linkedin.png`
+    const mailImg = `${base}images/mail.png`
     const tiledropPortalImg = `${base}images/TileDrop.png`
     const dinoImg = `${base}images/Dinosaur.png`
     const dungeonImg = `${base}images/Dungeon.png`
@@ -66,22 +73,36 @@ export function GalleryWorld( {playerBody} :
             <LightWallSmall position={[13.8, 4, -3]} rotation={[0, -Math.PI / 2, 0]} />
             <Portal
                 position={[14, 2, -3]} 
-                rotation={[0, -Math.PI / 2, 0]} 
-                portal={false} 
-                destination="" 
+                rotation={[0, -Math.PI / 2, 0]}
+                imagePath={linkedinImg} 
+                destination="https://linkedin.com/in/dcooper-15895" 
                 frameSize={[1, 1, 1]} 
                 pictureScale={[1.5, 2.25]}
+                external
             />
             
             <LightWallSmall position={[-5.25, 4, -3]} rotation={[0, Math.PI / 2, 0]} />
             <Portal 
                 position={[-5.25, 2, -3]} 
                 rotation={[0, Math.PI / 2, 0]} 
-                portal={false} 
-                destination="" 
+                imagePath={mailImg} 
+                portal={true} 
+                destination="mailto:dtcooper@sfu.ca"
                 frameSize={[1, 1, 1]} 
                 pictureScale={[1.5, 2.25]}
+                external
             />
+
+            <PedestalSmall position={[5, 0.45, -6]} rotation={[0, Math.PI / 2, 0]}/>
+            <GitLogo position={[5, 1.5, -6]} rotation={[0, 0, 0]} scale={0.5}/>
+
+            <PedestalSmall position={[8, 0.45, -3.5]} rotation={[0, Math.PI / 2, 0]}/>
+            <LinkedinLogo position={[8, 1.5, -3.5]} rotation={[0, Math.PI / 2, 0]} scale={0.4}/>
+
+            <PedestalSmall position={[2, 0.45, -3.5]} rotation={[0, Math.PI / 2, 0]}/>
+            <MailLogo position={[2, 1.5, -3.5]} rotation={[0, Math.PI / 2, 0]} scale={0.2} />
+
+            {/* Blender Area */}
             <BlenderLogo position={[-15.25, 9, -2]} rotation={[0, Math.PI / 2, 0]} scale={0.11}/>
             <Text position={[-15.25, 8.25, -2]} rotation={[0, Math.PI/2, 0]} fontSize={0.3} color="#ebddc1" anchorX="center" textAlign="center">
                 {`3D Art - Blender`}
@@ -95,9 +116,12 @@ export function GalleryWorld( {playerBody} :
             <Portal imagePath={dungeonImg} position={[-15.25, 6.75, -2]} rotation={[0, Math.PI / 2, 0]} destination="/Tiledrop" frameSize={[4.4,1.1, 1]} pictureScale={[7, 2.5]} portal={false} />
             <Portal imagePath={girlImg} position={[-15.25, 7.5, -9.5]} rotation={[0, Math.PI / 2, 0]} destination="/Tiledrop" frameSize={[1.25, 0.75, 1]} pictureScale={[2, 1.75]} portal={false} />
             
-            
+            {/* Signup Area */}
+            <Book position={[-14, 1, 20]} rotation={[0, Math.PI * 0.4, 0]} scale={2}/>
             <Table position={[-14, 0.5,20]} rotation={[0, Math.PI / 2, 0]}scale={2.5}/>
-            <Desk position={[5, 0.6, 35]} rotation={[0, Math.PI, 0]}type='fixed' scale={1.5}/>
+
+            {/* Reception Area */}
+            <Desk position={[5, 0.6, 35]} rotation={[0, Math.PI, 0]} type='fixed' scale={1.5}/>
             <Stool position={[5.5, 0.5, 36]} rotation={[0, Math.PI * 1.1, 0]} type='dynamic' scale={1.5}/>w
             <FluorescentLight position={[5, 3, 35]} />
             
@@ -105,8 +129,8 @@ export function GalleryWorld( {playerBody} :
             {/* Portals */}
             <Portal imagePath={tiledropPortalImg} position={[4.5, 7.6, -11.85]} rotation={[0, 0, 0]} destination="/Tiledrop" frameSize={[6, 1.75, 1]} pictureScale={[9.75, 4]} portal={false}/>
             <InteractIcon position={[4, 6.6, -11.25]} playerBody={playerBody} label="Under Construction" info="Tile Drop Scene accessible at /Tiledrop Camera and Movement implemented."/>
-            <Portal position={[18.5, 2, 55]} rotation={[0, Math.PI, 0]} destination="/Tiledrop" frameSize={[1, 1, 1]} pictureScale={[1.5, 2.25]}/>
-            <Portal position={[-10, 2, 55]} rotation={[0, Math.PI, 0]} destination="/Tiledrop" frameSize={[1, 1, 1]} pictureScale={[1.5, 2.25]}/>
+            <Portal position={[18.5, 2, 55]} rotation={[0, Math.PI, 0]} destination="/Tiledrop" frameSize={[1, 1, 1]} pictureScale={[1.5, 2.25]} portal={false}/>
+            <Portal position={[-10, 2, 55]} rotation={[0, Math.PI, 0]} destination="/Tiledrop" frameSize={[1, 1, 1]} pictureScale={[1.5, 2.25]} portal={false}/>
         </>
     )
 }

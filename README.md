@@ -62,3 +62,12 @@ Attribution Code
 "Urban Gauntlet" Kevin MacLeod (incompetech.com)
 Licensed under Creative Commons: By Attribution 4.0 License
 http://creativecommons.org/licenses/by/4.0/
+
+
+"Free Blender Logo 3d Model" (https://skfb.ly/6TZwM) by Ryan King Art is licensed under Creative Commons Attribution (http://creativecommons.org/licenses/by/4.0/).
+
+"3D Linkedin Logo" (https://skfb.ly/oPKUJ) by pengedarseni is licensed under Creative Commons Attribution (http://creativecommons.org/licenses/by/4.0/).
+
+"3D Github Logo" (https://skfb.ly/oPKSO) by pengedarseni is licensed under Creative Commons Attribution (http://creativecommons.org/licenses/by/4.0/).
+
+"Mail Icon" (https://skfb.ly/6WGWt) by AnshiNoWara is licensed under Creative Commons Attribution (http://creativecommons.org/licenses/by/4.0/).
