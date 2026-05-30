@@ -8,6 +8,7 @@ export function GalleryWorld( {playerBody} :
     {playerBody: React.RefObject<RapierRigidBody | null>
 }) {
     const base = import.meta.env.BASE_URL
+    const gitImg = `${base}images/git.png`
     const tiledropPortalImg = `${base}images/TileDrop.png`
     const dinoImg = `${base}images/Dinosaur.png`
     const dungeonImg = `${base}images/Dungeon.png`
@@ -55,10 +56,10 @@ export function GalleryWorld( {playerBody} :
                 position={[5, 2, -11.85]} 
                 rotation={[0, 0, 0]} 
                 portal 
-                imagePath='https://opengraph.githubassets.com/1/dtcoops'
+                imagePath={gitImg}
                 destination="https://github.com/dtcoops" 
-                frameSize={[1, 1, 1]} 
-                pictureScale={[1.5, 2.25]}
+                frameSize={[2, 0.7, 1]} 
+                pictureScale={[3, 1.5]}
                 external
             />
             
