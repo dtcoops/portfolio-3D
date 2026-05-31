@@ -24,9 +24,13 @@ interface CharacterControllerProps {
   spawnRotation?: [number, number, number]
   movementMode?: 'radial' | 'flat' | 'follow'
   onReady?: () => void
+  disabled?: boolean
+  hidden?: boolean
+  forcedAnimation?: string
 }
 
-export default function CharacterController({ bodyRef, visualGroupRef, spawnPosition = [0, 1, 10], spawnRotation, movementMode = 'radial', onReady }: CharacterControllerProps) {
+export default function CharacterController({ bodyRef, visualGroupRef, spawnPosition = [0, 1, 10], spawnRotation, movementMode = 'radial', onReady, disabled = false, hidden = false,
+  forcedAnimation }: CharacterControllerProps) {
   useReadySignal(onReady)
   const body = bodyRef
   const { camera } = useThree()
@@ -67,6 +71,30 @@ export default function CharacterController({ bodyRef, visualGroupRef, spawnPosi
   useFrame((_, delta) => {
     if (!body.current) return
     const dt = Math.min(delta, 0.1)
+
+    if (disabled) {
+      if (visualRef.current) {
+        const pos = body.current.translation()
+        if (forcedAnimation === 'Get Up') {
+          // Smoothly rise toward standing height over the getup animation duration
+          const standTarget = new THREE.Vector3(pos.x, pos.y + 0.2, pos.z)
+          const yLerp = 1 - Math.pow(0.97, dt * 60)
+          visualRef.current.position.lerp(standTarget, yLerp)
+        } else if (forcedAnimation) {
+          // Freeze Y so ground-level animations (Falling, Fall Flat) don't float
+          visualRef.current.position.x = THREE.MathUtils.lerp(visualRef.current.position.x, pos.x, 0.1)
+          visualRef.current.position.z = THREE.MathUtils.lerp(visualRef.current.position.z, pos.z, 0.1)
+        } else {
+          const target = new THREE.Vector3(pos.x, pos.y + 0.2, pos.z)
+          visualRef.current.position.lerp(target, 0.1)
+        }
+      }
+      if (forcedAnimation && forcedAnimation !== currentAnimRef.current) {
+        currentAnimRef.current = forcedAnimation
+        setAnimationName(forcedAnimation)
+      }
+      return
+    }
 
     const { forward, back, left, right, jump, run } = getKeys()
     const vel = body.current.linvel()
@@ -192,7 +220,7 @@ export default function CharacterController({ bodyRef, visualGroupRef, spawnPosi
 
     // Animation
     animController.current.update(isMoving, run)
-    const newAnim = animController.current.getAnimation()
+    const newAnim = forcedAnimation ?? animController.current.getAnimation()
     if (newAnim !== currentAnimRef.current) {
       currentAnimRef.current = newAnim
       setAnimationName(newAnim)
@@ -204,7 +232,7 @@ export default function CharacterController({ bodyRef, visualGroupRef, spawnPosi
       <RigidBody ref={body} position={spawnPosition} lockRotations colliders={false} ccd>
         <CapsuleCollider args={[0.4, 0.4]} />
       </RigidBody>
-      <group ref={visualRef} position={[spawnPosition[0], spawnPosition[1] + 0.2, spawnPosition[2]]} castShadow>
+      <group ref={visualRef} visible={!hidden} position={[spawnPosition[0], spawnPosition[1] + 0.2, spawnPosition[2]]} castShadow>
         <group rotation={[0, -Math.PI / 4, 0]}>
           <Suspense fallback={null}>
             <Character animationName={animationName} onAnimationFinish={handleAnimationFinish} />
