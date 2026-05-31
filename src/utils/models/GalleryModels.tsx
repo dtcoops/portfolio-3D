@@ -302,6 +302,14 @@ export function LightWallSmall({
         <cylinderGeometry args={[0.08, 0.08, 0.02, 16]} />
         <meshStandardMaterial color="#ffffff" emissive="#ffffaa" emissiveIntensity={2} />
       </mesh>
+      <rectAreaLight 
+        position={[0, 0, 0]}
+        rotation={[0, 0, 0]}
+        width={2}
+        height={0.2}
+        intensity={4}
+        color="#e8f0ff"
+      />
     </group>
   )
 }

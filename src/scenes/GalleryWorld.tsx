@@ -53,8 +53,41 @@ export function GalleryWorld( {playerBody} :
             <CuboidCollider args={[2.5, 5, .5]} position={[-16, 1, 25.25]} rotation={[0,Math.PI / 2,0]}/>
 
             {potLightPositions.map((pos, i) => (
-                <PotLight key={i} position={pos} />
+                <>
+                    <PotLight key={`l-${i}`} position={pos} />
+                    <pointLight
+                        key={`pl-${i}`}
+                        position={[pos[0], pos[1] - 0.3, pos[2]]}
+                        intensity={8}
+                        distance={10}
+                        decay={1}
+                        color="#ffe8c0"
+                        castShadow={false}
+                    />
+                </>
             ))}
+
+            {/* Under-balcony pot lights */}
+            {[
+                [-3, 4.85, -8] as [number, number, number],
+                [ 4, 4.85, -8] as [number, number, number],
+                [11, 4.85, -8] as [number, number, number],
+                [ 4, 4.85,  0] as [number, number, number],
+            ].map((pos, i) => (
+                <>
+                    <PotLight key={`bp-${i}`} position={pos} />
+                    <pointLight
+                        key={`bpl-${i}`}
+                        position={[pos[0], pos[1] - 0.3, pos[2]]}
+                        intensity={8}
+                        distance={8}
+                        decay={0.8}
+                        color="#ffe8c0"
+                        castShadow={false}
+                    />
+                </>
+            ))}
+
 
             {/* Pictures */}
             <LightWallSmall position={[0, 4.6, -11.75]} />
@@ -103,6 +136,7 @@ export function GalleryWorld( {playerBody} :
                 pictureScale={[2.7, 3.9]}
                 external
             />
+
             {/* 
             <PedestalSmall position={[5, 0.45, -6]} rotation={[0, Math.PI / 2, 0]}/>
             <GitLogo position={[5, 1.5, -6]} rotation={[0, 0, 0]} scale={0.5}/>
@@ -136,7 +170,7 @@ export function GalleryWorld( {playerBody} :
             <Stool position={[5.5, 0.5, 36]} rotation={[0, Math.PI * 1.1, 0]} type='dynamic' scale={1.5}/>w
             <FluorescentLight position={[5, 3, 35]} />
             
-            <FluorescentLight position={[5, 4.75, -10]} />
+
             {/* Portals */}
             <Portal imagePath={tiledropPortalImg} position={[4.5, 7.6, -11.85]} rotation={[0, 0, 0]} destination="/Tiledrop" frameSize={[6, 1.75, 1]} pictureScale={[9.75, 4]} portal={false}/>
             <InteractIcon position={[4, 6.6, -11.25]} playerBody={playerBody} label="Under Construction" info="Tile Drop Scene accessible at /Tiledrop Camera and Movement implemented."/>
