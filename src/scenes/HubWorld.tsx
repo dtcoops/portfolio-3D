@@ -1,4 +1,4 @@
-import { useEffect, useState, useCallback } from 'react'
+import { useEffect, useCallback } from 'react'
 import { RigidBody, CuboidCollider } from '@react-three/rapier'
 import { RapierRigidBody } from '@react-three/rapier'
 import { useTexture, Text } from '@react-three/drei'
@@ -6,18 +6,21 @@ import * as THREE from 'three'
 
 import Portal from '../components/Portal'
 import { Screen, FluorescentLight, ServerRackBank, Wire, CameraModel }  from '../utils/models'
+import { useGameStore } from '../store/gameStore'
 
 // HubRoom props
-export default function HubRoom({ playerBody }: { 
-  playerBody: React.RefObject<RapierRigidBody | null> 
+export default function HubRoom({ playerBody }: {
+  playerBody: React.RefObject<RapierRigidBody | null>
 }) {
   const base = import.meta.env.BASE_URL
   const portfolioPortal = `${base}images/portfolio.png`
   const loreDumpCam = `${base}images/loreDumpCam.png`
   const hubRoomCam = `${base}images/hubRoomCam.png`
+  const galleryCam = `${base}images/GalleryCam.png`
 
-  const [online, setOnline] = useState(false)
-  const handleInteract = useCallback(() => setOnline(o => !o), [])
+  const online = useGameStore((s) => s.serverOnline)
+  const setServerOnline = useGameStore((s) => s.setServerOnline)
+  const handleInteract = useCallback(() => setServerOnline(!online), [online, setServerOnline])
 
   const radius = 14
   const wallHeight = 6
@@ -96,7 +99,7 @@ export default function HubRoom({ playerBody }: {
         color="#cc0000"
         />
 
-      <ControlDesk position={[0, 0, -8.25]} online={online} onToggle={() => setOnline(o => !o)} />
+      <ControlDesk position={[0, 0, -8.25]} online={online} onToggle={handleInteract} />
       <DeskInteraction
         deskPosition={[0, 0, -8.25]}
         playerBody={playerBody}
@@ -127,6 +130,7 @@ export default function HubRoom({ playerBody }: {
         position={[-4.25, 4.5, -13]} 
         rotation={[0, .4, 0]}
         width={3} height={1.6} wallMounted
+        imagePath={online ? galleryCam : undefined}
         content={online ? '' : 'FrameWorks and Libraries:\n\t> React\n\t> Three.js\n\t> React Three Fibre'}
       />
       <Screen 
@@ -185,6 +189,16 @@ export default function HubRoom({ playerBody }: {
         width={3} height={1.6} wallMounted
         content={'> Assets:\n> Kenney.nl - Prototype Textures\n> viravoloshyn.itch.io - Museum Models\n> Mixamo - Y-bot and Animations\n> Kevin MacLeod - Perspectives Music'}
       />
+
+      <pointLight
+        key={`a`}
+        position={[0, 6, -10]}
+        intensity={30}
+        distance={9}
+        decay={1}
+        color="#aaaaff"
+        castShadow={false}
+    />
 
       <Portal position={[-5.25, 1.75, 12.5]} rotation={[0, Math.PI * 0.9, 0]}  imagePath={portfolioPortal} destination="https://dtcoops.github.io/portfolio/" external/>
     </>

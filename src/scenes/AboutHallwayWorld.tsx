@@ -14,6 +14,7 @@ export function AboutHallwayWorld( {playerBody} :
 }) {
     const base = import.meta.env.BASE_URL
     const entrancePortalImg = `${base}images/hubRoom.png`
+    const galleryImg = `${base}images/GalleryCam.png`
     const baseTexture = useTexture(`${base}Textures/Kenney/Dark/texture_03.png`)
 
     const wallTexture = useMemo(() => {
@@ -140,7 +141,7 @@ export function AboutHallwayWorld( {playerBody} :
 
         {/* Entrance and Exit - in that order*/}
         <Portal position={[0, 2.5, -14.5]} rotation={[0, 0, 0]}  destination="/" imagePath={entrancePortalImg}/>
-        <Portal position={[0, 2.5, 14.5]} rotation={[0, Math.PI, 0]}  destination="/gallery" />
+        <Portal position={[0, 2.5, 14.5]} rotation={[0, Math.PI, 0]}  destination="/gallery" imagePath={galleryImg} pictureScale={[3,2]} frameSize={[1.9,0.85,1]}/>
     </>
   )
 }
