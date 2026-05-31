@@ -257,65 +257,52 @@ export function LightWall({
   )
 }
 
-export function LightWallSmall({ 
-  position, 
-  rotation, 
+export function LightWallSmall({
+  position,
+  rotation,
   scale = 1,
   type = 'fixed'
-}: { 
+}: {
   position: [number, number, number]
   rotation?: [number, number, number]
   scale?: number
   type?: 'dynamic' | 'fixed'
 }) {
   return (
-    <>
-      <PhysicsModel 
-        path={`${import.meta.env.BASE_URL}models/LightWallSmall.glb`} 
-        position={position}
-        rotation={rotation} 
+    <group position={position} rotation={rotation}>
+      <PhysicsModel
+        path={`${import.meta.env.BASE_URL}models/LightWallSmall.glb`}
+        position={[0, 0, 0]}
         scale={scale}
         type={type}
       />
 
-      {/* Bulb */}
-      <mesh 
-        position={[position[0], position[1] - 0.075, position[2] + 0.05]} 
-        rotation={[Math.PI / 2, Math.PI * 1.5, Math.PI * 0.3]} 
-        scale={0.5}
-        >
-        <cylinderGeometry args={[0.08, 0.08, 0.02, 16]} />
-        <meshStandardMaterial
-          color="#ffffff"
-          emissive="#ffffaa"
-          emissiveIntensity={2}
-        />
-      </mesh>
-      <mesh 
-        position={[position[0]-0.49, position[1] - 0.08, position[2] + 0.08]} 
-        rotation={[Math.PI / 2, Math.PI * 1.6, Math.PI * 0.3]} 
+      {/* Bulbs — local-space positions so they rotate with the wall */}
+      <mesh
+        position={[0, -0.075, 0.05]}
+        rotation={[Math.PI / 2, Math.PI * 1.5, Math.PI * 0.3]}
         scale={0.5}
       >
         <cylinderGeometry args={[0.08, 0.08, 0.02, 16]} />
-        <meshStandardMaterial
-          color="#ffffff"
-          emissive="#ffffaa"
-          emissiveIntensity={2}
-        />
+        <meshStandardMaterial color="#ffffff" emissive="#ffffaa" emissiveIntensity={2} />
       </mesh>
-      <mesh 
-        position={[position[0] + 0.49, position[1] - 0.08, position[2] + 0.08]} 
-        rotation={[Math.PI / 2, Math.PI * 1.4, Math.PI * 0.3]} 
+      <mesh
+        position={[-0.49, -0.08, 0.08]}
+        rotation={[Math.PI / 2, Math.PI * 1.6, Math.PI * 0.3]}
         scale={0.5}
       >
         <cylinderGeometry args={[0.08, 0.08, 0.02, 16]} />
-        <meshStandardMaterial
-          color="#ffffff"
-          emissive="#ffffaa"
-          emissiveIntensity={2}
-        />
+        <meshStandardMaterial color="#ffffff" emissive="#ffffaa" emissiveIntensity={2} />
       </mesh>
-    </>
+      <mesh
+        position={[0.49, -0.08, 0.08]}
+        rotation={[Math.PI / 2, Math.PI * 1.4, Math.PI * 0.3]}
+        scale={0.5}
+      >
+        <cylinderGeometry args={[0.08, 0.08, 0.02, 16]} />
+        <meshStandardMaterial color="#ffffff" emissive="#ffffaa" emissiveIntensity={2} />
+      </mesh>
+    </group>
   )
 }
 

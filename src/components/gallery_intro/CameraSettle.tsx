@@ -1,4 +1,4 @@
-import { useRef } from "react"
+import { useRef, useEffect } from "react"
 import { useThree, useFrame } from "@react-three/fiber"
 import * as THREE from 'three'
 import { easeInOutSineBlend } from "../../utils/easing"
@@ -6,12 +6,19 @@ import { easeInOutSineBlend } from "../../utils/easing"
 interface CameraSettleProps {
     lookTarget: [number, number, number]
     onComplete: () => void
+    skip?: boolean
 }
 
-export function CameraSettle({ lookTarget, onComplete }: CameraSettleProps) {
+export function CameraSettle({ lookTarget, onComplete, skip }: CameraSettleProps) {
   const { camera } = useThree()
   const progress = useRef(0)
   const done = useRef(false)
+  useEffect(() => {
+    if (!skip || done.current) return
+    done.current = true
+    onComplete()
+  }, [skip])
+
   const startQuat = useRef<THREE.Quaternion>(camera.quaternion.clone())
   const endQuat = useRef<THREE.Quaternion>((() => {
     const m = new THREE.Matrix4()

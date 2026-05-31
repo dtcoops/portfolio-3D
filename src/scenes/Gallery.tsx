@@ -1,7 +1,7 @@
 import { Canvas } from '@react-three/fiber'
 import { KeyboardControls } from '@react-three/drei'
 import { Physics, RapierRigidBody } from '@react-three/rapier'
-import { Suspense, useState, useRef, useCallback } from 'react'
+import { Suspense, useState, useRef, useCallback, useEffect } from 'react'
 import { ToneMapping, EffectComposer, Bloom } from '@react-three/postprocessing'
 import { ToneMappingMode } from 'postprocessing'
 import * as THREE from 'three'
@@ -26,6 +26,21 @@ export default function Gallery() {
   const playerBody = useRef<RapierRigidBody>(null)
   const visualGroupRef = useRef<THREE.Group>(null)
   const [introAnimation, setIntroAnimation] = useState('Falling')
+  const [skipRequested, setSkipRequested] = useState(false)
+  const skipRequestedRef = useRef(false)
+  const introPhaseRef = useRef(introPhase)
+  useEffect(() => { introPhaseRef.current = introPhase }, [introPhase])
+
+  useEffect(() => {
+    const handleKey = (e: KeyboardEvent) => {
+      if (e.code === 'Space' && (introPhaseRef.current === 'flying' || introPhaseRef.current === 'settling')) {
+        skipRequestedRef.current = true
+        setSkipRequested(true)
+      }
+    }
+    window.addEventListener('keydown', handleKey)
+    return () => window.removeEventListener('keydown', handleKey)
+  }, [])
 
   const handleAnimationChange = useCallback((name: string) => {
     setIntroAnimation(name)
@@ -35,6 +50,24 @@ export default function Gallery() {
     <KeyboardControls map={CONTROLS}>
       <>
       {!sceneReady && <LoadingScreen />}
+
+      {(introPhase === 'flying' || introPhase === 'settling') && (
+        <div style={{
+          position: 'absolute',
+          bottom: '2rem',
+          left: '50%',
+          transform: 'translateX(-50%)',
+          color: 'rgba(255,255,255,0.6)',
+          fontSize: '0.85rem',
+          letterSpacing: '0.1em',
+          pointerEvents: 'none',
+          userSelect: 'none',
+          zIndex: 10
+        }}>
+          SPACE to skip
+        </div>
+      )}
+
       <Canvas shadows camera={{ position: [0, 15, 0], fov: 60 }}>
         <Suspense fallback={null}>
           <Physics interpolate gravity={[0, -20, 0]} paused={physicsPaused}>
@@ -59,12 +92,16 @@ export default function Gallery() {
           </Physics>
 
           {introPhase === 'flying' && (
-            <GalleryIntro onComplete={() => setIntroPhase('settling')} />
+            <GalleryIntro
+              skip={skipRequested}
+              onComplete={() => setIntroPhase(skipRequestedRef.current ? 'falling' : 'settling')}
+            />
           )}
 
           {introPhase === 'settling' && (
             <CameraSettle
               lookTarget={[5, 9.5, 25]}
+              skip={skipRequested}
               onComplete={() => setIntroPhase('falling')}
             />
           )}
