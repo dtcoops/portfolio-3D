@@ -209,6 +209,7 @@ export function Bench({
       rotation={rotation} 
       scale={scale}
       type={type}
+      colliders='trimesh'
     />
   )
 }

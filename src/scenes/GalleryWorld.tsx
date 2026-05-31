@@ -4,7 +4,8 @@ import Portal from '../components/Portal'
 import InteractIcon from '../components/InteractIcon'
 import { 
     FluorescentLight, Desk, Stool, PotLight, LightWallSmall, Stairs, PedestalBig, Dinosaur, 
-    Girl,  BlenderLogo, GalleryModel, RopeBarrier, Table, Book
+    Girl,  BlenderLogo, GalleryModel, RopeBarrier, Table, Book,
+    Bench
 } from '../utils/models'
 
 export function GalleryWorld( {playerBody} :
@@ -156,10 +157,12 @@ export function GalleryWorld( {playerBody} :
             <Dinosaur position={[-10.5, 7.2, 4.25]} rotation={[0, Math.PI, 0]} scale={1} />
             <PedestalBig position={[-10, 5.4, -9]} rotation={[0, Math.PI / 2, 0]} scale={1.5}/>
             <Girl position={[-10, 6.85, -9]} rotation={[0, Math.PI * 0.35, 0]} scale={0.6}/>
-            <Portal imagePath={dinoImg} position={[-15.25, 8.25, 4]} rotation={[0, Math.PI / 2, 0]} destination="/Tiledrop" frameSize={[1.9, 0.45,1]} pictureScale={[3, 1]} portal={false} />
-            <Portal imagePath={lightHouseImg} position={[-15.25, 6.5, 5]} rotation={[0, Math.PI / 2, 0]} destination="/Tiledrop" frameSize={[1.9, 0.45,1]} pictureScale={[3, 1]} portal={false} />
-            <Portal imagePath={dungeonImg} position={[-15.25, 6.75, -2]} rotation={[0, Math.PI / 2, 0]} destination="/Tiledrop" frameSize={[4.4,1.1, 1]} pictureScale={[7, 2.5]} portal={false} />
-            <Portal imagePath={girlImg} position={[-15.25, 7.5, -9.5]} rotation={[0, Math.PI / 2, 0]} destination="/Tiledrop" frameSize={[1.25, 0.75, 1]} pictureScale={[2, 1.75]} portal={false} />
+            <Bench position={[-10, 5.6, -1.5]} rotation={[0, 0, 0]} scale={1.5}/>
+            <Bench position={[-10, 5.6, -2.5]} rotation={[0, Math.PI, 0]} scale={1.5}/>
+            <Portal imagePath={dinoImg} position={[-15.25, 8.25, 4]} rotation={[0, Math.PI / 2, 0]} destination="" frameSize={[1.9, 0.45,1]} pictureScale={[3, 1]} portal={false} />
+            <Portal imagePath={lightHouseImg} position={[-15.25, 6.5, 5]} rotation={[0, Math.PI / 2, 0]} destination="" frameSize={[1.9, 0.45,1]} pictureScale={[3, 1]} portal={false} />
+            <Portal imagePath={dungeonImg} position={[-15.25, 6.75, -2]} rotation={[0, Math.PI / 2, 0]} destination="" frameSize={[4.4,1.1, 1]} pictureScale={[7, 2.5]} portal={false} />
+            <Portal imagePath={girlImg} position={[-15.25, 7.5, -9.5]} rotation={[0, Math.PI / 2, 0]} destination="" frameSize={[1.25, 0.75, 1]} pictureScale={[2, 1.75]} portal={false} />
             
             {/* Signup Area */}
             <Book position={[-14, 1, 20]} rotation={[0, Math.PI * 0.4, 0]} scale={2}/>
