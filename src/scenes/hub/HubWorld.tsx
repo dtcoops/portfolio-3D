@@ -17,6 +17,7 @@ export default function HubRoom({ playerBody }: {
   const loreDumpCam = `${base}images/loreDumpCam.png`
   const hubRoomCam = `${base}images/hubRoomCam.png`
   const galleryCam = `${base}images/GalleryCam.png`
+  const tiledropCam = `${base}images/tiledropCam.png`
 
   const online = useGameStore((s) => s.serverOnline)
   const setServerOnline = useGameStore((s) => s.setServerOnline)
@@ -137,6 +138,7 @@ export default function HubRoom({ playerBody }: {
         position={[4.25, 2.5, -13]} 
         rotation={[0, -.4, 0]}
         width={3} height={1.6} wallMounted
+        imagePath={online ? tiledropCam : undefined}
         content={online ? '' : '> Tooling:\n\t> Vite\n\t> Node.js'}
       />
       <Screen 

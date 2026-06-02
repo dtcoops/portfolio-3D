@@ -11,10 +11,10 @@ import { useGameStore } from '../../store/gameStore'
 import { CONTROLS } from '../../constants/controls'
 import { GalleryWorld } from './GalleryWorld'
 
-import LoadingScreen from '../../components/LoadingScreen'
-import CharacterController from '../../components/CharacterController'
-import { FollowCamera } from '../../components/FollowCamera'
-import { CharacterFall, CameraSettle, GalleryIntro } from '../../components/gallery_intro'
+import LoadingScreen from '../../components/ui/LoadingScreen'
+import CharacterController from '../../components/player/CharacterController'
+import { FollowCamera } from '../../components/cameras/FollowCamera'
+import { CharacterFall, CameraSettle, GalleryIntro } from './gallery_intro'
 
 export default function Gallery() {
   const { visitedLevels, markVisited } = useGameStore()

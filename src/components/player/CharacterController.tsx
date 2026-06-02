@@ -5,8 +5,8 @@ import { RigidBody, CapsuleCollider, useRapier, RapierRigidBody } from '@react-t
 import * as THREE from 'three'
 import Character from './Character'
 import { AnimationController } from './animationController'
-import { useReadySignal } from '../hooks/useReadySignal'
-import { CONTROLS } from '../constants/controls'
+import { useReadySignal } from '../../hooks/useReadySignal'
+import { CONTROLS } from '../../constants/controls'
 
 const SPEED = 6
 const JUMP_DOWN_MS = (10 / 30) * 1000

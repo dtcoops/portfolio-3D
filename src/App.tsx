@@ -1,11 +1,11 @@
 import { Routes, Route } from 'react-router-dom'
 import { Suspense } from 'react'
-import MobileGate from './components/MobileGate'
+import MobileGate from './components/ui/MobileGate'
 import Hub from './scenes/hub/Hub'
 import { lazy } from 'react'
 import { useEffect, useRef } from 'react'
 
-import LoadingScreen from './components/LoadingScreen'
+import LoadingScreen from './components/ui/LoadingScreen'
 import perspectivesAudio from './assets/Perspectives.mp3'
 
 const AboutHallway = lazy(() => import('./scenes/about/AboutHallway'))

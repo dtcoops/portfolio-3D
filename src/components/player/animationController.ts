@@ -1,4 +1,4 @@
-import type { AnimationState } from "../types/AnimationStates"
+import type { AnimationState } from "../../types/AnimationStates"
 
 type JumpPhase = 'none' | 'up' | 'air' | 'down'
 

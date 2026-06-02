@@ -4,7 +4,7 @@ import { BrowserRouter } from 'react-router-dom'
 import './index.css'
 import App from './App.tsx'
 
-import FadeOverlay from './components/FadeOverlay'
+import FadeOverlay from './components/ui/FadeOverlay'
 
 createRoot(document.getElementById('root')!).render(
   <StrictMode>

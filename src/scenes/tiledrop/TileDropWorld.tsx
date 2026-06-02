@@ -2,6 +2,7 @@
 import { RigidBody, RapierRigidBody } from '@react-three/rapier'
 import Portal from '../../components/Portal'
 import InteractIcon from '../../components/InteractIcon'
+import { Tile } from './Tile'
 
 interface TileDropWorldProps {
   playerBody: React.RefObject<RapierRigidBody | null>
@@ -16,7 +17,7 @@ export function TileDropWorld({ playerBody, onViewPortal }: TileDropWorldProps) 
       <StartPlatform playerBody={playerBody} onViewPortal={onViewPortal} />
 
       {/* Tile grid */}
-      <TileGrid />
+      <TileGrid playerBody={playerBody} />
 
       {/* End platform */}
       <EndPlatform />
@@ -111,7 +112,11 @@ function EndPlatform() {
   )
 }
 
-function TileGrid() {
+interface TileGridProps {
+  playerBody: React.RefObject<RapierRigidBody | null>
+}
+
+function TileGrid({ playerBody }: TileGridProps) {
   const cols = 5
   const rows = 2
   const tileSize = 1.8
@@ -125,21 +130,10 @@ function TileGrid() {
           const x = -3 + col * step
           const z = -((rows - 1) * step) / 2 + row * step
           return (
-            <Tile key={`${col}-${row}`} position={[x, 0, z]} />
+            <Tile key={`${col}-${row}`} position={[x, 0, z]} playerBody={playerBody} />
           )
         })
       )}
     </>
-  )
-}
-
-function Tile({ position }: { position: [number, number, number] }) {
-  return (
-    <RigidBody type="fixed" colliders="cuboid">
-      <mesh receiveShadow position={position}>
-        <boxGeometry args={[1.8, 0.3, 1.8]} />
-        <meshStandardMaterial color="#8B4513" />
-      </mesh>
-    </RigidBody>
   )
 }

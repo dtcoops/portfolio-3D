@@ -3,12 +3,12 @@ import { KeyboardControls } from '@react-three/drei'
 import { Physics, RapierRigidBody } from '@react-three/rapier'
 import { Suspense, useState, useEffect, useRef } from 'react'
 import * as THREE from 'three'
-import CharacterController from '../../components/CharacterController'
+import CharacterController from '../../components/player/CharacterController'
 import { CONTROLS } from '../../constants/controls'
 import { TileDropWorld } from './TileDropWorld'
 import { ToneMapping, EffectComposer, Bloom } from '@react-three/postprocessing'
 import { ToneMappingMode } from 'postprocessing'
-import { OverShoulderCamera } from '../../components/OverShoulderCamera'
+import { OverShoulderCamera } from '../../components/cameras/OverShoulderCamera'
 
 const SPAWN_POSITION = new THREE.Vector3(-30, 1, 0)
 const RESPAWN_BELOW_Y = -12

@@ -6,9 +6,9 @@ import { ToneMapping, EffectComposer, Bloom } from '@react-three/postprocessing'
 import { ToneMappingMode } from 'postprocessing'
 import * as THREE from 'three'
 
-import CharacterController from '../../components/CharacterController'
+import CharacterController from '../../components/player/CharacterController'
 import { AboutHallwayWorld } from './AboutHallwayWorld'
-import { SideViewCamera } from '../../components/SideViewCamera'
+import { SideViewCamera } from '../../components/cameras/SideViewCamera'
 import { CONTROLS } from '../../constants/controls'
 
 export default function AboutHallway() {
