@@ -1,12 +1,12 @@
 import { CuboidCollider, RapierRigidBody } from '@react-three/rapier'
 import { Text } from '@react-three/drei'
-import Portal from '../components/Portal'
-import InteractIcon from '../components/InteractIcon'
+import Portal from '../../components/Portal'
+import InteractIcon from '../../components/InteractIcon'
 import { 
     FluorescentLight, Desk, Stool, PotLight, LightWallSmall, Stairs, PedestalBig, Dinosaur, 
     Girl,  BlenderLogo, GalleryModel, RopeBarrier, Table, Book,
     Bench
-} from '../utils/models'
+} from '../../utils/models'
 
 export function GalleryWorld( {playerBody} :
     {playerBody: React.RefObject<RapierRigidBody | null>

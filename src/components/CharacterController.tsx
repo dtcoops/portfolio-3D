@@ -22,14 +22,15 @@ interface CharacterControllerProps {
   visualGroupRef?: React.RefObject<THREE.Group | null>
   spawnPosition?: [number, number, number]
   spawnRotation?: [number, number, number]
-  movementMode?: 'radial' | 'flat' | 'follow'
+  movementMode?: 'radial' | 'flat' | 'follow' | 'tank'
+  turnSpeed?: number
   onReady?: () => void
   disabled?: boolean
   hidden?: boolean
   forcedAnimation?: string
 }
 
-export default function CharacterController({ bodyRef, visualGroupRef, spawnPosition = [0, 1, 10], spawnRotation, movementMode = 'radial', onReady, disabled = false, hidden = false,
+export default function CharacterController({ bodyRef, visualGroupRef, spawnPosition = [0, 1, 10], spawnRotation, movementMode = 'radial', turnSpeed = 2.5, onReady, disabled = false, hidden = false,
   forcedAnimation }: CharacterControllerProps) {
   useReadySignal(onReady)
   const body = bodyRef
@@ -126,7 +127,16 @@ export default function CharacterController({ bodyRef, visualGroupRef, spawnPosi
     }
 
     const moveDir = new THREE.Vector3()
-    if (movementMode === 'flat') {
+    if (movementMode === 'tank') {
+      if (visualRef.current) {
+        if (left)  visualRef.current.rotation.y += turnSpeed * dt
+        if (right) visualRef.current.rotation.y -= turnSpeed * dt
+      }
+      const facingAngle = visualRef.current?.rotation.y ?? 0
+      const facing = new THREE.Vector3(Math.sin(facingAngle), 0, Math.cos(facingAngle))
+      if (forward) moveDir.add(facing)
+      if (back)    moveDir.sub(facing)
+    } else if (movementMode === 'flat') {
       if (forward) moveDir.add(new THREE.Vector3(1, 0, 0))
       if (back)    moveDir.add(new THREE.Vector3(-1, 0, 0))
       if (right)   moveDir.add(new THREE.Vector3(0, 0, 1))
@@ -151,7 +161,7 @@ export default function CharacterController({ bodyRef, visualGroupRef, spawnPosi
     }
     moveDir.normalize()
 
-    const isMoving = moveDir.lengthSq() > 0.01
+    const isMoving = moveDir.lengthSq() > 0.01 || (movementMode === 'tank' && (left || right))
 
     if (animController.current.getJumpPhase() === 'up' && vel.y < -0.5) {
       animController.current.onJumpUpFinished()
@@ -184,8 +194,8 @@ export default function CharacterController({ bodyRef, visualGroupRef, spawnPosi
       visualRef.current.scale.lerp(targetScale.current, 1 - Math.pow(0.85, dt * 60))
     }
 
-    // Rotation
-    if (isMoving && visualRef.current) {
+    // Rotation — tank mode handles rotation directly above; other modes lerp toward moveDir
+    if (movementMode !== 'tank' && isMoving && visualRef.current) {
       const angle = Math.atan2(moveDir.x, moveDir.z)
       const current = visualRef.current.rotation.y
       const diff = Math.atan2(Math.sin(angle - current), Math.cos(angle - current))

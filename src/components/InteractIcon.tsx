@@ -128,7 +128,7 @@ export default function InteractIcon({position, label, info, playerBody, onInter
                     </>
                 )}
 
-                {active && label && (
+                {active && info && (
                     <>
                         <mesh position={[0, 0.5, -0.001]}>
                             <planeGeometry args={[1, 1]} />

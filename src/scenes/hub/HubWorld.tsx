@@ -4,9 +4,9 @@ import { RapierRigidBody } from '@react-three/rapier'
 import { useTexture, Text } from '@react-three/drei'
 import * as THREE from 'three'
 
-import Portal from '../components/Portal'
-import { Screen, FluorescentLight, ServerRackBank, Wire, CameraModel }  from '../utils/models'
-import { useGameStore } from '../store/gameStore'
+import Portal from '../../components/Portal'
+import { Screen, FluorescentLight, ServerRackBank, Wire, CameraModel }  from '../../utils/models'
+import { useGameStore } from '../../store/gameStore'
 
 // HubRoom props
 export default function HubRoom({ playerBody }: {

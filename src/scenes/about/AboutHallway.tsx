@@ -6,10 +6,10 @@ import { ToneMapping, EffectComposer, Bloom } from '@react-three/postprocessing'
 import { ToneMappingMode } from 'postprocessing'
 import * as THREE from 'three'
 
-import CharacterController from '../components/CharacterController'
+import CharacterController from '../../components/CharacterController'
 import { AboutHallwayWorld } from './AboutHallwayWorld'
-import { SideViewCamera } from '../components/SideViewCamera'
-import { CONTROLS } from '../constants/controls'
+import { SideViewCamera } from '../../components/SideViewCamera'
+import { CONTROLS } from '../../constants/controls'
 
 export default function AboutHallway() {
   const [physicsPaused, setPhysicsPaused] = useState(true)

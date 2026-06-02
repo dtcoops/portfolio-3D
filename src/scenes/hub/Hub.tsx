@@ -2,14 +2,14 @@ import { Canvas } from '@react-three/fiber'
 import { KeyboardControls } from '@react-three/drei'
 import { Physics } from '@react-three/rapier'
 import { Suspense, useRef, useState } from 'react'
-import CharacterController from '../components/CharacterController'
+import CharacterController from '../../components/CharacterController'
 import HubRoom from './HubWorld'
-import HubCamera from '../components/HubCamera'
+import HubCamera from '../../components/HubCamera'
 import { RapierRigidBody } from '@react-three/rapier'
-import LoadingScreen from '../components/LoadingScreen'
+import LoadingScreen from '../../components/LoadingScreen'
 import { ToneMapping, EffectComposer, Bloom } from '@react-three/postprocessing'
 import { ToneMappingMode } from 'postprocessing'
-import { CONTROLS } from '../constants/controls'
+import { CONTROLS } from '../../constants/controls'
 
 export default function Hub() {
   const playerBody = useRef<RapierRigidBody>(null)
@@ -29,7 +29,7 @@ export default function Hub() {
             <HubRoom playerBody={playerBody}/>
             <CharacterController bodyRef={playerBody} onReady={() => setReady(true)} />
           </Physics>
-          <ambientLight intensity={0.5} color="#aaaaff" />
+          <hemisphereLight args={["#aaaaff", "#1a0a00", 0.7]} />
           <EffectComposer>
             <ToneMapping mode={ToneMappingMode.ACES_FILMIC}/>
             <Bloom 

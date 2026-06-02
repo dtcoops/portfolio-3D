@@ -3,11 +3,11 @@ import { useMemo } from 'react'
 import { useTexture, Text } from '@react-three/drei'
 import * as THREE from 'three'
 
-import Portal from '../components/Portal'
-import { FluorescentLight } from '../utils/models'
-import { TimeLine, TimeLineNode } from '../utils/models/HubAndHallModels'
-import { InfoDeskLarge } from '../utils/models/GalleryModels'
-import InteractIcon from '../components/InteractIcon'
+import Portal from '../../components/Portal'
+import { FluorescentLight } from '../../utils/models'
+import { TimeLine, TimeLineNode } from '../../utils/models/HubAndHallModels'
+import { InfoDeskLarge } from '../../utils/models/GalleryModels'
+import InteractIcon from '../../components/InteractIcon'
 
 export function AboutHallwayWorld( {playerBody} : 
     {playerBody: React.RefObject<RapierRigidBody | null> 
