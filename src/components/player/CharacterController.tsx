@@ -48,7 +48,6 @@ export default function CharacterController({ bodyRef, visualGroupRef, spawnPosi
   }
 
   const isGrounded = useRef(false)
-  const justJumped = useRef(false)
   const ungroundedFrames = useRef(0)
   const internalVisualRef = useRef<THREE.Group>(null)
   const visualRef = (visualGroupRef ?? internalVisualRef) as React.RefObject<THREE.Group>
@@ -107,7 +106,7 @@ export default function CharacterController({ bodyRef, visualGroupRef, spawnPosi
     const ray = new rapier.Ray(feetPos, { x: 0, y: -1, z: 0 })
     const hit = world.castRay(ray, 0.25, true, undefined, undefined, undefined, body.current)
     const actuallyGrounded = hit !== null
-    isGrounded.current = actuallyGrounded && !justJumped.current
+    isGrounded.current = actuallyGrounded && Math.abs(vel.y) <= 0.5
 
     ungroundedFrames.current = actuallyGrounded ? 0 : ungroundedFrames.current + 1
 
@@ -121,7 +120,7 @@ export default function CharacterController({ bodyRef, visualGroupRef, spawnPosi
 
       // Fell off a ledge without jumping — require 3 consecutive ungrounded frames
       // to avoid triggering on single-frame physics jitter from box surfaces
-      if (ungroundedFrames.current >= 3 && !animController.current.isAirborne() && !justJumped.current && vel.y < 0) {
+      if (ungroundedFrames.current >= 3 && !animController.current.isAirborne() && vel.y < 0) {
         animController.current.onFall()
       }
     }
@@ -168,7 +167,7 @@ export default function CharacterController({ bodyRef, visualGroupRef, spawnPosi
     }
 
     // Landing
-    if (actuallyGrounded && !justJumped.current && vel.y <= 0 && animController.current.isAirborne()) {
+    if (actuallyGrounded && vel.y <= 0 && animController.current.isAirborne()) {
       const firstLanding = animController.current.onLand()
       if (firstLanding) {
         const squash = isMoving
@@ -189,7 +188,10 @@ export default function CharacterController({ bodyRef, visualGroupRef, spawnPosi
         firstFrame.current = false
       } else {
         const posLerp = 1 - Math.pow(0.8, dt * 60)
-        visualRef.current.position.lerp(target, posLerp)
+        const yLerp   = 1 - Math.pow(0.3, dt * 60)
+        visualRef.current.position.x = THREE.MathUtils.lerp(visualRef.current.position.x, target.x, posLerp)
+        visualRef.current.position.y = THREE.MathUtils.lerp(visualRef.current.position.y, target.y, yLerp)
+        visualRef.current.position.z = THREE.MathUtils.lerp(visualRef.current.position.z, target.z, posLerp)
       }
       visualRef.current.scale.lerp(targetScale.current, 1 - Math.pow(0.85, dt * 60))
     }
@@ -204,7 +206,7 @@ export default function CharacterController({ bodyRef, visualGroupRef, spawnPosi
 
     // Movement
     const speed = run ? 10 : SPEED
-    const grounded = isGrounded.current && !justJumped.current
+    const grounded = isGrounded.current
     body.current.setLinvel({
       x: grounded && !isMoving ? 0 : THREE.MathUtils.lerp(vel.x, isMoving ? moveDir.x * speed : 0, lerpFactor),
       y: grounded ? 0 : vel.y,
@@ -213,18 +215,15 @@ export default function CharacterController({ bodyRef, visualGroupRef, spawnPosi
 
     // Jump
     if (jump && isGrounded.current && canJump.current) {
-      const isRunningBack = run
       const jumpKey = run ? 'running' : isMoving ? 'moving' : 'standing'
 
       targetScale.current.set(0.9, 1.1, 0.85)
       setTimeout(() => { targetScale.current.set(1, 1, 1) }, 200)
 
       body.current.applyImpulse({ x: 0, y: JUMP_FORCE[jumpKey], z: 0 }, true)
-      animController.current.onJump(isRunningBack)
+      animController.current.onJump(run)
 
       canJump.current = false
-      justJumped.current = true
-      setTimeout(() => { justJumped.current = false }, 600)
       setTimeout(() => { canJump.current = true }, 500)
     }
 
@@ -240,7 +239,7 @@ export default function CharacterController({ bodyRef, visualGroupRef, spawnPosi
   return (
     <>
       <RigidBody ref={body} position={spawnPosition} lockRotations colliders={false} ccd>
-        <CapsuleCollider args={[0.4, 0.4]} />
+        <CapsuleCollider args={[0.385, 0.385]} />
       </RigidBody>
       <group ref={visualRef} visible={!hidden} position={[spawnPosition[0], spawnPosition[1] + 0.2, spawnPosition[2]]} castShadow>
         <group rotation={[0, -Math.PI / 4, 0]}>

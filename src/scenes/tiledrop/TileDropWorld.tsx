@@ -87,6 +87,7 @@ function StartPlatform({ playerBody, onViewPortal }: StartPlatformProps) {
         imagePath={galleryImg}
         frameSize={[1.9, 1.3, 1]}
         pictureScale={[3, 3]}
+        playerBody={playerBody}
       />
 
       <InteractIcon

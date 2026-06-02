@@ -1,5 +1,6 @@
 import { useRef } from 'react'
 import { useNavigate } from 'react-router-dom'
+import type { RapierRigidBody } from '@react-three/rapier'
 
 import { useGameStore } from '../store/gameStore'
 import { Picture } from '../utils/models/Picture'
@@ -14,9 +15,10 @@ interface PortalProps {
   external?: boolean
   frameSize?: [number, number, number]
   pictureScale?: [number, number]
+  playerBody?: React.RefObject<RapierRigidBody | null>
 }
 
-export default function Portal({ position, rotation, portal = true, destination, imagePath, external = false, frameSize, pictureScale}: PortalProps) {
+export default function Portal({ position, rotation, portal = true, destination, imagePath, external = false, frameSize, pictureScale, playerBody }: PortalProps) {
   const navigate = useNavigate()
   const triggered = useRef(false)
   const setTransitioning = useGameStore(s => s.setTransitioning)
@@ -40,12 +42,13 @@ export default function Portal({ position, rotation, portal = true, destination,
 
   return (
     <group position={position} rotation={rotation}>
-      <Picture 
-        onEnter={handleEnter} 
-        portal={portal} 
-        imagePath={imagePath} 
-        frameSize={frameSize} 
+      <Picture
+        onEnter={handleEnter}
+        portal={portal}
+        imagePath={imagePath}
+        frameSize={frameSize}
         pictureScale={pictureScale}
+        playerBody={playerBody}
       />
     </group>
   )

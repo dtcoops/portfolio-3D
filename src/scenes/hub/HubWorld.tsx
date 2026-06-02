@@ -70,10 +70,11 @@ export default function HubRoom({ playerBody }: {
         <meshStandardMaterial map={ceilingTexture} />
       </mesh>
 
-      <ControlsSign 
+      <ControlsSign
         position={[0, 2.5, 13.5]}
         rotation={[0, Math.PI, 0]}
         online={online}
+        playerBody={playerBody}
       /> 
     
       <ServerRackBank position={[10, 0, 4]} rotation={[0, -Math.PI / 2, 0]} />
@@ -202,15 +203,16 @@ export default function HubRoom({ playerBody }: {
         castShadow={false}
     />
 
-      <Portal position={[-5.25, 1.75, 12.5]} rotation={[0, Math.PI * 0.9, 0]}  imagePath={portfolioPortal} destination="https://dtcoops.github.io/portfolio/" external/>
+      <Portal position={[-5.25, 1.75, 12.5]} rotation={[0, Math.PI * 0.9, 0]} imagePath={portfolioPortal} destination="https://dtcoops.github.io/portfolio/" external playerBody={playerBody}/>
     </>
   )
 }
 
-function ControlsSign({ position, rotation, online }: { 
+function ControlsSign({ position, rotation, online, playerBody }: {
   position: [number, number, number]
   rotation: [number, number, number]
   online: boolean
+  playerBody: React.RefObject<RapierRigidBody | null>
 }) {
   const base = import.meta.env.BASE_URL
   const exitPortal = `${base}images/loreDump.png`
@@ -245,13 +247,14 @@ function ControlsSign({ position, rotation, online }: {
       )}
 
       {online && (
-        <Portal 
-          position={position} 
-          rotation={rotation} 
+        <Portal
+          position={position}
+          rotation={rotation}
           destination="/about"
           frameSize={[2, 2, 1]}
-          pictureScale={[3, 4.5]} 
+          pictureScale={[3, 4.5]}
           imagePath={exitPortal}
+          playerBody={playerBody}
         />
       )}
     </>

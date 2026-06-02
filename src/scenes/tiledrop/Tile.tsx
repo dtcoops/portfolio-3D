@@ -1,7 +1,7 @@
 
 import { useRef, useState, useEffect } from 'react'
 import { usePlayerCollision } from '../../hooks/usePlayerCollision'
-import { RigidBody, RapierRigidBody } from '@react-three/rapier'
+import { RigidBody, RapierRigidBody, CuboidCollider } from '@react-three/rapier'
 
 const INITIAL_LIVES = 2
 const TILE_COLORS: Record<number, string> = {
@@ -20,7 +20,7 @@ export function Tile({ position, playerBody, numLives }: TileProps) {
   const tileBody = useRef<RapierRigidBody>(null)
   const color = TILE_COLORS[lives] ?? '#cc3b3b'
 
-  const { onCollisionEnter, onCollisionExit } = usePlayerCollision(playerBody, {
+  const { onCollisionEnter: onStepEnter, onCollisionExit: onStepExit } = usePlayerCollision(playerBody, {
     onEnter: () => setLives(prev => Math.max(0, prev - 1)),
   })
 
@@ -33,13 +33,17 @@ export function Tile({ position, playerBody, numLives }: TileProps) {
   }, [lives])
 
   return (
-    <RigidBody
-      ref={tileBody}
-      type="fixed"
-      colliders="cuboid"
-      onCollisionEnter={onCollisionEnter}
-      onCollisionExit={onCollisionExit}
-    >
+    <RigidBody ref={tileBody} type="fixed" colliders={false}>
+      {/* Solid physics — player stands on this */}
+      <CuboidCollider args={[0.9, 0.15, 0.9]} position={position} />
+      {/* Sensor above tile surface — fires on overlap, no contact force needed */}
+      <CuboidCollider
+        args={[0.85, 0.2, 0.85]}
+        position={[position[0], position[1], position[2]]}
+        sensor
+        onIntersectionEnter={onStepEnter}
+        onIntersectionExit={onStepExit}
+      />
       <mesh receiveShadow position={position}>
         <boxGeometry args={[1.8, 0.3, 1.8]} />
         <meshStandardMaterial color={color} />

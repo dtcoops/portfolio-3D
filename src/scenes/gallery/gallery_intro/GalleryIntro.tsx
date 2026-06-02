@@ -2,7 +2,7 @@ import { useRef, useEffect } from "react"
 import { useThree, useFrame } from "@react-three/fiber"
 import { CatmullRomCurve3 } from "three"
 import { Vector3 } from "three"
-import { easeInOutSineBlend } from "../../utils/easing"
+import { easeInOutSineBlend } from "../../../utils/easing"
 
 interface GalleryIntroProps {
     onComplete: () => void

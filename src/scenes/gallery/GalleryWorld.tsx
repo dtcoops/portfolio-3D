@@ -92,50 +92,54 @@ export function GalleryWorld( {playerBody} :
 
             {/* Pictures */}
             <LightWallSmall position={[0, 4.6, -11.75]} />
-            <Portal 
-                position={[0, 2.5, -11.85]} 
-                rotation={[0, 0, 0]} 
-                portal 
+            <Portal
+                position={[0, 2.5, -11.85]}
+                rotation={[0, 0, 0]}
+                portal
                 imagePath={gitImg}
-                destination="https://github.com/dtcoops" 
-                frameSize={[1.75, 1.75, 1.5]} 
+                destination="https://github.com/dtcoops"
+                frameSize={[1.75, 1.75, 1.5]}
                 pictureScale={[2.7, 3.9]}
                 external
+                playerBody={playerBody}
             />
 
             <LightWallSmall position={[8, 4.6, -11.75]} rotation={[0, 0, 0]} />
-            <Portal 
-                position={[8, 2.5, -11.85]} 
-                rotation={[0, 0, 0]} 
-                portal 
+            <Portal
+                position={[8, 2.5, -11.85]}
+                rotation={[0, 0, 0]}
+                portal
                 imagePath={portfolioPortal}
-                destination="https://dtcoops.github.io/portfolio/" 
-                frameSize={[1.75, 1.75, 1.5]} 
+                destination="https://dtcoops.github.io/portfolio/"
+                frameSize={[1.75, 1.75, 1.5]}
                 pictureScale={[2.7, 3.9]}
                 external
+                playerBody={playerBody}
             />
-            
+
             <LightWallSmall position={[13.8, 4.6, -3]} rotation={[0, -Math.PI / 2, 0]} />
             <Portal
-                position={[14, 2.5, -3]} 
+                position={[14, 2.5, -3]}
                 rotation={[0, -Math.PI / 2, 0]}
-                imagePath={linkedinImg} 
-                destination="https://linkedin.com/in/dcooper-15895" 
-                frameSize={[1.75, 1.75, 1.5]} 
+                imagePath={linkedinImg}
+                destination="https://linkedin.com/in/dcooper-15895"
+                frameSize={[1.75, 1.75, 1.5]}
                 pictureScale={[2.7, 3.9]}
                 external
+                playerBody={playerBody}
             />
-            
+
             <LightWallSmall position={[-5.1, 4.6, -3]} rotation={[0, Math.PI / 2, 0]} />
-            <Portal 
+            <Portal
                 position={[-5.25, 2.5, -3]}
                 rotation={[0, Math.PI / 2, 0]}
-                imagePath={mailImg} 
-                portal={true} 
+                imagePath={mailImg}
+                portal={true}
                 destination="mailto:dtcooper@sfu.ca"
-                frameSize={[1.75, 1.75, 1.5]} 
+                frameSize={[1.75, 1.75, 1.5]}
                 pictureScale={[2.7, 3.9]}
                 external
+                playerBody={playerBody}
             />
 
             {/* 

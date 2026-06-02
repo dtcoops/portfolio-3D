@@ -1,7 +1,7 @@
 import { useRef, useEffect } from "react"
 import { useThree, useFrame } from "@react-three/fiber"
 import * as THREE from 'three'
-import { easeInOutSineBlend } from "../../utils/easing"
+import { easeInOutSineBlend } from "../../../utils/easing"
 
 interface CameraSettleProps {
     lookTarget: [number, number, number]

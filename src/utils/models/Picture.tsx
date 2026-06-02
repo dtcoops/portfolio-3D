@@ -2,6 +2,7 @@ import { useRef } from 'react'
 import { useTexture, shaderMaterial } from '@react-three/drei'
 import { useFrame, extend } from '@react-three/fiber'
 import { RigidBody, CuboidCollider } from '@react-three/rapier'
+import type { RapierRigidBody } from '@react-three/rapier'
 import * as THREE from 'three'
 
 import { useClonedGLTF } from '../useClonedGLTF'
@@ -56,16 +57,18 @@ interface PictureProps {
   portal?: boolean
   frameSize?: [number, number, number]
   pictureScale?: [number, number]
+  playerBody?: React.RefObject<RapierRigidBody | null>
 }
 
-export function Picture({ 
-  position, 
-  onEnter, 
-  imagePath = `${import.meta.env.BASE_URL}images/my-photo.jpg`, 
+export function Picture({
+  position,
+  onEnter,
+  imagePath = `${import.meta.env.BASE_URL}images/my-photo.jpg`,
   portal = false,
-  frameSize, 
-  pictureScale}: PictureProps
-) 
+  frameSize,
+  pictureScale,
+  playerBody }: PictureProps
+)
   {
   const cloned = useClonedGLTF(`${import.meta.env.BASE_URL}models/Frame.glb`)
   const texture = useTexture(imagePath)
@@ -82,7 +85,10 @@ export function Picture({
 
       {/* Rapier sensor — triggers navigation when character enters */}
       {portal && (
-        <RigidBody type="fixed" sensor onIntersectionEnter={onEnter ?? (() => {})}>
+        <RigidBody type="fixed" sensor onIntersectionEnter={({ other }) => {
+          if (playerBody && other.rigidBody?.handle !== playerBody.current?.handle) return
+          onEnter?.()
+        }}>
           <CuboidCollider args={frameSize ? [1,1, 0.05] : [0.8, 1.15, 0.05]} position={position ?? [0, 0, 0.01]} />
         </RigidBody>
       )}
