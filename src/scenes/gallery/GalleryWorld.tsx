@@ -6,7 +6,7 @@ import {
     FluorescentLight, Desk, Stool, PotLight, LightWallSmall, Stairs, PedestalBig, Dinosaur, 
     Girl,  BlenderLogo, GalleryModel, RopeBarrier, Table, Book,
     Bench
-} from '../../utils/models'
+} from '../../components/models'
 
 export function GalleryWorld( {playerBody} :
     {playerBody: React.RefObject<RapierRigidBody | null>

@@ -3,7 +3,7 @@ import { useNavigate } from 'react-router-dom'
 import type { RapierRigidBody } from '@react-three/rapier'
 
 import { useGameStore } from '../store/gameStore'
-import { Picture } from '../utils/models/Picture'
+import { Picture } from './models/Picture'
 
 interface PortalProps {
   position: [number, number, number]

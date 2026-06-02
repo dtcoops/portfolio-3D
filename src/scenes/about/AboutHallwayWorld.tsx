@@ -4,9 +4,9 @@ import { useTexture, Text } from '@react-three/drei'
 import * as THREE from 'three'
 
 import Portal from '../../components/Portal'
-import { FluorescentLight } from '../../utils/models'
-import { TimeLine, TimeLineNode } from '../../utils/models/HubAndHallModels'
-import { InfoDeskLarge } from '../../utils/models/GalleryModels'
+import { FluorescentLight } from '../../components/models'
+import { TimeLine, TimeLineNode } from '../../components/models/HubAndHallModels'
+import { InfoDeskLarge } from '../../components/models/GalleryModels'
 import InteractIcon from '../../components/InteractIcon'
 
 export function AboutHallwayWorld( {playerBody} : 

@@ -5,7 +5,7 @@ import { RigidBody, CuboidCollider } from '@react-three/rapier'
 import type { RapierRigidBody } from '@react-three/rapier'
 import * as THREE from 'three'
 
-import { useClonedGLTF } from '../useClonedGLTF'
+import { useClonedGLTF } from '../../utils/useClonedGLTF'
 
 const PortalShaderMaterial = shaderMaterial(
   { uTime: 0 as number, uTexture: null as unknown as THREE.Texture },

@@ -3,7 +3,7 @@ import * as THREE from 'three'
 import { RigidBody } from '@react-three/rapier'
 import type { RigidBodyProps } from '@react-three/rapier'
 
-import { useClonedGLTF } from "../useClonedGLTF"
+import { useClonedGLTF } from '../../utils/useClonedGLTF'
 
 export function PhysicsModel({ 
   path, 
