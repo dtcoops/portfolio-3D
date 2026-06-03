@@ -1,15 +1,17 @@
 
 import { RigidBody, RapierRigidBody } from '@react-three/rapier'
+import * as THREE from 'three'
 import Portal from '../../components/Portal'
 import InteractIcon from '../../components/InteractIcon'
 import { Tile } from './Tile'
 
 interface TileDropWorldProps {
   playerBody: React.RefObject<RapierRigidBody | null>
+  visualGroupRef: React.RefObject<THREE.Group | null>
   onViewPortal: (v: boolean) => void
 }
 
-export function TileDropWorld({ playerBody, onViewPortal }: TileDropWorldProps) {
+export function TileDropWorld({ playerBody, visualGroupRef, onViewPortal }: TileDropWorldProps) {
 
   return (
     <>
@@ -17,8 +19,14 @@ export function TileDropWorld({ playerBody, onViewPortal }: TileDropWorldProps) 
       <StartPlatform playerBody={playerBody} onViewPortal={onViewPortal} />
 
       {/* Tile grid */}
-      <TileGrid playerBody={playerBody} />
-
+      <Tile
+        key={`tile`}
+        position={[0, 0, 0]}
+        playerBody={playerBody}
+        visualGroupRef={visualGroupRef}
+        isMovable={true}
+        patrolPoints={[[-5, 0, 0], [0, 0, 0]]}
+      />
       {/* End platform */}
       <EndPlatform />
     </>
@@ -110,31 +118,5 @@ function EndPlatform() {
         <meshStandardMaterial color="#111111" />
       </mesh>
     </RigidBody>
-  )
-}
-
-interface TileGridProps {
-  playerBody: React.RefObject<RapierRigidBody | null>
-}
-
-function TileGrid({ playerBody }: TileGridProps) {
-  const cols = 5
-  const rows = 2
-  const tileSize = 1.8
-  const gap = 2
-  const step = tileSize + gap
-
-  return (
-    <>
-      {Array.from({ length: cols }).map((_, col) =>
-        Array.from({ length: rows }).map((_, row) => {
-          const x = -3 + col * step
-          const z = -((rows - 1) * step) / 2 + row * step
-          return (
-            <Tile key={`${col}-${row}`} position={[x, 0, z]} playerBody={playerBody} />
-          )
-        })
-      )}
-    </>
   )
 }

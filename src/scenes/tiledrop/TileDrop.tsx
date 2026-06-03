@@ -98,7 +98,7 @@ export default function TileDrop() {
       <Canvas shadows camera={{ position: [-13, 5, 1.5], fov: 60 }}>
         <Suspense fallback={null}>
           <Physics interpolate gravity={[0, -20, 0]} paused={physicsPaused}>
-            <TileDropWorld playerBody={playerBody} onViewPortal={setViewingPortal} />
+            <TileDropWorld playerBody={playerBody} visualGroupRef={visualGroupRef} onViewPortal={setViewingPortal} />
             <CharacterController
               bodyRef={playerBody}
               visualGroupRef={visualGroupRef}
