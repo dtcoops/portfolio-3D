@@ -89,7 +89,12 @@ export function Picture({
           if (playerBody && other.rigidBody?.handle !== playerBody.current?.handle) return
           onEnter?.()
         }}>
-          <CuboidCollider args={frameSize ? [1,1, 0.05] : [0.8, 1.15, 0.05]} position={position ?? [0, 0, 0.01]} />
+          <CuboidCollider  args={
+            pictureScale 
+              ? [pictureScale[0] / 2, pictureScale[1] / 2, 0.05] 
+              : frameSize 
+                ? [frameSize[0] / 2, frameSize[1] / 2, 0.05]
+                : [0.8, 1.15, 0.05]} position={position ?? [0, 0, 0.01]} />
         </RigidBody>
       )}
 
