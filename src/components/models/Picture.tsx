@@ -100,7 +100,7 @@ export function Picture({
         {portal ? (
           <portalShaderMaterial ref={matRef} uTexture={texture} />
         ) : (
-          <meshStandardMaterial map={texture} />
+          <meshStandardMaterial map={texture} dithering/>
         )}
       </mesh>
     </group>

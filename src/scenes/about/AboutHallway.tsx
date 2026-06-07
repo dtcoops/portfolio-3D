@@ -1,9 +1,10 @@
-import { Canvas } from '@react-three/fiber'
+﻿import { Canvas } from '@react-three/fiber'
 import { KeyboardControls } from '@react-three/drei'
 import { Physics, RapierRigidBody } from '@react-three/rapier'
 import { Suspense, useState, useRef } from 'react'
 import { ToneMapping, EffectComposer, Bloom } from '@react-three/postprocessing'
 import { ToneMappingMode } from 'postprocessing'
+import { HalfFloatType } from 'three'
 import * as THREE from 'three'
 
 import CharacterController from '../../components/player/CharacterController'
@@ -18,7 +19,13 @@ export default function AboutHallway() {
 
   return (
     <KeyboardControls map={CONTROLS}>
-      <Canvas shadows camera={{ position: [-3.5, 2.5, -13], fov: 60 }}>
+      <Canvas 
+        shadows 
+        camera={{ position: [-3.5, 2.5, -13], fov: 60 }} 
+        gl={{ 
+          toneMapping: THREE.ACESFilmicToneMapping,
+          toneMappingExposure: 1.0
+        }}>
         <Suspense fallback={null}>
           <Physics interpolate gravity={[0, -20, 0]} paused={physicsPaused}>
             <AboutHallwayWorld playerBody={playerBody}/>
@@ -27,7 +34,7 @@ export default function AboutHallway() {
           <SideViewCamera visualGroupRef={visualGroupRef} />
           <ambientLight intensity={0.2} color="#aaaaff" />
 
-          <EffectComposer>
+          <EffectComposer frameBufferType={HalfFloatType}>
             <ToneMapping mode={ToneMappingMode.ACES_FILMIC} />
             <Bloom 
               intensity={0.5}
@@ -40,4 +47,6 @@ export default function AboutHallway() {
     </KeyboardControls>
   )
 }
+
+
 

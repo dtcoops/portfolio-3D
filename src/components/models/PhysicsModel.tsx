@@ -14,6 +14,8 @@ export function PhysicsModel({
   colliders = 'hull',
   recenter = true,
   color,
+  roughness,
+  dithering = true,
   receiveShadowOnly = false,
   doubleSide = false
 }: {
@@ -25,6 +27,8 @@ export function PhysicsModel({
   colliders?: RigidBodyProps['colliders']
   recenter?: boolean
   color?: string
+  roughness?: number
+  dithering?: boolean
   receiveShadowOnly?: boolean
   doubleSide?: boolean
 }) {
@@ -36,17 +40,15 @@ export function PhysicsModel({
         const mesh = obj as THREE.Mesh
         mesh.receiveShadow = true
         mesh.castShadow = !receiveShadowOnly
-        if (color) {
-          (mesh.material as THREE.MeshStandardMaterial).color.set(color)
-        }
-        if (doubleSide) {
-          const mat = mesh.material as THREE.MeshStandardMaterial
-          mat.side = THREE.DoubleSide
-          mat.needsUpdate = true
-        }
+        const mat = mesh.material as THREE.MeshStandardMaterial
+        if (color) mat.color.set(color)
+        if (roughness !== undefined) mat.roughness = roughness
+        if (dithering) mat.dithering = true
+        if (doubleSide) mat.side = THREE.DoubleSide
+        if (dithering || doubleSide) mat.needsUpdate = true
       }
     })
-  }, [model, color, receiveShadowOnly, doubleSide])
+  }, [model, color, roughness, dithering, receiveShadowOnly, doubleSide])
 
   return (
     <RigidBody type={type} colliders={colliders}>

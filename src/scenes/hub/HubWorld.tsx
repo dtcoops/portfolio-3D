@@ -1,4 +1,4 @@
-import { useEffect, useCallback } from 'react'
+﻿import { useEffect, useCallback } from 'react'
 import { RigidBody, CuboidCollider } from '@react-three/rapier'
 import { RapierRigidBody } from '@react-three/rapier'
 import { useTexture, Text } from '@react-three/drei'
@@ -52,7 +52,7 @@ export default function HubRoom({ playerBody }: {
         <CuboidCollider args={[radius + 1, 2, radius + 1]} position={[0, -2, 0]} />
         <mesh receiveShadow position={[0, -0.1, 0]}>
           <cylinderGeometry args={[radius + 1, radius + 1, 0.2, 32]} />
-          <meshStandardMaterial map={floorTexture} />
+          <meshStandardMaterial map={floorTexture} dithering />
         </mesh>
       </RigidBody>
 
@@ -60,14 +60,14 @@ export default function HubRoom({ playerBody }: {
       <RigidBody type="fixed" colliders="trimesh">
         <mesh receiveShadow position={[0, wallHeight / 2, 0]}>
           <cylinderGeometry args={[radius, radius, wallHeight, 32, 1, true]} />
-          <meshStandardMaterial map={wallTexture} side={THREE.BackSide} />
+          <meshStandardMaterial map={wallTexture} side={THREE.BackSide} dithering />
         </mesh>
       </RigidBody>
 
       {/* Ceiling */}
       <mesh position={[0, wallHeight, 0]}>
         <cylinderGeometry args={[radius, radius, 0.2, 32]} />
-        <meshStandardMaterial map={ceilingTexture} />
+        <meshStandardMaterial map={ceilingTexture} dithering />
       </mesh>
 
       <ControlsSign
@@ -224,24 +224,24 @@ function ControlsSign({ position, rotation, online, playerBody }: {
           {/* Backing board */}
           <mesh position={[0, 0, -0.05]}>
             <boxGeometry args={[3, 2.5, 0.1]} />
-            <meshStandardMaterial color="#111122" />
+            <meshStandardMaterial color="#111122" roughness={0.8} dithering />
           </mesh>
           {/* Border */}
           <mesh position={[0, 0, -0.06]}>
             <boxGeometry args={[3.2, 2.7, 0.05]} />
-            <meshStandardMaterial color="#6644aa" />
+            <meshStandardMaterial color="#6644aa" roughness={0.8} dithering />
           </mesh>
           <Text position={[0, 0.9, 0.1]} fontSize={0.25} color="#ffffff" anchorX="center">
             CONTROLS
           </Text>
           <Text position={[0, 0.45, 0.1]} fontSize={0.18} color="#aaaaff" anchorX="center">
-            W A S D — Move
+            W A S D - Move
           </Text>
           <Text position={[0, 0.1, 0.1]} fontSize={0.18} color="#aaaaff" anchorX="center">
-            SHIFT — Run
+            SHIFT - Run
           </Text>
           <Text position={[0, -0.25, 0.1]} fontSize={0.18} color="#aaaaff" anchorX="center">
-            SPACE — Jump
+            SPACE - Jump
           </Text>
         </group>
       )}
@@ -273,13 +273,13 @@ function ControlDesk({ position, online }: {
       {/* Main desk body */}
       <mesh position={[0, 0, 0]}>
         <boxGeometry args={[4, 0.8, 1.2]} />
-        <meshStandardMaterial color="#111122" />
+        <meshStandardMaterial color="#111122" roughness={0.8} dithering />
       </mesh>
 
       {/* Slanted top surface */}
       <mesh position={[0, 0.5, -0.1]} rotation={[0.3, 0, 0]}>
         <boxGeometry args={[4, 0.05, 1.2]} />
-        <meshStandardMaterial color="#1a1a2e" />
+        <meshStandardMaterial color="#1a1a2e" roughness={0.8} dithering />
       </mesh>
       </RigidBody>
 
@@ -302,6 +302,8 @@ function ControlDesk({ position, online }: {
           color={online ? '#00ff44' : '#ff2200'}
           emissive={online ? '#00ff44' : '#ff2200'}
           emissiveIntensity={0.8}
+          roughness={0.85} 
+          dithering
         />
       </mesh>
     </group>

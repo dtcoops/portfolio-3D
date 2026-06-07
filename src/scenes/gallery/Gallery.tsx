@@ -1,9 +1,10 @@
-import { Canvas } from '@react-three/fiber'
+﻿import { Canvas } from '@react-three/fiber'
 import { KeyboardControls } from '@react-three/drei'
 import { Physics, RapierRigidBody } from '@react-three/rapier'
 import { Suspense, useState, useRef, useCallback, useEffect } from 'react'
 import { ToneMapping, EffectComposer, Bloom } from '@react-three/postprocessing'
 import { ToneMappingMode } from 'postprocessing'
+import { HalfFloatType } from 'three'
 import * as THREE from 'three'
 
 import type { IntroPhase } from '../../types/GalleryStates'
@@ -68,7 +69,14 @@ export default function Gallery() {
         </div>
       )}
 
-      <Canvas shadows camera={{ position: [0, 15, 0], fov: 60 }}>
+      <Canvas 
+        shadows 
+        camera={{ position: [0, 15, 0], fov: 60 }} 
+        gl={{ 
+          toneMapping: THREE.ACESFilmicToneMapping,
+          toneMappingExposure: 1.0
+        }}
+      >
         <Suspense fallback={null}>
           <Physics interpolate gravity={[0, -20, 0]} paused={physicsPaused}>
             <GalleryWorld 
@@ -132,7 +140,7 @@ export default function Gallery() {
           />
           <hemisphereLight args={["#c8a882", "#1a0a00", 0.6]} />
     
-          <EffectComposer>
+          <EffectComposer frameBufferType={HalfFloatType}>
             <ToneMapping 
               mode={ToneMappingMode.ACES_FILMIC}
             />
@@ -148,3 +156,4 @@ export default function Gallery() {
     </KeyboardControls>
   )
 }
+

@@ -1,4 +1,4 @@
-import { PhysicsModel } from './PhysicsModel'
+﻿import { PhysicsModel } from './PhysicsModel'
 
 export function GalleryModel({
   position,
@@ -47,6 +47,8 @@ function GalleryFloor({
       colliders="trimesh"
       recenter={false}
       color={color}
+      dithering={true}
+      roughness={0.85}
     />
   )
 }
@@ -71,6 +73,8 @@ function GalleryWalls({
       type={type}
       colliders="trimesh"
       recenter={false}
+      dithering={true}
+      roughness={0.85}
     />
   )
 }
@@ -99,6 +103,8 @@ function GalleryCeiling({
       recenter={false}
       color={color}
       receiveShadowOnly
+      dithering={true}
+      roughness={0.85}
     />
   )
 }
@@ -278,7 +284,7 @@ export function LightWallSmall({
         type={type}
       />
 
-      {/* Bulbs — local-space positions so they rotate with the wall */}
+      {/* Bulbs â€” local-space positions so they rotate with the wall */}
       <mesh
         position={[0, -0.075, 0.05]}
         rotation={[Math.PI / 2, Math.PI * 1.5, Math.PI * 0.3]}
@@ -433,7 +439,7 @@ export function PotLight({ position }: {
       {/* Housing */}
       <mesh position={position}>
         <cylinderGeometry args={[0.15, 0.15, 0.1, 16]} />
-        <meshStandardMaterial color="#222222" />
+        <meshStandardMaterial color="#222222" roughness={0.8} dithering />
       </mesh>
 
       {/* Bulb */}
@@ -536,6 +542,7 @@ export function Book({
     />
   )
 }
+
 
 
 

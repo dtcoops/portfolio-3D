@@ -58,10 +58,9 @@ export function GalleryWorld( {playerBody} :
                     <PotLight key={`l-${i}`} position={pos} />
                     <pointLight
                         key={`pl-${i}`}
-                        position={[pos[0], pos[1] - 0.3, pos[2]]}
-                        intensity={8}
-                        distance={10}
-                        decay={1}
+                        position={[pos[0], pos[1] - 0.8, pos[2]]}
+                        intensity={3}
+                        decay={1.4}
                         color="#ffe8c0"
                         castShadow={false}
                     />
@@ -79,11 +78,10 @@ export function GalleryWorld( {playerBody} :
                     <PotLight key={`bp-${i}`} position={pos} />
                     <pointLight
                         key={`bpl-${i}`}
-                        position={[pos[0], pos[1] - 0.3, pos[2]]}
+                        position={[pos[0], pos[1] - 1, pos[2]]}
                         intensity={8}
-                        distance={8}
-                        decay={0.8}
-                        color="#ffe8c0"
+                        decay={2}
+                        color="#ffe8c0" 
                         castShadow={false}
                     />
                 </>

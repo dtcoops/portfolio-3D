@@ -1,4 +1,4 @@
-import { RigidBody, CuboidCollider, RapierRigidBody } from '@react-three/rapier'
+﻿import { RigidBody, CuboidCollider, RapierRigidBody } from '@react-three/rapier'
 import { useMemo } from 'react'
 import { useTexture, Text } from '@react-three/drei'
 import * as THREE from 'three'
@@ -44,7 +44,7 @@ export function AboutHallwayWorld( {playerBody} :
         <RigidBody type="fixed" colliders='hull'>
             <mesh position={[0, 0, 0]} receiveShadow>
                 <boxGeometry args={[4, 1, 30]} />
-                <meshStandardMaterial map={floorTexture} />
+                <meshStandardMaterial map={floorTexture} roughness={0.85} dithering />
             </mesh>
         </RigidBody>
 
@@ -52,20 +52,20 @@ export function AboutHallwayWorld( {playerBody} :
         <RigidBody type="fixed" colliders='hull' >
             <mesh position={[2.25, 3, 0]} receiveShadow>
                 <boxGeometry args={[1, 5, 30]} />
-                <meshStandardMaterial map={wallTexture} />
+                <meshStandardMaterial map={wallTexture} roughness={0.85} dithering />
             </mesh>
         </RigidBody>
         <CuboidCollider args={[1, 5, 30]} position={[-3, 3, 0]} />
         <RigidBody type="fixed" colliders='hull'>
             <mesh position={[0, 3, -16]} receiveShadow>
                 <boxGeometry args={[4, 5, 3]} />
-                <meshStandardMaterial map={sideWallTexture} />d
+                <meshStandardMaterial map={sideWallTexture} roughness={0.85} dithering />
             </mesh>
         </RigidBody>
         <RigidBody type="fixed" colliders='hull'>
             <mesh position={[0, 3, 16]} receiveShadow>
                 <boxGeometry args={[4, 5, 3]} />
-                <meshStandardMaterial map={sideWallTexture} />
+                <meshStandardMaterial map={sideWallTexture} roughness={0.85} dithering />
             </mesh>
         </RigidBody>
 
@@ -136,7 +136,7 @@ export function AboutHallwayWorld( {playerBody} :
         <TimeLineNode position={[1.75, 1.5, 10.5]} color="#4444ff" year="Present"/>
         
         <Text position={[1.6, 2.5, 12.5]} rotation={[0, -Math.PI/2, 0]} fontSize={0.15} color="#aaaaff" anchorX="center" textAlign="center">
-            {`Vancouver, BC\nSFU CS — 2027\nSeeking: Software Developer | Game Developer roles`}
+            {`Vancouver, BC\nSFU CS - 2027\nSeeking: Software Developer | Game Developer roles`}
         </Text>
 
         {/* Entrance and Exit - in that order*/}
@@ -145,4 +145,5 @@ export function AboutHallwayWorld( {playerBody} :
     </>
   )
 }
+
 

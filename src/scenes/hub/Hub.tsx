@@ -1,4 +1,4 @@
-import { Canvas } from '@react-three/fiber'
+﻿import { Canvas } from '@react-three/fiber'
 import { KeyboardControls } from '@react-three/drei'
 import { Physics } from '@react-three/rapier'
 import { Suspense, useRef, useState } from 'react'
@@ -9,7 +9,9 @@ import { RapierRigidBody } from '@react-three/rapier'
 import LoadingScreen from '../../components/ui/LoadingScreen'
 import { ToneMapping, EffectComposer, Bloom } from '@react-three/postprocessing'
 import { ToneMappingMode } from 'postprocessing'
+import { HalfFloatType } from 'three'
 import { CONTROLS } from '../../constants/controls'
+import * as THREE from 'three'
 
 export default function Hub() {
   const playerBody = useRef<RapierRigidBody>(null)
@@ -18,19 +20,17 @@ export default function Hub() {
   return (
     <KeyboardControls map={CONTROLS}>
       {!ready && <LoadingScreen />}
-      <Canvas
-        shadows
-        dpr={[1, 2]}
-        gl={{ powerPreference: 'high-performance' }}
-        camera={{ position: [0, 4, 5], fov: 45 }}
-      >
+      <Canvas shadows camera={{ position: [-13, 5, 1.5], fov: 60 }} gl={{ 
+              toneMapping: THREE.ACESFilmicToneMapping,
+              toneMappingExposure: 1.0
+            }}>
         <Suspense fallback={null}>
           <Physics interpolate gravity={[0, -20, 0]}>
             <HubRoom playerBody={playerBody}/>
             <CharacterController bodyRef={playerBody} onReady={() => setReady(true)} />
           </Physics>
           <hemisphereLight args={["#aaaaff", "#1a0a00", 0.7]} />
-          <EffectComposer>
+          <EffectComposer frameBufferType={HalfFloatType}>
             <ToneMapping mode={ToneMappingMode.ACES_FILMIC}/>
             <Bloom 
               intensity={0.5}
@@ -46,3 +46,4 @@ export default function Hub() {
 }
 
 export { Hub }
+

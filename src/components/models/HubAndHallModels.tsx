@@ -1,4 +1,4 @@
-import { useRef, useEffect } from 'react'
+﻿import { useRef, useEffect } from 'react'
 import { RigidBody, RapierRigidBody } from '@react-three/rapier'
 import { CatmullRomCurve3, Vector3 } from 'three'
 import { useTexture, Text } from '@react-three/drei'
@@ -32,14 +32,14 @@ export function ServerRack({ position, rotation }: { position: [number, number, 
       {/* Main chassis */}
       <mesh>
         <boxGeometry args={[1, 2.2, 0.6]} />
-        <meshStandardMaterial color="#1a1a1a" roughness={0.8} />
+        <meshStandardMaterial color="#1a1a1a" roughness={0.8} dithering />
       </mesh>
 
       {/* Shelf lines */}
       {Array.from({ length: 6 }).map((_, i) => (
         <mesh key={i} position={[0, -0.9 + i * 0.3, 0.31]}>
           <boxGeometry args={[0.9, 0.02, 0.02]} />
-          <meshStandardMaterial color="#333333" />
+          <meshStandardMaterial color="#333333" roughness={0.8} dithering />
         </mesh>
       ))}
 
@@ -72,7 +72,7 @@ export function ServerRackBank({ position, rotation }: {
       {/* Base strip connecting racks */}
       <mesh position={[0, 0.05, 0]}>
         <boxGeometry args={[3.8, 0.1, 0.7]} />
-        <meshStandardMaterial color="#0a0a0f" />
+        <meshStandardMaterial color="#0a0a0f" roughness={0.8} dithering />
       </mesh>
     </group>
   )
@@ -89,7 +89,7 @@ export function Wire({ points, color = '#111111' }: {
   return (
     <mesh>
       <tubeGeometry args={[curve, 20, 0.02, 6, false]} />
-      <meshStandardMaterial color={color} roughness={0.8} />
+      <meshStandardMaterial color={color} roughness={0.8} dithering />
     </mesh>
   )
 }
@@ -121,7 +121,7 @@ export function Screen({ position, rotation,width = 1.1,height = 0.7,content,ima
       <RigidBody type="fixed" colliders="hull">
       <mesh position={[0, 0, -0.06]}>
         <boxGeometry args={[width + 0.2, height + 0.2, 0.08]} />
-        <meshStandardMaterial color="#111122" />
+        <meshStandardMaterial color="#111122" roughness={0.8} dithering />
       </mesh>
 
       <mesh position={[0, 0, -0.02]}>
@@ -150,11 +150,11 @@ export function Screen({ position, rotation,width = 1.1,height = 0.7,content,ima
         <>
           <mesh position={[0, -height / 2 - 0.1, 0]}>
             <boxGeometry args={[0.1, 0.2, 0.1]} />
-            <meshStandardMaterial color="#222222" />
+            <meshStandardMaterial color="#222222" roughness={0.8} dithering />
           </mesh>
           <mesh position={[0, -height / 2 - 0.2, 0]}>
             <boxGeometry args={[0.4, 0.05, 0.2]} />
-            <meshStandardMaterial color="#222222" />
+            <meshStandardMaterial color="#222222" roughness={0.8} dithering />
           </mesh>
         </>
       )}
@@ -181,13 +181,13 @@ export function FluorescentLight({ position, rotation = [0, 0, 0] }: {
       <group position={position} rotation={rotation}>
         <mesh>
           <boxGeometry args={[2, 0.08, 0.2]} />
-          <meshStandardMaterial color="#222233" />
+          <meshStandardMaterial color="#222233" roughness={0.8} dithering />
         </mesh>
         <mesh position={[0, -0.05, 0]}>
           <boxGeometry args={[1.9, 0.04, 0.15]} />
           <meshStandardMaterial color="#ffffff" emissive="#aaaaff" emissiveIntensity={0.8} />
         </mesh>
-        <pointLight position={[0, -0.4, 0]} intensity={4} distance={1} color="#aaaaff" />
+        <pointLight position={[0, -0.4, 0]} intensity={4} decay={2} color="#aaaaff" />
       </group>
 
       {/* Target placed directly below light */}
@@ -197,7 +197,7 @@ export function FluorescentLight({ position, rotation = [0, 0, 0] }: {
         ref={lightRef}
         position={[position[0], position[1] - 0.2, position[2]]}
         intensity={20}
-        distance={30}
+        decay={2}
         angle={Math.PI / 2.5}
         penumbra={0.3}
         color="#aaaaff"
@@ -219,13 +219,13 @@ export function CameraModel({ position, rotation }: {
       {/* Main body */}
       <mesh>
         <boxGeometry args={[0.3, 0.2, 0.2]} />
-        <meshStandardMaterial color="#111111" roughness={0.8} />
+        <meshStandardMaterial color="#111111" roughness={0.8} dithering />
       </mesh>
 
       {/* Lens barrel */}
       <mesh position={[0, 0, 0.15]} rotation={[Math.PI / 2, 0, 0]}>
         <cylinderGeometry args={[0.07, 0.09, 0.2, 16]} />
-        <meshStandardMaterial color="#222222" roughness={0.5} />
+        <meshStandardMaterial color="#222222" roughness={0.5} dithering />
       </mesh>
 
       {/* Lens glass */}
@@ -237,13 +237,13 @@ export function CameraModel({ position, rotation }: {
       {/* Viewfinder bump */}
       <mesh position={[0, 0.13, -0.02]}>
         <boxGeometry args={[0.1, 0.06, 0.08]} />
-        <meshStandardMaterial color="#111111" roughness={0.8} />
+        <meshStandardMaterial color="#111111" roughness={0.8} dithering />
       </mesh>
 
       {/* Mount bracket */}
       <mesh position={[0, -0.15, 0]}>
         <boxGeometry args={[0.06, 0.1, 0.06]} />
-        <meshStandardMaterial color="#333333" />
+        <meshStandardMaterial color="#333333" roughness={0.8} dithering />
       </mesh>
 
       {/* Recording light */}

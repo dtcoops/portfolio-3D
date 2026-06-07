@@ -4,14 +4,16 @@ import * as THREE from 'three'
 import Portal from '../../components/Portal'
 import InteractIcon from '../../components/InteractIcon'
 import { Tile } from './Tile'
+import { Enemy } from './Enemy'
 
 interface TileDropWorldProps {
   playerBody: React.RefObject<RapierRigidBody | null>
   visualGroupRef: React.RefObject<THREE.Group | null>
   onViewPortal: (v: boolean) => void
+  tileResetKey: number
 }
 
-export function TileDropWorld({ playerBody, visualGroupRef, onViewPortal }: TileDropWorldProps) {
+export function TileDropWorld({ playerBody, visualGroupRef, onViewPortal, tileResetKey }: TileDropWorldProps) {
 
   return (
     <>
@@ -19,16 +21,10 @@ export function TileDropWorld({ playerBody, visualGroupRef, onViewPortal }: Tile
       <StartPlatform playerBody={playerBody} onViewPortal={onViewPortal} />
 
       {/* Tile grid */}
-      <Tile
-        key={`tile`}
-        position={[0, 0, 0]}
-        playerBody={playerBody}
-        visualGroupRef={visualGroupRef}
-        isMovable={true}
-        patrolPoints={[[-5, 0, 0], [0, 0, 0]]}
-      />
-      {/* End platform */}
-      <EndPlatform />
+      <TileSetup playerBody={playerBody} visualGroupRef={visualGroupRef} tileResetKey={tileResetKey} />
+      
+      <Platform position={[27, 0, 0]} size={[4, 0.3, 16]}/>
+      <Enemy position={[-5, 1.25, 0]} playerBody={playerBody} patrolPoints={[[0,0,-6], [0,0,6]]} />
     </>
   )
 }
@@ -49,17 +45,17 @@ function StartPlatform({ playerBody, onViewPortal }: StartPlatformProps) {
       <RigidBody type="fixed" colliders="cuboid">
         <mesh receiveShadow position={[-16, 0, 0]}>
           <boxGeometry args={[16, 0.3, 24]} />
-          <meshStandardMaterial color="#636363" />
+          <meshStandardMaterial color="#636363" roughness={0.85} dithering/>
         </mesh>
 
         <mesh receiveShadow position={[-28, 0, 0]}>
           <boxGeometry args={[10, 0.3, 10]} />
-          <meshStandardMaterial color="#636363" />
+          <meshStandardMaterial color="#636363" roughness={0.85} dithering/>
         </mesh>
 
         <mesh receiveShadow position={[-16, 5, 0]}>
           <boxGeometry args={[1, 10, 16]} />
-          <meshStandardMaterial color="#636363" />
+          <meshStandardMaterial color="#636363" roughness={0.85} dithering/>
         </mesh>
       </RigidBody>
 
@@ -81,10 +77,9 @@ function StartPlatform({ playerBody, onViewPortal }: StartPlatformProps) {
       <pointLight
           key={`b`}
           position={[-22, 7, 0]}
-          intensity={8}
-          distance={10}
-          decay={0.8}
-          color="#ffe8c0"
+          intensity={1.2}
+          decay={0.15}
+          color="#f8f0e2"
           castShadow={false}
       />
 
@@ -110,13 +105,78 @@ function StartPlatform({ playerBody, onViewPortal }: StartPlatformProps) {
   )
 }
 
-function EndPlatform() {
+function Platform({position, size} : {position : [number, number, number], size: [number, number, number]}) {
   return (
-    <RigidBody type="fixed" colliders="cuboid">
-      <mesh receiveShadow position={[18, 0, 0]}>
-        <boxGeometry args={[4, 0.3, 6]} />
-        <meshStandardMaterial color="#111111" />
+    <RigidBody type="fixed" colliders="cuboid" position={position}>
+      <mesh receiveShadow>
+        <boxGeometry args={size} />
+        <meshStandardMaterial color="#111111" roughness={0.85} dithering/>
       </mesh>
     </RigidBody>
+  )
+}
+
+interface TileConfig {
+  position: [number, number, number]
+  patrol: [number, number, number][] | null
+  isMovable: boolean
+}
+
+const TILES: TileConfig[] = [
+  // Section 1
+  { position: [-4, 0, 0], patrol: null, isMovable: false  },
+  { position: [2, 0, 0], patrol: null, isMovable: false  },
+  { position: [8, 0, 0], patrol: null, isMovable: false },
+  { position: [14, 0, 0], patrol: null, isMovable: false },
+  { position: [20, 0, 0], patrol: null, isMovable: false },
+
+  // Section 2 
+  // Section 2 - Buddy path
+  { position: [34, 0, 6], patrol: null, isMovable: false },
+  { position: [40, 0, 6], patrol: null, isMovable: false },
+  { position: [46, 0, 6], patrol: null, isMovable: false },
+  { position: [52, 0, 6], patrol: null, isMovable: false },
+  { position: [58, 0, 6], patrol: null, isMovable: false },
+  { position: [64, 0, 6], patrol: null, isMovable: false },
+  { position: [70, 0, 6], patrol: null, isMovable: false },
+
+  // Section 2 - player path
+  { position: [34, 0, -6], patrol: null, isMovable: false },
+  { position: [40, 0, -6], patrol: null, isMovable: false },
+  { position: [46, 0, -6], patrol: null, isMovable: false },
+  { position: [46, 0, 0], patrol: null, isMovable: false },
+  // Help from buddy here
+  { position: [46, 0, 12], patrol: null, isMovable: false },
+  { position: [46, 0, 18], patrol: null, isMovable: false },
+  { position: [52, 0, 18], patrol: null, isMovable: false },
+  { position: [58, 0, 18], patrol: null, isMovable: false },
+  { position: [58, 0, 12], patrol: null, isMovable: false },
+  // Help from buddy here
+  { position: [64, 0, 0], patrol: null, isMovable: false },
+  { position: [64, 0, -6], patrol: null, isMovable: false },
+  { position: [70, 0, -6], patrol: null, isMovable: false },
+
+]
+
+function TileSetup({playerBody, visualGroupRef, tileResetKey}:
+  {
+    playerBody: React.RefObject<RapierRigidBody | null>
+    visualGroupRef: React.RefObject<THREE.Group | null>
+    tileResetKey: number
+  }
+) {
+  return (
+    <>
+      {TILES.map((t, i) => (
+        <Tile
+          key={`tile-${i}-${tileResetKey}`}
+          position={t.position}
+          playerBody={playerBody}
+          visualGroupRef={visualGroupRef}
+          isMovable={t.isMovable}
+          patrolPoints={t.patrol ?? undefined}
+        />
+      ))}
+    </>
   )
 }
