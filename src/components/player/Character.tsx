@@ -1,6 +1,7 @@
-import { useRef, useEffect } from 'react'
+import { useRef, useEffect, useMemo } from 'react'
 import { useFrame } from '@react-three/fiber'
 import { useGLTF } from '@react-three/drei'
+import { SkeletonUtils } from 'three-stdlib'
 import * as THREE from 'three'
 
 const ONE_SHOT_ANIMS = new Set(['Jump Up', 'Running Jump', 'Jump Down'])
@@ -11,7 +12,18 @@ interface CharacterProps {
 }
 
 export default function Character({ animationName = 'Idle', onAnimationFinish }: CharacterProps) {
-  const { scene, animations } = useGLTF(`${import.meta.env.BASE_URL}models/character.glb`)
+  const { scene: rawScene, animations: rawAnimations } = useGLTF(`${import.meta.env.BASE_URL}models/character.glb`)
+
+  const scene = useMemo(() => SkeletonUtils.clone(rawScene), [rawScene])
+
+  const animations = useMemo(() =>
+    rawAnimations.map(clip => {
+      const c = clip.clone()
+      c.tracks = c.tracks.filter(track => !track.name.endsWith('.position'))
+      return c
+    }),
+  [rawAnimations])
+
   const mixerRef = useRef<THREE.AnimationMixer | null>(null)
   const currentAction = useRef<THREE.AnimationAction | null>(null)
   const onFinishRef = useRef(onAnimationFinish)
@@ -34,13 +46,6 @@ export default function Character({ animationName = 'Idle', onAnimationFinish }:
     mixer.addEventListener('finished', handleFinished)
     return () => mixer.removeEventListener('finished', handleFinished)
   }, [scene])
-
-  useEffect(() => {
-    animations.forEach(clip => {
-      clip.tracks = clip.tracks.filter(track => !track.name.endsWith('.position'))
-    })
-    console.log('Animations:', animations.map(a => a.name))
-  }, [animations])
 
   useEffect(() => {
     if (!mixerRef.current || animations.length === 0) return

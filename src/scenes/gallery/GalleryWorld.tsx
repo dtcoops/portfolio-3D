@@ -178,7 +178,7 @@ export function GalleryWorld( {playerBody} :
 
             {/* Portals */}
             <Portal imagePath={tiledropPortalImg} position={[4.5, 7.6, -11.85]} rotation={[0, 0, 0]} destination="/Tiledrop" frameSize={[6, 1.75, 1]} pictureScale={[9.75, 4]}/>
-            <InteractIcon position={[4, 6.6, -11.25]} playerBody={playerBody} label="Under Construction" info="Tile Drop Scene accessible at /Tiledrop Camera and Movement implemented."/>
+            <InteractIcon position={[4, 6.6, -11.25]} playerBody={playerBody} label="Under Construction"/>
             <Portal position={[18.5, 2, 55]} rotation={[0, Math.PI, 0]} destination="/Tiledrop" frameSize={[1, 1, 1]} pictureScale={[1.5, 2.25]} portal={false}/>
             <Portal position={[-10, 2, 55]} rotation={[0, Math.PI, 0]} destination="/Tiledrop" frameSize={[1, 1, 1]} pictureScale={[1.5, 2.25]} portal={false}/>
         </>

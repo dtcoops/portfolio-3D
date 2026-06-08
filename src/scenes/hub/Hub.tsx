@@ -19,7 +19,7 @@ export default function Hub() {
 
   return (
     <KeyboardControls map={CONTROLS}>
-      {!ready && <LoadingScreen />}
+      <LoadingScreen visible={!ready} />
       <Canvas shadows camera={{ position: [-13, 5, 1.5], fov: 60 }} gl={{ 
               toneMapping: THREE.ACESFilmicToneMapping,
               toneMappingExposure: 1.0

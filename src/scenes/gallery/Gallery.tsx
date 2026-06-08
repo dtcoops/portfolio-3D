@@ -50,7 +50,7 @@ export default function Gallery() {
   return (
     <KeyboardControls map={CONTROLS}>
       <>
-      {!sceneReady && <LoadingScreen />}
+      <LoadingScreen visible={!sceneReady} />
 
       {(introPhase === 'flying' || introPhase === 'settling') && (
         <div style={{
