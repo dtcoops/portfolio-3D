@@ -71,7 +71,9 @@ export function TileDropWorld({ playerBody, visualGroupRef, onViewPortal, tileRe
       {/* Start platform */}
       <StartPlatform playerBody={playerBody} visualGroupRef={visualGroupRef} onViewPortal={onViewPortal} />
       <Enemy position={[-5, 1.25, 0]} playerBody={playerBody} patrolPoints={[[0,0,-6], [0,0,6]]} />
-
+      <Enemy position={[46, 1.25, 18]} playerBody={playerBody} patrolPoints={[[-6,0,0], [18,0,0]]} />
+      <Enemy position={[46, 1.25, -6]} playerBody={playerBody} patrolPoints={[[0,0,-6], [0,0,6]]} />
+      
       {/* First Checkpoint */}
       <Platform position={[27, 0, 0]} size={[4, 0.3, 16]}/>
       <spotLight
@@ -365,8 +367,16 @@ interface LevelScreenProps {
 function LevelScreen({ position, rotation, size = [4, 2.5], source, playing, loop = false }: LevelScreenProps) {
   const texture = useVideoTexture(source, { muted: true, loop })
 
+  const videoRef = useRef<HTMLVideoElement | null>(null)
+
   useEffect(() => {
-    const video = texture.source.data as HTMLVideoElement
+    videoRef.current = texture.source.data as HTMLVideoElement
+  }, [texture])
+
+  useEffect(() => {
+    const video = videoRef.current
+    if (!video) return
+    video.currentTime = 0
     if (playing) {
       video.play()
     } else {
