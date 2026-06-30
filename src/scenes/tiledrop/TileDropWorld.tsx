@@ -1,7 +1,8 @@
 
-import { useRef, useEffect } from 'react'
+import { useRef, useEffect, useState, forwardRef, useImperativeHandle } from 'react'
 import { RigidBody, RapierRigidBody, CuboidCollider } from '@react-three/rapier'
 import * as THREE from 'three'
+import { Text } from '@react-three/drei'
 import { usePatrolCollider } from '../../hooks/usePatrolCollider'
 import Portal from '../../components/Portal'
 import Teleporter from '../../components/Teleporter'
@@ -9,6 +10,7 @@ import InteractIcon from '../../components/InteractIcon'
 import { Tile } from './Tile'
 import { Enemy } from './Enemy'
 import { useArcTo } from '../../hooks/useArcTo'
+import { useVideoTexture } from '@react-three/drei'
 
 interface TileDropWorldProps {
   playerBody: React.RefObject<RapierRigidBody | null>
@@ -22,12 +24,47 @@ const tiledropDesignImg = `${base}images/TileDropDesign.png`
 const tiledropVistaImg = `${base}images/TileDropVista.png`
 const galleryImg = `${base}images/GalleryCam.png`
 const gitImg = `${base}images/git.png`
+const level1Video = `${base}videos/Trim1.mp4`
+const level2Video = `${base}videos/Trim2.mp4`
+const level3Video = `${base}videos/Trim3.mp4`
+
+const TileDropVideoWall = forwardRef((props, ref) => {
+    const [levelIndex, setLevelIndex] = useState(0)
+    const levelSources = [level1Video, level2Video, level3Video]
+
+    useImperativeHandle(ref, () => ({
+      cycle: () => setLevelIndex((i) => (i + 1) % levelSources.length)
+    }))
+
+    return (
+      <>
+        <LevelScreen 
+          key={levelIndex}
+          position={[40, 17.5, 80]}
+          rotation={[0, Math.PI, 0]}
+          size={[10, 7]}
+          source = {levelSources[levelIndex]}
+          playing = {true}
+          loop = {true}
+        />
+        <Text position={[40, 14.5, 68]} fontSize={0.15} color="white" anchorX="center">
+          {`Level ${levelIndex + 1}`}
+        </Text>
+      </>
+    )
+  })
 
 export function TileDropWorld({ playerBody, visualGroupRef, onViewPortal, tileResetKey }: TileDropWorldProps) {
   const endPlatformReverse = useRef<(() => void) | null>(null)
+  const videoWallRef = useRef<{ cycle: () => void }>(null)
 
   return (
     <>
+      {/* Begin loading video assets */}
+      <VideoPreloader source={level1Video} />
+      <VideoPreloader source={level2Video} />
+      <VideoPreloader source={level3Video} />
+
       {/* Tile grid */}
       <TileSetup playerBody={playerBody} visualGroupRef={visualGroupRef} tileResetKey={tileResetKey} />
 
@@ -107,21 +144,18 @@ export function TileDropWorld({ playerBody, visualGroupRef, onViewPortal, tileRe
       />
 
       <InteractIcon
-        position={[40, 16.5, 60]}
+        position={[40, 16, 68]}
         size={[2.7, 1]}
-        label="Tile Drop"
-        info="A puzzle platformer prototype built in Unity.
-
-        One player controlling two characters simultaneously via mouse buttons, with a cooperative throw mechanic between them.
-        
-        Solo project, originally built as a VFS game design prelude.
-        "
+        label="Cycle Level"
         playerBody={playerBody}
+        onInteract={() => videoWallRef.current?.cycle()}
       />
+
+      <TileDropVideoWall ref={videoWallRef} />
 
       {/* Occluder - Block sight line of end island */}
       <mesh position={[40, 9.5, 47.5]} renderOrder={-1}>
-        <planeGeometry args={[60, 10]} />
+        <planeGeometry args={[80, 11]} />
         <meshStandardMaterial colorWrite={false} side={THREE.BackSide} />
       </mesh>
 
@@ -317,6 +351,40 @@ function LandingIsland({ position, size, playerBody, onLand }: LandingIslandProp
       <Platform position={[40, 15, 62.5]} size={[15, 0.3, 15]} />
     </>
   )
+}
+
+interface LevelScreenProps {
+  position: [number, number, number]
+  rotation: [number, number, number]
+  size?: [number, number]
+  source: string
+  playing: boolean
+  loop?: boolean
+}
+
+function LevelScreen({ position, rotation, size = [4, 2.5], source, playing, loop = false }: LevelScreenProps) {
+  const texture = useVideoTexture(source, { muted: true, loop })
+
+  useEffect(() => {
+    const video = texture.source.data as HTMLVideoElement
+    if (playing) {
+      video.play()
+    } else {
+      video.pause()
+    }
+  }, [playing, texture])
+
+  return (
+    <mesh position={position} rotation={rotation}>
+      <planeGeometry args={size} />
+      <meshBasicMaterial map={texture} toneMapped={false} />
+    </mesh>
+  )
+}
+
+function VideoPreloader({ source }: { source: string }) {
+  useVideoTexture(source, { muted: true })
+  return null
 }
 
 interface TileConfig {
