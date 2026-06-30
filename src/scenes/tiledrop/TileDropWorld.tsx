@@ -28,7 +28,7 @@ const level1Video = `${base}videos/Trim1.mp4`
 const level2Video = `${base}videos/Trim2.mp4`
 const level3Video = `${base}videos/Trim3.mp4`
 
-const TileDropVideoWall = forwardRef((props, ref) => {
+const TileDropVideoWall = forwardRef((_, ref) => {
     const [levelIndex, setLevelIndex] = useState(0)
     const levelSources = [level1Video, level2Video, level3Video]
 
