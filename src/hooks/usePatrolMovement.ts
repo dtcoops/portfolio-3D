@@ -2,6 +2,7 @@ import { useRef } from 'react'
 import { useFrame } from '@react-three/fiber'
 import type { RapierRigidBody } from '@react-three/rapier'
 import * as THREE from 'three'
+import { usePlayerCarry } from './usePlayerCarry'
 
 const DEFAULT_SPEED = 1.5
 
@@ -18,8 +19,10 @@ export function usePatrolMovement(
 ) {
   const patrolIndex = useRef(0)
   const currentPos = useRef(new THREE.Vector3(...position))
-  const prevPos = useRef(new THREE.Vector3(...position))
   const timeRef = useRef(0)
+  const target = useRef(new THREE.Vector3())
+  const direction = useRef(new THREE.Vector3())
+  const carry = usePlayerCarry(playerBody, playerOnMovingTile, position[0], position[2], 0, visualGroupRef)
 
   useFrame((_, delta) => {
     if (!rb.current || !patrolPoints?.length) return
@@ -27,13 +30,13 @@ export function usePatrolMovement(
     timeRef.current += delta
 
     const pt = patrolPoints[patrolIndex.current]
-    const target = new THREE.Vector3(position[0] + pt[0], position[1] + pt[1], position[2] + pt[2])
-    const direction = target.clone().sub(currentPos.current)
+    target.current.set(position[0] + pt[0], position[1] + pt[1], position[2] + pt[2])
+    direction.current.copy(target.current).sub(currentPos.current)
 
-    if (direction.length() < 0.05) {
+    if (direction.current.length() < 0.05) {
       patrolIndex.current = (patrolIndex.current + 1) % patrolPoints.length
     } else {
-      currentPos.current.addScaledVector(direction.normalize(), speed * delta)
+      currentPos.current.addScaledVector(direction.current.normalize(), speed * delta)
     }
 
     const floatY = floatAmplitude > 0 ? Math.sin(timeRef.current * floatFrequency) * floatAmplitude : 0
@@ -43,17 +46,6 @@ export function usePatrolMovement(
       z: currentPos.current.z,
     })
 
-    if (playerBody.current && playerOnMovingTile?.current) {
-      const dx = currentPos.current.x - prevPos.current.x
-      const dz = currentPos.current.z - prevPos.current.z
-      const playerPos = playerBody.current.translation()
-      playerBody.current.setTranslation({ x: playerPos.x + dx, y: playerPos.y, z: playerPos.z + dz }, true)
-      if (visualGroupRef?.current) {
-        visualGroupRef.current.position.x += dx
-        visualGroupRef.current.position.z += dz
-      }
-    }
-
-    prevPos.current.copy(currentPos.current)
+    carry(currentPos.current.x, currentPos.current.z)
   }, 1)
 }

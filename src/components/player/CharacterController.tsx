@@ -26,11 +26,12 @@ interface CharacterControllerProps {
   turnSpeed?: number
   onReady?: () => void
   disabled?: boolean
+  controlDisabledRef?: React.RefObject<boolean>
   hidden?: boolean
   forcedAnimation?: string
 }
 
-export default function CharacterController({ bodyRef, visualGroupRef, spawnPosition = [0, 1, 10], spawnRotation, movementMode = 'radial', turnSpeed = 2.5, onReady, disabled = false, hidden = false,
+export default function CharacterController({ bodyRef, visualGroupRef, spawnPosition = [0, 1, 10], spawnRotation, movementMode = 'radial', turnSpeed = 2.5, onReady, disabled = false, controlDisabledRef, hidden = false,
   forcedAnimation }: CharacterControllerProps) {
   useReadySignal(onReady)
   const body = bodyRef
@@ -72,7 +73,7 @@ export default function CharacterController({ bodyRef, visualGroupRef, spawnPosi
     if (!body.current) return
     const dt = Math.min(delta, 0.1)
 
-    if (disabled) {
+    if (disabled || controlDisabledRef?.current) {
       if (visualRef.current) {
         const pos = body.current.translation()
         if (forcedAnimation === 'Get Up') {

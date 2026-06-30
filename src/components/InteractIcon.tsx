@@ -8,11 +8,12 @@ interface InteractIconProps {
     position: [number, number, number]
     label?: string
     info?: string
+    size?: [number, number]
     playerBody: React.RefObject<RapierRigidBody | null>
     onInteract?: () => void
 }
 
-export default function InteractIcon({position, label, info, playerBody, onInteract} : InteractIconProps) {
+export default function InteractIcon({position, label, info, size, playerBody, onInteract} : InteractIconProps) {
     const [nearby, setNearby] = useState(false)
     const groupRef = useRef<THREE.Group>(null)
     // Scale Pulse
@@ -131,7 +132,7 @@ export default function InteractIcon({position, label, info, playerBody, onInter
                 {active && info && (
                     <>
                         <mesh position={[0, 0.5, -0.001]}>
-                            <planeGeometry args={[1, 1]} />
+                            <planeGeometry args={size ? size : [1, 1]} />
                             <meshStandardMaterial 
                                 color="#4422aa" 
                                 emissive="#4422aa"
@@ -146,7 +147,7 @@ export default function InteractIcon({position, label, info, playerBody, onInter
                             color="#ffffff"
                             anchorX="center" 
                             anchorY="middle"
-                            maxWidth={.95}
+                            maxWidth={size ? size[0] - 0.05 : 0.95}
                             textAlign="center"
                         >
                             {info}
