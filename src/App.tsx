@@ -3,10 +3,12 @@ import { Suspense } from 'react'
 import MobileGate from './components/ui/MobileGate'
 import Hub from './scenes/hub/Hub'
 import { lazy } from 'react'
-import { useEffect, useRef } from 'react'
+import { useEffect } from 'react'
 
 import LoadingScreen from './components/ui/LoadingScreen'
-import perspectivesAudio from './assets/Perspectives.mp3'
+import backgroundMusic from './assets/music/696408__bloodpixelhero__adventure-theme-9.mp3'
+// import paradiseAudio from './assets/music/Paradise_Found.mp3'
+import { soundManager } from './utils/soundManager'
 
 const AboutHallway = lazy(() => import('./scenes/about/AboutHallway'))
 const Gallery = lazy(() => import('./scenes/gallery/Gallery'))
@@ -14,25 +16,20 @@ const TileDrop = lazy(() => import('./scenes/tiledrop/TileDrop'))
 
 
 function App() {
-  const audioRef = useRef<HTMLAudioElement | null>(null)
 
   useEffect(() => {
-  const audio = new Audio(perspectivesAudio)
-  audio.loop = true
-  audio.volume = 0.2
-  audioRef.current = audio
+    soundManager.preloadMusic(backgroundMusic)
 
-  const startAudio = () => {
-    audio.play().catch(() => {})
-    window.removeEventListener('click', startAudio)
-    window.removeEventListener('keydown', startAudio)
-  }
+    const startAudio = () => {
+      soundManager.playMusic(backgroundMusic, 'background', 0)
+      window.removeEventListener('click', startAudio)
+      window.removeEventListener('keydown', startAudio)
+    }
 
   window.addEventListener('click', startAudio)
   window.addEventListener('keydown', startAudio)
 
   return () => {
-    audio.pause()
     window.removeEventListener('click', startAudio)
     window.removeEventListener('keydown', startAudio)
   }

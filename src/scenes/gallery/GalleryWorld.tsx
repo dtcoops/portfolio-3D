@@ -50,7 +50,7 @@ export function GalleryWorld( {playerBody} :
 
             {/* Side Wing */}
             <RopeBarrier position={[-15, 0.5, 25.25]} rotation={[0, Math.PI /2, 0]} type="fixed"/>
-            <InteractIcon position={[-15, 1, 25.25]} playerBody={playerBody} label="Under Construction" info="Comiwng Soon..."/>
+            <InteractIcon position={[-15, 1, 25.25]} playerBody={playerBody} label="Under Construction" info="Coming Soon..."/>
             <CuboidCollider args={[2.5, 5, .5]} position={[-16, 1, 25.25]} rotation={[0,Math.PI / 2,0]}/>
 
             {potLightPositions.map((pos, i) => (
@@ -173,12 +173,11 @@ export function GalleryWorld( {playerBody} :
             {/* Reception Area */}
             <Desk position={[5, 0.6, 35]} rotation={[0, Math.PI, 0]} type='fixed' scale={1.5}/>
             <Stool position={[5.5, 0.5, 36]} rotation={[0, Math.PI * 1.1, 0]} type='dynamic' scale={1.5}/>w
-            <FluorescentLight position={[5, 3, 35]} />
+            <FluorescentLight position={[5, 3, 35]}  playerBody={playerBody} soundKey="gallery-fluo-1"/>
             
 
             {/* Portals */}
             <Portal imagePath={tiledropPortalImg} position={[4.5, 7.6, -11.85]} rotation={[0, 0, 0]} destination="/Tiledrop" frameSize={[6, 1.75, 1]} pictureScale={[9.75, 4]}/>
-            <InteractIcon position={[4, 6.6, -11.25]} playerBody={playerBody} label="Under Construction"/>
             <Portal position={[18.5, 2, 55]} rotation={[0, Math.PI, 0]} destination="/Tiledrop" frameSize={[1, 1, 1]} pictureScale={[1.5, 2.25]} portal={false}/>
             <Portal position={[-10, 2, 55]} rotation={[0, Math.PI, 0]} destination="/Tiledrop" frameSize={[1, 1, 1]} pictureScale={[1.5, 2.25]} portal={false}/>
         </>

@@ -8,6 +8,11 @@ import Portal from '../../components/Portal'
 import { Screen, FluorescentLight, ServerRackBank, Wire, CameraModel } from '../../components/models'
 import { useGameStore } from '../../store/gameStore'
 
+import { soundManager } from '../../utils/soundManager'
+import computerFanSound from '../../assets/ambient/computer-fan.mp3'
+import serverButtonSound from '../../assets/sfx/721503__baggonotes__button_click2.mp3'
+// import buttonSound from '../../assets/sfx/191592__leszek_szary__menu-button.mp3'
+
 // HubRoom props
 export default function HubRoom({ playerBody }: {
   playerBody: React.RefObject<RapierRigidBody | null>
@@ -41,12 +46,30 @@ export default function HubRoom({ playerBody }: {
     t.repeat.set(8, 8)
   })
 
+  useEffect(() => {
+    soundManager.preloadAmbient(computerFanSound)
+  }, [])
+
+  useEffect(() => {
+    if (online) {
+      soundManager.playAmbient(computerFanSound)
+    } else {
+      soundManager.stopAmbient(computerFanSound)
+    }
+  }, [online])
+
+  useEffect(() => {
+    return () => {
+      soundManager.stopAmbient(computerFanSound)
+    }
+  }, [])
+
   return (
     <>
-      <FluorescentLight position={[0, 5, 6]} />
-      <FluorescentLight position={[0, 5, -6]} />
-      <FluorescentLight position={[6, 5, 0]} rotation={[0, Math.PI / 2, 0]} />
-      <FluorescentLight position={[-6, 5, 0]} rotation={[0, Math.PI / 2, 0]} />
+      <FluorescentLight position={[0, 5, 6]} playerBody={playerBody} soundKey="hub-fluo-1"/>
+      <FluorescentLight position={[0, 5, -6]} playerBody={playerBody} soundKey="hub-fluo-2"/>
+      <FluorescentLight position={[6, 5, 0]} rotation={[0, Math.PI / 2, 0]} playerBody={playerBody} soundKey="hub-fluo-3"/>
+      <FluorescentLight position={[-6, 5, 0]} rotation={[0, Math.PI / 2, 0]} playerBody={playerBody} soundKey="hub-fluo-4"/>
       {/* Floor */}
       <RigidBody type="fixed" colliders={false}>
         <CuboidCollider args={[radius + 1, 2, radius + 1]} position={[0, -2, 0]} />
@@ -77,9 +100,9 @@ export default function HubRoom({ playerBody }: {
         playerBody={playerBody}
       /> 
     
-      <ServerRackBank position={[10, 0, 4]} rotation={[0, -Math.PI / 2, 0]} />
-      <ServerRackBank position={[10, 0, -4]} rotation={[0, -Math.PI / 2, 0]} />
-      <ServerRackBank position={[-10, 0, 4]} rotation={[0, Math.PI / 2, 0]} />
+      <ServerRackBank position={[10, 0, 4]} rotation={[0, -Math.PI / 2, 0]} playerBody={playerBody} soundKey="hub-rack-1" />
+      <ServerRackBank position={[10, 0, -4]} rotation={[0, -Math.PI / 2, 0]} playerBody={playerBody} soundKey="hub-rack-2" />
+      <ServerRackBank position={[-10, 0, 4]} rotation={[0, Math.PI / 2, 0]} playerBody={playerBody} soundKey="hub-rack-3" />
 
       {/* Floor cables */}
       <Wire points={[[9, 0.05, 4], [5, 0.03, 2], [0, 0.05, -7.5]]} color="#6b02c2" />
@@ -154,7 +177,7 @@ export default function HubRoom({ playerBody }: {
         rotation={[0, Math.PI * .9, 0]}
         width={3} height={1.6} 
         wallMounted
-        content={"> Welcome\n> This portfolio is a game\n> Explore to learn more\n\n> Not a gamer?\n> Jump into the Portal below for a classic portfolio\n "} 
+        content={"> Welcome!\n> This is my gamified portfolio\n> Explore to learn more\n\n> Prefer a traditional layout?\n> The portal below links to a standard portfolio"} 
       />
 
       <Screen 
@@ -176,7 +199,7 @@ export default function HubRoom({ playerBody }: {
         position={[12, 4, 5]}
         rotation={[0, -Math.PI / 1.5, 0]}
         width={3} height={1.6} wallMounted
-        content={online ? 'Active Scenes: 2' :'> Active Scenes: 1'}
+        content={online ? '> Active Scenes: 4' :'> Active Scenes: 1'}
       />
 
       <Screen
@@ -332,6 +355,8 @@ function DeskInteraction({
     const distance = Math.sqrt(dx * dx + dz * dz)
 
     if (distance < 4) {
+      //soundManager.playSFX(buttonSound)
+      soundManager.playSFX(serverButtonSound)
       onInteract()
     }
   }

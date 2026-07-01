@@ -65,9 +65,18 @@ http://creativecommons.org/licenses/by/4.0/
 
 
 "Free Blender Logo 3d Model" (https://skfb.ly/6TZwM) by Ryan King Art is licensed under Creative Commons Attribution (http://creativecommons.org/licenses/by/4.0/).
-
 "3D Linkedin Logo" (https://skfb.ly/oPKUJ) by pengedarseni is licensed under Creative Commons Attribution (http://creativecommons.org/licenses/by/4.0/).
-
 "3D Github Logo" (https://skfb.ly/oPKSO) by pengedarseni is licensed under Creative Commons Attribution (http://creativecommons.org/licenses/by/4.0/).
-
 "Mail Icon" (https://skfb.ly/6WGWt) by AnshiNoWara is licensed under Creative Commons Attribution (http://creativecommons.org/licenses/by/4.0/).
+
+SERVER ROOM TONE 1 by 1LOVE -- https://freesound.org/s/669837/ -- License: Attribution 4.0
+Computer-fan-Tone-Noise-Hum.wav by OrbitalChiller -- https://freesound.org/s/432712/ -- License: Creative Commons 0
+SFX-Room Light, Fluroscent, Hum by soundandmelodies -- https://freesound.org/s/776265/ -- License: Creative Commons 0
+menu button by Leszek_Szary -- https://freesound.org/s/191592/ -- License: Creative Commons 0
+Game Theme #4 by tyops -- https://freesound.org/s/423805/ -- License: Attribution 4.0
+Adventure theme #9 by BloodPixelHero -- https://freesound.org/s/696408/ -- License: Attribution 4.0
+Casual Loop #1 by ispeakwaves -- https://freesound.org/s/384931/ -- License: Attribution 4.0
+One.mp3 by Cebuana -- https://freesound.org/s/250754/ -- License: Creative Commons 0
+Button Press by HighPixel -- https://freesound.org/s/846144/ -- License: Creative Commons 0
+Button_Click2 by BaggoNotes -- https://freesound.org/s/721503/ -- License: Creative Commons 0
+transport.wav by tim.kahn -- https://freesound.org/s/128590/ -- License: Attribution 4.0

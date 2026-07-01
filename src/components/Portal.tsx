@@ -5,6 +5,10 @@ import type { RapierRigidBody } from '@react-three/rapier'
 import { useGameStore } from '../store/gameStore'
 import { Picture } from './models/Picture'
 
+import { soundManager } from '../../src/utils/soundManager'
+import teleportSFX from '../assets/sfx/128590__timkahn__transport.mp3'
+
+
 interface PortalProps {
   position: [number, number, number]
   rotation?: [number, number, number]
@@ -26,6 +30,8 @@ export default function Portal({ position, rotation, portal = true, destination,
   const handleEnter = () => {
     if (triggered.current) return
     triggered.current = true
+    
+    soundManager.playSFX(teleportSFX)
     setTransitioning(true)
 
     setTimeout(() => {

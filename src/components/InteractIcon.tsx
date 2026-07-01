@@ -3,6 +3,8 @@ import { useFrame } from '@react-three/fiber'
 import { useState, useRef, useEffect } from 'react'
 import * as THREE from 'three'
 import { RapierRigidBody } from '@react-three/rapier'
+import iconSound from '../assets/sfx/interactIcon.mp3'
+import { soundManager } from '../utils/soundManager'
 
 interface InteractIconProps {
     position: [number, number, number]
@@ -27,8 +29,10 @@ export default function InteractIcon({position, label, info, size, playerBody, o
         if (e.code !== 'KeyE') return
         if (!nearby) return
         setActive(o => !o)
+        soundManager.playSFX(iconSound)
         onInteract?.()
     }
+
     window.addEventListener('keydown', handleKeyDown)
     return () => window.removeEventListener('keydown', handleKeyDown)
     }, [nearby, onInteract])

@@ -2,11 +2,16 @@
 import { RigidBody, RapierRigidBody } from '@react-three/rapier'
 import { CatmullRomCurve3, Vector3 } from 'three'
 import { useTexture, Text } from '@react-three/drei'
-
+import { useFrame } from '@react-three/fiber'
 import * as THREE from 'three'
 
 import { PhysicsModel } from './PhysicsModel'
 import InteractIcon from '../../components/InteractIcon'
+
+import { soundManager } from '../../utils/soundManager'
+import serverHumAudio from '../../assets/ambient/server-hum.mp3'
+import flourescentHumAudio from '../../assets/ambient/floursecent-hum.mp3'
+
 
 export function Arrow({ position, rotation, scale = 1,type = 'fixed' }: { 
   position: [number, number, number]
@@ -59,10 +64,28 @@ export function ServerRack({ position, rotation }: { position: [number, number, 
   )
 }
 
-export function ServerRackBank({ position, rotation }: {
+export function ServerRackBank({ position, rotation, playerBody, soundKey }: {
   position: [number, number, number]
   rotation?: [number, number, number]
+  playerBody?: React.RefObject<RapierRigidBody | null>
+  soundKey?: string
 }) {
+  useEffect(() => {
+    if (!soundKey) return
+    return () => soundManager.stopAmbient(serverHumAudio, soundKey)
+  }, [soundKey])
+
+  useFrame(() => {
+    if (!playerBody?.current || !soundKey) return
+    const pos = playerBody.current.translation()
+    soundManager.playAmbientAtPosition(
+      serverHumAudio,
+      soundKey,
+      position,
+      [pos.x, pos.y, pos.z]
+    )
+  })
+
   return (
     <group position={position} rotation={rotation}>
       <ServerRack position={[-1.2, 1, 0]} />
@@ -162,9 +185,11 @@ export function Screen({ position, rotation,width = 1.1,height = 0.7,content,ima
   )
 }
 
-export function FluorescentLight({ position, rotation = [0, 0, 0] }: { 
+export function FluorescentLight({ position, rotation = [0, 0, 0], playerBody, soundKey}: { 
   position: [number, number, number]
   rotation?: [number, number, number]
+  playerBody?: React.RefObject<RapierRigidBody | null>
+  soundKey?: string
 }) {
   // Light was shining at world origin regardless of rotation 
   // Used a Ref to get correct orientation
@@ -175,6 +200,22 @@ export function FluorescentLight({ position, rotation = [0, 0, 0] }: {
       lightRef.current.target = targetRef.current
     }
   }, [])
+
+  useEffect(() => {
+    if (!soundKey) return
+    return () => soundManager.stopAmbient(flourescentHumAudio, soundKey)
+  }, [soundKey])
+
+  useFrame(() => {
+    if (!playerBody?.current || !soundKey) return
+    const pos = playerBody.current.translation()
+    soundManager.playAmbientAtPosition(
+      flourescentHumAudio,
+      soundKey,
+      position,
+      [pos.x, pos.y, pos.z]
+    )
+  })
 
   return (
     <>

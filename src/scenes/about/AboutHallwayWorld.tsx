@@ -70,11 +70,11 @@ export function AboutHallwayWorld( {playerBody} :
         </RigidBody>
 
         {/* Lighting */}
-        <FluorescentLight position={[0, 3.95, -10.5]} rotation={[0, Math.PI / 2, 0]} />
-        <FluorescentLight position={[0, 3.95, -5.5]} rotation={[0, Math.PI / 2, 0]} />
-        <FluorescentLight position={[0, 3.95, 0]} rotation={[0, Math.PI / 2, 0]} />
-        <FluorescentLight position={[0, 3.95, 5.5]} rotation={[0, Math.PI / 2, 0]} />
-        <FluorescentLight position={[0, 3.95, 10.5]} rotation={[0, Math.PI / 2, 0]} />
+        <FluorescentLight position={[0, 3.95, -10.5]} rotation={[0, Math.PI / 2, 0]}  playerBody={playerBody} soundKey="hall-fluo-1"/>
+        <FluorescentLight position={[0, 3.95, -5.5]} rotation={[0, Math.PI / 2, 0]} playerBody={playerBody} soundKey="hall-fluo-2" />
+        <FluorescentLight position={[0, 3.95, 0]} rotation={[0, Math.PI / 2, 0]} playerBody={playerBody} soundKey="hall-fluo-3" />
+        <FluorescentLight position={[0, 3.95, 5.5]} rotation={[0, Math.PI / 2, 0]} playerBody={playerBody} soundKey="hall-fluo-4" />
+        <FluorescentLight position={[0, 3.95, 10.5]} rotation={[0, Math.PI / 2, 0]} playerBody={playerBody} soundKey="hall-fluo-5" />
 
         <InteractIcon 
             position={[1.25, 1.85, -12.5]} 
@@ -83,7 +83,7 @@ export function AboutHallwayWorld( {playerBody} :
             playerBody={playerBody}
         />
         <InfoDeskLarge 
-            position={[1.25, 0.6, -12.5]} 
+            position={[1.25, 1, -12.5]} 
             rotation={[0, (-Math.PI / 2) * 0.9, 0]}
             scale={1.25}
             type="fixed"
