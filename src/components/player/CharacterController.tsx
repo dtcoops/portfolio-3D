@@ -9,9 +9,10 @@ import { useReadySignal } from '../../hooks/useReadySignal'
 import { CONTROLS } from '../../constants/controls'
 import { soundManager } from '../../utils/soundManager'
 import jumpSound from '../../assets/sfx/jump.mp3'
+import step1Sound from '../../assets/sfx/steps/32635__carrigsound__step-1.mp3'
+import step2Sound from '../../assets/sfx/steps/32639__carrigsound__step-2.mp3'
+import step4Sound from '../../assets/sfx/steps/32641__carrigsound__step-4.mp3'
 import jumpLandingSound from '../../assets/sfx/steps/32641__carrigsound__step-4.mp3'
-
-const base = import.meta.env.BASE_URL
 
 const SPEED = 6
 const JUMP_DOWN_MS = (10 / 30) * 1000
@@ -66,9 +67,9 @@ export default function CharacterController({ bodyRef, visualGroupRef, spawnPosi
   const stepAccum = useRef(0)
 
   const footstepSounds = useRef([
-    `${base}src/assets/sfx/steps/32635__carrigsound__step-1.mp3`,
-    `${base}src/assets/sfx/steps/32639__carrigsound__step-2.mp3`,
-    `${base}src/assets/sfx/steps/32641__carrigsound__step-4.mp3`,
+    step1Sound,
+    step2Sound,
+    step4Sound
   ])
 
   useEffect(() => {
