@@ -7,10 +7,17 @@ import Character from './Character'
 import { AnimationController } from './animationController'
 import { useReadySignal } from '../../hooks/useReadySignal'
 import { CONTROLS } from '../../constants/controls'
+import { soundManager } from '../../utils/soundManager'
+import jumpSound from '../../assets/sfx/jump.mp3'
+import jumpLandingSound from '../../assets/sfx/steps/32641__carrigsound__step-4.mp3'
+
+const base = import.meta.env.BASE_URL
 
 const SPEED = 6
 const JUMP_DOWN_MS = (10 / 30) * 1000
-
+const WALK_STEP_DISTANCE = 2.5
+const RUN_STEP_DISTANCE = 3.0
+const FOOTSTEP_VOLUME_SCALE = 0.5
 const JUMP_FORCE = {
   standing: 5,
   moving: 5,
@@ -55,6 +62,18 @@ export default function CharacterController({ bodyRef, visualGroupRef, spawnPosi
   const canJump = useRef(true)
   const targetScale = useRef(new THREE.Vector3(1, 1, 1))
   const firstFrame = useRef(true)
+
+  const stepAccum = useRef(0)
+
+  const footstepSounds = useRef([
+    `${base}src/assets/sfx/steps/32635__carrigsound__step-1.mp3`,
+    `${base}src/assets/sfx/steps/32639__carrigsound__step-2.mp3`,
+    `${base}src/assets/sfx/steps/32641__carrigsound__step-4.mp3`,
+  ])
+
+  useEffect(() => {
+    footstepSounds.current.forEach(src => soundManager.preloadSFX(src))
+  }, [])
 
   useEffect(() => {
     window.focus()
@@ -177,6 +196,8 @@ export default function CharacterController({ bodyRef, visualGroupRef, spawnPosi
         targetScale.current.copy(squash)
         setTimeout(() => { targetScale.current.set(1, 1, 1) }, 150)
         setTimeout(() => { animController.current.onJumpDownFinished() }, JUMP_DOWN_MS)
+        soundManager.playSFX(jumpLandingSound)
+        stepAccum.current = 0
       }
     }
 
@@ -208,11 +229,32 @@ export default function CharacterController({ bodyRef, visualGroupRef, spawnPosi
     // Movement
     const speed = run ? 10 : SPEED
     const grounded = isGrounded.current
+    const newVelX = grounded && !isMoving ? 0 : THREE.MathUtils.lerp(vel.x, isMoving ? moveDir.x * speed : 0, lerpFactor)
+    const newVelZ = grounded && !isMoving ? 0 : THREE.MathUtils.lerp(vel.z, isMoving ? moveDir.z * speed : 0, lerpFactor)
     body.current.setLinvel({
-      x: grounded && !isMoving ? 0 : THREE.MathUtils.lerp(vel.x, isMoving ? moveDir.x * speed : 0, lerpFactor),
+      x: newVelX,
       y: grounded ? 0 : vel.y,
-      z: grounded && !isMoving ? 0 : THREE.MathUtils.lerp(vel.z, isMoving ? moveDir.z * speed : 0, lerpFactor),
+      z: newVelZ,
     }, true)
+
+    // Footsteps — driven by the character's actual (post-lerp) velocity rather
+    // than the nominal speed constant, since real velocity ramps up/down over
+    // the acceleration lerp and the constant would overcount distance during
+    // every start, stop, and direction change
+    if (isMoving && actuallyGrounded) {
+      const stepDistance = run ? RUN_STEP_DISTANCE : WALK_STEP_DISTANCE
+      const actualSpeed = Math.sqrt(newVelX * newVelX + newVelZ * newVelZ)
+      stepAccum.current += actualSpeed * dt
+
+      if (stepAccum.current >= stepDistance) {
+        const src = footstepSounds.current[Math.floor(Math.random() * footstepSounds.current.length)]
+        soundManager.playSFX(src, FOOTSTEP_VOLUME_SCALE)
+        // Hard reset rather than subtracting stepDistance — after a frame hitch
+        stepAccum.current = 0
+      }
+    } else {
+      stepAccum.current = 0
+    }
 
     // Jump
     if (jump && isGrounded.current && canJump.current) {
@@ -222,6 +264,7 @@ export default function CharacterController({ bodyRef, visualGroupRef, spawnPosi
       setTimeout(() => { targetScale.current.set(1, 1, 1) }, 200)
 
       body.current.applyImpulse({ x: 0, y: JUMP_FORCE[jumpKey], z: 0 }, true)
+      soundManager.playSFX(jumpSound)
       animController.current.onJump(run)
 
       canJump.current = false

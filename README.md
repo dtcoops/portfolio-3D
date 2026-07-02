@@ -80,3 +80,5 @@ One.mp3 by Cebuana -- https://freesound.org/s/250754/ -- License: Creative Commo
 Button Press by HighPixel -- https://freesound.org/s/846144/ -- License: Creative Commons 0
 Button_Click2 by BaggoNotes -- https://freesound.org/s/721503/ -- License: Creative Commons 0
 transport.wav by tim.kahn -- https://freesound.org/s/128590/ -- License: Attribution 4.0
+Shield Bash Impact by Hybrid_V -- https://freesound.org/s/319590/ -- License: Attribution 4.0
+Jump_C_04 by cabled_mess -- https://freesound.org/s/350906/ -- License: Creative Commons 0

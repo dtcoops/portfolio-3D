@@ -23,6 +23,10 @@ class SoundManager {
         this.get(src, 'ambient', key, { loop: true })
     }
 
+    preloadSFX(src: string, key: string = src) {
+        this.get(src, 'sfx', key)
+    }
+
     private get(src: string, channel: SoundChannel, key: string = src, options: Partial<{ loop: boolean }> = {}) {
         if (!this.cache.has(key)) {
             const howl = new Howl({
@@ -35,13 +39,16 @@ class SoundManager {
         return this.cache.get(key)!.howl
     }
 
-    playSFX(src: string) {
+    playSFX(src: string, volumeScale = 1) {
         const howl = this.get(src, 'sfx')
         const id = howl.play()
+        if (volumeScale !== 1) {
+            howl.volume(this.channelVolumes.sfx * volumeScale, id)
+        }
         return id
     }
 
-    playSFXAtPosition(src: string, sourcePos: [number, number, number], listenerPos: [number, number, number], maxDistance = 10) {
+    playSFXAtPosition(src: string, sourcePos: [number, number, number], listenerPos: [number, number, number], maxDistance = 10, volumeScale = 1) {
         const dx = sourcePos[0] - listenerPos[0]
         const dz = sourcePos[2] - listenerPos[2]
         const distance = Math.sqrt(dx * dx + dz * dz)
@@ -49,11 +56,14 @@ class SoundManager {
 
         const howl = this.get(src, 'sfx')
         const id = howl.play()
+        if (volumeScale !== 1) {
+            howl.volume(this.channelVolumes.sfx * volumeScale, id)
+        }
         howl.volume(volume * this.channelVolumes.sfx, id)
         return id
     }
 
-    playAmbient(src: string, key: string = src): number {
+    playAmbient(src: string, key: string = src, volumeScale = 1): number {
         // If already playing, don't start a duplicate
         if (this.activeAmbients.has(key)) {
             return this.activeAmbients.get(key)!
@@ -67,6 +77,9 @@ class SoundManager {
                 return
             }
             const id = howl.play()
+            if (volumeScale !== 1) {
+                howl.volume(this.channelVolumes.ambient * volumeScale, id)
+            }
             this.activeAmbients.set(key, id)
         }
 
